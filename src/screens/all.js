@@ -19,6 +19,7 @@ import AdminZoom from "./Admin/AdminZoom";
 import AdminRewards from "./Admin/AdminRewards";
 import AdminPurchase from "./Admin/AdminPurchase";
 import AdminThankyou from "./Admin/AdminThankyou";
+import AdminTeacher from "./Teacher/AdminTeacher";
 
 // import CreateMeeting from "./Zoom/CreateMeeting";
 // import OneOnOneMeeting from "./Zoom/OneOnOneMeeting";
@@ -71,6 +72,7 @@ export {
 	AdminRewards,
 	AdminPurchase,
 	AdminThankyou,
+	AdminTeacher,
 	// CreateMeeting,
 	// OneOnOneMeeting,
 	// VideoConference,

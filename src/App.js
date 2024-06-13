@@ -139,8 +139,6 @@ function App() {
 					<Route path="/dash" element={<Screens.Dash user={user} authValue={authValue} />} /> 	
 					<Route path="/course/student/:username/all" element={<Screens.StudentCourses {...states} user={user} authValue={authValue} />} /> 	
 					<Route path="/course/teacher/:username/all" element={<Screens.TeacherCourses {...states} user={user} authValue={authValue} />} /> 	
-					<Route path="/course/all" element={<Screens.Courses {...states} user={user} authValue={authValue} />} /> 	
-					<Route path="/course/new" element={<Screens.NewCourse {...states} user={user} authValue={authValue} />} /> 	
 					<Route path="/course/:id" element={<Screens.Course {...states} user={user} authValue={authValue} />} /> 	
 					<Route path="/course/:id/students" element={<Screens.ViewStudents {...states} user={user} authValue={authValue} />} /> 	
 					<Route path="/course/:id/students/:studentusername" element={<Screens.ViewStudent {...states} user={user} authValue={authValue} />} /> 	
@@ -150,12 +148,16 @@ function App() {
 					<Route exact path="/products" element={<Screens.Products {...states} user={user} authValue={authValue} />} />
 					<Route exact path="/cart" element={<Screens.Cart {...states} user={user} authValue={authValue} />} />
 					<Route exact path="/admin/newinvoice" element={<Screens.NewInvoice {...states} user={user} authValue={authValue} />} />
+					<Route exact path="/admin/course/new" element={<Screens.NewCourse {...states} user={user} authValue={authValue} />} /> 	
+					<Route exact path="/admin/courses/all" element={<Screens.Courses {...states} user={user} authValue={authValue} />} /> 	
 					<Route exact path="/admin/assigncourse" element={<Screens.AssignCourse {...states} user={user} authValue={authValue} />} />
 					<Route exact path="/admin/user/:userid/pendingcourse/:courseid" element={<Screens.PendingCourse {...states} user={user} authValue={authValue} />} />
 					<Route exact path="/admin/pendingcourses" element={<Screens.PendingCourses {...states} user={user} authValue={authValue} />} />
 					<Route exact path="/admin/pendingitems" element={<Screens.PendingItems {...states} user={user} authValue={authValue} />} />
 					<Route exact path="/admin/forpayment" element={<Screens.ForPayment {...states} user={user} authValue={authValue} />} />
 					<Route exact path="/admin/completeditems" element={<Screens.CompletedItems {...states} user={user} authValue={authValue} />} />
+					<Route path="/teacher/courses" element={<Screens.AdminTeacher user={user} authValue={authValue} />} />
+
 					{/* <Route exact path="/cart" element={<Screens.Cart {...states} user={user} authValue={authValue} />} />
 					<Route exact path="/cart" element={<Screens.Cart {...states} user={user} authValue={authValue} />} />
 					<Route exact path="/cart" element={<Screens.Cart {...states} user={user} authValue={authValue} />} /> */}
