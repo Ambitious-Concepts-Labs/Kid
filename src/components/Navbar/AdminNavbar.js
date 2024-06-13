@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import * as Components from "../all";
 import image from "../../assets/adminImage.png";
 import { useNavigate } from "react-router-dom";
-import { auth, db, logout } from "../../firebase";
-import { query, collection, getDocs, where } from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { logout } from "../../firebase";
 import Select from "react-select";
+import useUserData from "../../hooks/useUserData";
 
 export default function AdminNavbar({ page }) {
   const navigate = useNavigate();
-  const [user, loading, error] = useAuthState(auth);
+  const { currentUser, loading, error } = useUserData();
   const [avatar, setAvatar] = useState("");
   const [name, setName] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
@@ -28,33 +27,25 @@ export default function AdminNavbar({ page }) {
     { value: "Logout", label: "Logout" },
   ];
 
-  const fetchUserInfo = async () => {
-    try {
-      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-      const doc = await getDocs(q);
-      const data = doc.docs[0].data();
-      setAvatar(data.avatar);
-      setName(data.name);
-      setIsAdmin(data.isAdmin);
-      setIsTeacher(data.isTeacher);
-    } catch (err) {
-      console.error(err);
-      console.log(error);
-      alert("An error occured while fetching user data");
+  useEffect(() => {
+    if (currentUser) {
+      setAvatar(currentUser.avatar);
+      setName(currentUser.name);
+      setIsAdmin(currentUser.isAdmin);
+      setIsTeacher(currentUser.isTeacher);
     }
-  };
+  }, [currentUser]);
 
   useEffect(() => {
     if (loading) return;
-    if (!user) return navigate("/");
+    // if (!currentUser) return navigate("/");
     if (selectedOption.value === "Admin Mode")
       return navigate("/admin/courses/all");
     if (selectedOption.value === "Teacher Mode")
       return navigate("/teacher/courses");
     if (selectedOption.value === "Profile") return navigate("/profile");
     if (selectedOption.value === "Logout") logout();
-    fetchUserInfo();
-  }, [user, loading, selectedOption]);
+  }, [currentUser, loading, selectedOption]);
 
   return (
     <div

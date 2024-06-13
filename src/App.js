@@ -4,59 +4,27 @@ import * as Screens from "./screens/all";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import ProtectedRoute from "./ProtectedRoute2"
 import { AuthContext }from './firebaseAuthContext';
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "./firebase";
-import { getDoc, doc } from "firebase/firestore";
+import useUserData from './hooks/useUserData';
 
 function App() {
 	const authValue = useContext(AuthContext)
-	const [user, loading, error] = useAuthState(auth);
     const [isLoggedin, setIsLoggedin] = useState(false);
-	const [checkUser, setCheckUser] = useState(false);
-	const [currentUser, setCurrentUser] = useState({ cart: [] });
+	const { currentUser, user } = useUserData();
 	const [mobile, setMobile] = useState(false);
 	const [windowDimensions, setWindowDimensions] = useState([
 		window.innerWidth,
 		window.innerHeight,
 	]);
 
-	const fetchUser = async () => {
-		try {
-			// console.log(props.user.uid)
-			// const docRef = await getDoc(doc(db, "users", props.user.uid));
-			const docRef = await getDoc(doc(db, "users", "5oZ5ta0mgbZSEqCNXftJ"));
-			if (docRef) {
-				console.log("Document data:", docRef);
-				console.log("Document data:", docRef.data());
-				setCurrentUser(docRef.data())
-			} else {
-				// docSnap.data() will be undefined in this case
-				console.log("No such document!");
-			}
-		} catch (err) {
-		console.error(err);
-		alert("An error occured while fetching user data");
-		}
-	};
-
-	useEffect(() => {
-		// if (!props.user) return navigate("/login");
-		// if (props.user)	
-		fetchUser();
-	}, []);
 
 	const states = {
-		isLoggedin,
-		setIsLoggedin,
-		currentUser,
-		setCurrentUser,
-		windowDimensions,
-		checkUser,
-		setCheckUser,
-		mobile,
-		setMobile,
-		fetchUser
-	};
+    isLoggedin,
+    setIsLoggedin,
+    currentUser,
+    windowDimensions,
+    mobile,
+    setMobile,
+  };
 
 	function useWindowSize() {
 		const [size, setSize] = useState([0, 0]);
@@ -89,7 +57,6 @@ function App() {
 		setWindowDimensions([width, height]);
 	}, [width, height]);
 
-	console.log(user, authValue)
 	return (
 		<div className="App relative overflow-x-hidden">
 			<BrowserRouter>
