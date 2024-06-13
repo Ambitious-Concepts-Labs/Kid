@@ -1,7 +1,7 @@
 //Imports
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { searchCourse } from "./courseFunctions";
+import { searchCourse } from "../../utils/courseFunctions";
 import SearchBar from "./SearchBar";
 // import Axios from "axios";
 // End

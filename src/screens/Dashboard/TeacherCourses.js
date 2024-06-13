@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 // import { useHistory } from "react-router-dom";
 import SearchBar from "./SearchBar";
-import { searchCourse } from "./courseFunctions";
+import { searchCourse } from "../../utils/courseFunctions";
 import imgPlaceholder from "./image-placeholder.png";
 import "./TeacherCourses.css";
 //End

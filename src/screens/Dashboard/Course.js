@@ -1,7 +1,11 @@
 // Imports
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { updateCourse, deleteCourse, requestCourse} from "./courseFunctions";
+import {
+  updateCourse,
+  deleteCourse,
+  requestCourse,
+} from "../../utils/courseFunctions";
 import EditCourse from "./EditCourse";
 import imgPlaceholder from "./image-placeholder.png";
 // import Axios from "axios";

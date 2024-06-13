@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { searchCourse } from "./courseFunctions";
+import { searchCourse } from "../../utils/courseFunctions";
 import SearchBar from "./SearchBar";
 import imgPlaceholder from "./image-placeholder.png";
 import "./Courses.css";
