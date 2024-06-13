@@ -135,7 +135,7 @@ function App() {
 					
 				</ProtectedRoute> */}
 				
-					<Route path="/dashboard" element={<Screens.AdminDashboard user={user} authValue={authValue} />} /> 	
+					<Route path="/dashboard" element={<Screens.AdminDashboard {...states} user={user} authValue={authValue} />} /> 	
 					<Route path="/dash" element={<Screens.Dash user={user} authValue={authValue} />} /> 	
 					<Route path="/course/student/:username/all" element={<Screens.StudentCourses {...states} user={user} authValue={authValue} />} /> 	
 					<Route path="/course/teacher/:username/all" element={<Screens.TeacherCourses {...states} user={user} authValue={authValue} />} /> 	

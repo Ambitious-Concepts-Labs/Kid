@@ -40,59 +40,10 @@ ChartJS.register(
 	Legend
 );
 
-export default function AdminDashboard({childern}) {
-	console.log(childern)
-	const [user, setUser] = useState({
-		// uid: props.user.uid,
-        // name: props.user.displayName,
-        // phone: props.user.phoneNumber,
-        // avatar: props.user.photoURL,
-        authProvider: "local",
-        // email: props.user.email,
-        username: "",
-        phone: "",
-        isAdmin: false,
-        isTeacher: false,
-        isStudent: true,
-        pendingCourses: [],
-        cart: {},
-        courses: [],
-        transactions: [],
-		assessments: [],
-		announcements: {
-			student: [
-				{
-					msg: "School Meeting will be held on thursday 2 pm",
-					from: "HR Manager",
-					sinceCreation: "12 min ago",
-					createdAt: "12 june 2023"
-				}],
-			faculty: ["School Meeting will be held on thursday 2 pm"],
-			teacher: ["School Meeting will be held on thursday 2 pm"],
-		},
-		tutoringSessions: []
-	});
-
-	const [name, setName] = useState("");
+export default function AdminDashboard(props) {
+	console.log(props)
+	const { currentUser } = props
 	const navigate = useNavigate();
-
-	// const fetchUserName = async () => {
-	// 	try {
-	// 	const q = query(collection(db, "users"), where("uid", "==", props.user?.uid));
-	// 	const doc = await getDocs(q);
-	// 	const data = doc.docs[0].data();
-	// 	setUser(data)
-	// 	setName(data.name);
-	// 	} catch (err) {
-	// 	console.error(err);
-	// 	alert("An error occured while fetching user data");
-	// 	}
-	// };
-	
-	// useEffect(() => {
-	// 	// if (!props.user) return navigate("/login");
-	// 	// fetchUserName();
-	// }, [props.user]);
 
 	const isStudent = () => {
 		const gradeData = {
@@ -148,7 +99,7 @@ export default function AdminDashboard({childern}) {
 									Total Classes
 								</Components.Paragraph>
 								<Components.Paragraph className="!font-[Grandstander] !text-xl mt-5">
-									{user.courses ? user.courses.length : 0}
+									{currentUser.courses ? currentUser.courses.length : 0}
 								</Components.Paragraph>
 							</div>
 							{/* right */}
@@ -162,7 +113,7 @@ export default function AdminDashboard({childern}) {
 								</Components.Paragraph>
 
 								<Components.Paragraph className="!font-[Grandstander] !text-xl mt-5">
-									{user.assessments ? user.assessments.length : 0}
+									{currentUser.assessments ? currentUser.assessments.length : 0}
 								</Components.Paragraph>
 							</div>
 							{/* right */}
@@ -179,7 +130,7 @@ export default function AdminDashboard({childern}) {
 									Total Tutoring Sessions
 								</Components.Paragraph>
 								<Components.Paragraph className="!font-[Grandstander] !text-xl mt-5">
-									{user.tutoringSessions ? user.tutoringSessions : 0}
+									{currentUser.tutoringSessions ? currentUser.tutoringSessions : 0}
 								</Components.Paragraph>
 							</div>
 
@@ -247,7 +198,7 @@ export default function AdminDashboard({childern}) {
 								<Doughnut options={doughnutOptions} data={studentDoughnutData} />
 
 								<div className="absolute text-center font-medium text-xl mb-7">
-									Current Classes <br /> {user.courses ? user.courses.length : 0} <br />
+									Current Classes <br /> {currentUser.courses ? currentUser.courses.length : 0} <br />
 								</div>
 							</div>
 						</div>
@@ -273,8 +224,8 @@ export default function AdminDashboard({childern}) {
 						</div>
 						{/* cards */}
 						<div className="flex flex-col flex-1 w-full overflow-hidden">
-							{ user.announcements.student || user.announcements.student !== undefined ? 
-							user.announcements.student.map((announcement) => (
+							{ currentUser.announcements.student || currentUser.announcements.student !== undefined ? 
+							currentUser.announcements.student.map((announcement) => (
 							<div className="flex items-center p-2">
 								<Student/>
 								<div className="flex flex-col items-start px-3">
@@ -343,7 +294,7 @@ export default function AdminDashboard({childern}) {
 								</Components.Paragraph>
 
 								<Components.Paragraph className="!font-[Grandstander] !text-xl mt-5">
-									1000+
+									{currentUser.totalStudents}
 								</Components.Paragraph>
 							</div>
 
@@ -359,7 +310,7 @@ export default function AdminDashboard({childern}) {
 								</Components.Paragraph>
 
 								<Components.Paragraph className="!font-[Grandstander] !text-xl mt-5">
-									1000+
+									{currentUser.totalTeachers}
 								</Components.Paragraph>
 							</div>
 
@@ -378,7 +329,7 @@ export default function AdminDashboard({childern}) {
 								</Components.Paragraph>
 
 								<Components.Paragraph className="!font-[Grandstander] !text-xl mt-5">
-									1000+
+									{currentUser.totalParents}
 								</Components.Paragraph>
 							</div>
 
@@ -400,6 +351,118 @@ export default function AdminDashboard({childern}) {
 
 							{/* right */}
 							<Earnings />
+						</div>
+					</div>
+
+					{/* cards */}
+					<div className="h-28 flex w-full xl:w-[50%] mt-3 xl:mt-4">
+						<div className="h-full xl:ml-3 flex-1 bg-white flex p-4 rounded-md shadow">
+							{/* left */}
+							<div className="flex-col items-start text-left h-full">
+								<Components.Paragraph className="!font-[Grandstander]">
+									Total Courses
+								</Components.Paragraph>
+
+								<Components.Paragraph className="!font-[Grandstander] !text-xl mt-5">
+									30
+								</Components.Paragraph>
+							</div>
+
+							{/* right */}
+							<Group />
+						</div>
+
+						<div className="h-full ml-3 flex-1 bg-white flex p-4 rounded-md shadow">
+							{/* left */}
+							<div className="flex-col items-start text-left h-full">
+								<Components.Paragraph className="!font-[Grandstander]">
+									Pending Invoices
+								</Components.Paragraph>
+
+								<Components.Paragraph className="!font-[Grandstander] !text-xl mt-5">
+									10
+								</Components.Paragraph>
+							</div>
+
+							{/* right */}
+							<Earnings />
+						</div>
+					</div>
+
+					{/* cards */}
+					<div className="h-28 flex w-full xl:w-[50%] mt-3 xl:mt-4">
+						<div className="h-full xl:ml-3 flex-1 bg-white flex p-4 rounded-md shadow">
+							{/* left */}
+							<div className="flex-col items-start text-left h-full">
+								<Components.Paragraph className="!font-[Grandstander]">
+									Pending For Payments
+								</Components.Paragraph>
+
+								<Components.Paragraph className="!font-[Grandstander] !text-xl mt-5">
+									2
+								</Components.Paragraph>
+							</div>
+
+							{/* right */}
+							<Group />
+						</div>
+
+						<div className="h-full ml-3 flex-1 bg-white flex p-4 rounded-md shadow">
+							{/* left */}
+							<div className="flex-col items-start text-left h-full">
+								<Components.Paragraph className="!font-[Grandstander]">
+									Completed Invoices
+								</Components.Paragraph>
+
+								<Components.Paragraph className="!font-[Grandstander] !text-xl mt-5">
+									10
+								</Components.Paragraph>
+							</div>
+
+							{/* right */}
+							<Earnings />
+						</div>
+					</div>
+
+					{/* cards */}
+					<div className="h-28 flex w-full xl:w-[50%] mt-3 xl:mt-4">
+						<div className="h-full xl:ml-3 flex-1 bg-white flex p-4 rounded-md shadow">
+							{/* left */}
+							<div className="flex-col items-start text-left h-full">
+								<Components.Paragraph className="!font-[Grandstander]">
+									Add Course
+								</Components.Paragraph>
+							</div>
+
+							{/* right */}
+							<Group />
+						</div>
+
+						<div className="h-full ml-3 flex-1 bg-white flex p-4 rounded-md shadow">
+							{/* left */}
+							<div className="flex-col items-start text-left h-full">
+								<Components.Paragraph className="!font-[Grandstander]">
+									New Invoice
+								</Components.Paragraph>
+							</div>
+
+							{/* right */}
+							<Earnings />
+						</div>
+					</div>
+
+					{/* cards */}
+					<div className="h-28 flex w-full xl:w-[50%] mt-3 xl:mt-4">
+						<div className="h-full xl:ml-3 flex-1 bg-white flex p-4 rounded-md shadow">
+							{/* left */}
+							<div className="flex-col items-start text-left h-full">
+								<Components.Paragraph className="!font-[Grandstander]">
+									Assign Course
+								</Components.Paragraph>
+							</div>
+
+							{/* right */}
+							<Group />
 						</div>
 					</div>
 				</div>
@@ -777,7 +840,7 @@ export default function AdminDashboard({childern}) {
 						<div className="flex flex-col items-start">
 							<Components.SubHeading className="!text-2xl">
 								Welcome Back{" "}
-								<span className="text-[#F38315]">{name}!</span>
+								<span className="text-[#F38315]">{currentUser.name}!</span>
 							</Components.SubHeading>
 							<Components.Paragraph className="!font-[Grandstander]">
 								Have a nice day!
@@ -1266,7 +1329,7 @@ export default function AdminDashboard({childern}) {
 							/>
 						</svg>
 					</div>
-					{user.isStudent ? isStudent() : user.isAdmin ? isAdmin() : isTeacher()}				
+					{currentUser.isStudent ? isStudent() : currentUser.isAdmin ? isAdmin() : isTeacher()}				
 				</div>
 			</div>
 		</div>
