@@ -42,8 +42,9 @@ ChartJS.register(
 
 export default function AdminDashboard(props) {
 	console.log(props)
-	const { currentUser } = props
+	const { currentUser, loading } = props
 	const navigate = useNavigate();
+	if (loading || !currentUser ) return <h1>Loading...</h1>;
 
 	const isStudent = () => {
 		const gradeData = {

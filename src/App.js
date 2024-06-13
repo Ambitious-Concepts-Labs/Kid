@@ -9,7 +9,7 @@ import useUserData from './hooks/useUserData';
 function App() {
 	const authValue = useContext(AuthContext)
     const [isLoggedin, setIsLoggedin] = useState(false);
-	const { currentUser, user } = useUserData();
+	const { currentUser, user, loading } = useUserData();
 	const [mobile, setMobile] = useState(false);
 	const [windowDimensions, setWindowDimensions] = useState([
 		window.innerWidth,
@@ -23,7 +23,8 @@ function App() {
     currentUser,
     windowDimensions,
     mobile,
-    setMobile,
+	setMobile,
+	loading
   };
 
 	function useWindowSize() {
