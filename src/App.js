@@ -108,6 +108,7 @@ function App() {
 					<Route path="/course/student/:username/all" element={<Screens.StudentCourses {...states} user={user} authValue={authValue} />} /> 	
 					<Route path="/course/teacher/:username/all" element={<Screens.TeacherCourses {...states} user={user} authValue={authValue} />} /> 	
 					<Route path="/course/:id" element={<Screens.Course {...states} user={user} authValue={authValue} />} /> 	
+					<Route path="/course/:id/chapters/:id" element={<Screens.Chapter {...states} user={user} authValue={authValue} />} /> 	
 					<Route path="/course/:id/students" element={<Screens.ViewStudents {...states} user={user} authValue={authValue} />} /> 	
 					<Route path="/course/:id/students/:studentusername" element={<Screens.ViewStudent {...states} user={user} authValue={authValue} />} /> 	
 					<Route exact path="/transactions" element={<Screens.Transactions {...states} user={user} authValue={authValue} />} />
