@@ -26,7 +26,6 @@ const AttachmentForm = ({ initialData, courseId }) => {
             });
             res.items.forEach((itemRef) => {
               // All the items under listRef.
-              console.log({ itemRef });
               getDownloadURL(itemRef)
                 .then((url) => {
                   console.log({ url });

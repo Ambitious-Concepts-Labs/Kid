@@ -3,6 +3,7 @@ import ChaptersList from "../../ChaptersList";
 import { FiPlusCircle } from "react-icons/fi";
 import { db } from "../../../firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 
 // Input component
 const Input = ({ disabled, placeholder, ...props }) => (
@@ -81,6 +82,7 @@ const ChaptersForm = ({ initialData, courseId }) => {
     setTitle((prevState) => ({
       ...prevState,
       [name]: value,
+      id: uuidv4(),
     }));
   };
 
