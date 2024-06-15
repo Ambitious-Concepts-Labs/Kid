@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { db } from "../../../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 
-
 const DescriptionForm = ({ initialData, courseId }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState(
@@ -28,7 +27,7 @@ const DescriptionForm = ({ initialData, courseId }) => {
 
     setIsSubmitting(true);
     try {
-      const courseDoc = doc(db, "courses", courseId); // Adjust 'courses' if your collection name is different
+      const courseDoc = doc(db, "courses", courseId);
 
       await updateDoc(courseDoc, {
         courseDescription: inputValue,

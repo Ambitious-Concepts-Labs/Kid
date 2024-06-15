@@ -59,7 +59,6 @@ const ImageForm = ({ initialData, courseId }) => {
         !imageUrl ? (
           <div className="flex items-center justify-center bg-slate-200 rounded-md h-60">
             <span className="text-slate-500 text-2xl">🖼️</span>
-            <h2>Noooo</h2>
           </div>
         ) : (
           <div className="relative aspect-video mt-2">
