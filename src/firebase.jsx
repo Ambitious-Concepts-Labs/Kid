@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth, signInWithPopup, signInWithEmailAndPassword,
 createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "firebase/auth";
 import { getFirestore, query, getDocs, collection, where, addDoc } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -15,6 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 const db = getFirestore(app)
+const storage = getStorage(app);
 
 const registerWithEmailAndPassword = async (name, email, password) => {
   try {
@@ -110,5 +112,6 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
-  meetingsRef
+  meetingsRef,
+  storage,
 };
