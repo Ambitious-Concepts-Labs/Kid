@@ -77,6 +77,7 @@ const ImageForm = ({ initialData, courseId }) => {
             setPublicId={setPublicId}
             setImageUrl={setImageUrl}
             toggleEdit={toggleEdit}
+            type={"image"}
             courseId={courseId}
           />
           <div className="text-xs text-muted-foreground mt-4">

@@ -1,15 +1,18 @@
 import { createContext, useEffect, useState } from "react";
-import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const CloudinaryScriptContext = createContext();
 
 function CloudinaryUploadWidget({
   courseId,
+  chapterId,
   uwConfig,
   setPublicId,
   setImageUrl,
-  toggleEdit
+  setVideoUrl,
+  type,
+  toggleEdit,
 }) {
   const [loaded, setLoaded] = useState(false);
 
@@ -29,7 +32,7 @@ function CloudinaryUploadWidget({
     }
   }, [loaded]);
 
-  const initializeCloudinaryWidget = () => {
+  const initializeCloudinaryWidget = async () => {
     if (loaded) {
       var myWidget = window.cloudinary.createUploadWidget(
         uwConfig,
@@ -38,10 +41,31 @@ function CloudinaryUploadWidget({
             console.log("Done! Here is the image info: ", result.info);
             setPublicId(result.info.public_id);
             const courseDoc = doc(db, "courses", courseId);
-            await updateDoc(courseDoc, {
-              imageUrl: result.info.url,
-            });
-            setImageUrl(result.info.url);
+            if (type === "video") {
+              console.log("video");
+              const courseRef = doc(db, "courses", courseId);
+              const courseDoc = await getDoc(courseRef);
+              const courseData = courseDoc.data();
+              const chapters = courseData.chapters || [];
+              const chapterIndex = chapters.findIndex(
+                (chapter) => chapter.id === chapterId
+              );
+              console.log({ chapterIndex });
+              console.log({ chapter: chapters[chapterIndex] });
+              console.log(result.info.url);
+
+              if (chapterIndex !== -1) {
+                chapters[chapterIndex].videoUrl = result.info.url;
+
+                await updateDoc(courseRef, { chapters });
+              }
+              setVideoUrl(result.info.url);
+            } else if (type === "image") {
+              await updateDoc(courseDoc, {
+                imageUrl: result.info.url,
+              });
+              setImageUrl(result.info.url);
+            }
             alert("Course updated successfully");
             toggleEdit();
           }
