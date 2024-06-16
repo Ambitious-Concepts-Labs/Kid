@@ -1,5 +1,5 @@
 import React from "react";
-import { createCourse } from "../../utils/courseFunctions";
+import { createCourse } from "../../../utils/courseFunctions";
 
 const Confirm = ({ prevStep, values, state }) => {
   const {
@@ -11,11 +11,11 @@ const Confirm = ({ prevStep, values, state }) => {
     subject,
     gradeLevel,
   } = values;
-  const { currentUser, history, setCheckUser } = state;
+  const { currentUser, history, setCheckUser, user } = state;
 
   const submitForm = (e) => {
     e.preventDefault();
-    createCourse({ currentUser, setCheckUser, newCourse: values, history });
+    createCourse({ currentUser, setCheckUser, newCourse: values, history, user });
     alert("Form submitted!");
   };
 

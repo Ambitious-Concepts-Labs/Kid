@@ -5,7 +5,7 @@ import Step3 from "./Step3";
 import Confirm from "./Confirm";
 
 const StepForm = ({ state }) => {
-  const { newCourse } = state;
+  const { newCourse, user } = state;
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     courseName: "",
@@ -15,6 +15,16 @@ const StepForm = ({ state }) => {
     courseInstructor: "",
     subject: "",
     gradeLevel: "",
+    imageUrl: "",
+    userId: user.uid,
+    price: "",
+    categoryId: "",
+    category: "",
+    chapters: [],
+    attachments: [],
+    purchases: [],
+    createdAt: "",
+    updatedAt: "",
   });
 
   useEffect(() => {
