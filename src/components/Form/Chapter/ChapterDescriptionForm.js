@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Editor from "../../Editor";
 import Preview from "../../Preview";
 import Button from "./Button";
