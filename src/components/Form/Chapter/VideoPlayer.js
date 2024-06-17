@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import MuxPlayer from "@mux/mux-player-react";
 import { db } from "../../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-
-const cn = (...classes) => classes.filter(Boolean).join(" ");
+import { cn } from "../../../utils/helperfunctions";
 
 const VideoPlayer = ({
   chapterId,

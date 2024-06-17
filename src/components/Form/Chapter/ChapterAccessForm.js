@@ -3,9 +3,7 @@ import { Checkbox } from "../../Checkbox";
 import Button from "./Button";
 import { db } from "../../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-
-// Utility function to combine class names
-const cn = (...classes) => classes.filter(Boolean).join(" ");
+import { cn } from "../../../utils/helperfunctions";
 
 const ChapterAccessForm = ({ initialData, courseId, chapterId }) => {
   const [isEditing, setIsEditing] = useState(false);

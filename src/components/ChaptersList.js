@@ -6,15 +6,12 @@ import {
   DropResult,
 } from "@hello-pangea/dnd";
 import { FaGripVertical, FaPencilAlt } from "react-icons/fa";
-
+import { cn } from "../utils/helperfunctions";
 
 // Custom Badge component
 const Badge = ({ children, className }) => (
   <span className={`px-2 py-1 rounded ${className}`}>{children}</span>
 );
-
-// Utility function for conditional class names
-const cn = (...classes) => classes.filter(Boolean).join(" ");
 
 const ChaptersList = ({ items, onReorder, onEdit }) => {
   const [isMounted, setIsMounted] = useState(false);
