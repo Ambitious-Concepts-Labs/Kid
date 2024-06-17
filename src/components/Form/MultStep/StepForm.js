@@ -3,6 +3,7 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Confirm from "./Confirm";
+import Overview from "./Overview";
 
 const StepForm = ({ state }) => {
   const { newCourse, user } = state;
@@ -46,7 +47,7 @@ const StepForm = ({ state }) => {
   switch (step) {
     case 1:
       return (
-        <Step1
+        <Overview
           nextStep={nextStep}
           handleChange={handleChange}
           values={formData}
@@ -54,7 +55,7 @@ const StepForm = ({ state }) => {
       );
     case 2:
       return (
-        <Step2
+        <Step1
           nextStep={nextStep}
           prevStep={prevStep}
           handleChange={handleChange}
@@ -63,7 +64,7 @@ const StepForm = ({ state }) => {
       );
     case 3:
       return (
-        <Step3
+        <Step2
           nextStep={nextStep}
           prevStep={prevStep}
           handleChange={handleChange}
@@ -71,6 +72,15 @@ const StepForm = ({ state }) => {
         />
       );
     case 4:
+      return (
+        <Step3
+          nextStep={nextStep}
+          prevStep={prevStep}
+          handleChange={handleChange}
+          values={formData}
+        />
+      );
+    case 5:
       return <Confirm state={state} prevStep={prevStep} values={formData} />;
     default:
       return <div>Form submitted successfully!</div>;

@@ -4,6 +4,7 @@ import AcademicsScreen from "./Static/AcademicsScreen";
 import AdmissionScreen from "./Static/AdmissionScreen";
 import FacilitiesScreen from "./Static/FacilitiesScreen.js";
 import HomeScreen from "./Static/HomeScreen";
+import NotFound from "./Static/NotFound.js";
 import StudentScreen from "./Static/StudentScreen";
 import WorksScreen from "./Static/WorksScreen";
 // Static Screens
@@ -66,6 +67,7 @@ export {
   AdmissionScreen,
   FacilitiesScreen,
   HomeScreen,
+  NotFound,
   StudentScreen,
   WorksScreen,
 

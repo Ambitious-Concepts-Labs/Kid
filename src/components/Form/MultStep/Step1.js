@@ -1,9 +1,13 @@
 import React from "react";
 
-const Step1 = ({ nextStep, handleChange, values }) => {
+const Step1 = ({ nextStep, prevStep, handleChange, values }) => {
   const continueStep = (e) => {
     e.preventDefault();
     nextStep();
+  };
+  const goBack = (e) => {
+    e.preventDefault();
+    prevStep();
   };
 
   return (
@@ -38,6 +42,7 @@ const Step1 = ({ nextStep, handleChange, values }) => {
         </label>
       </div>
       <br />
+      <button onClick={goBack}>Back</button>
       <button onClick={continueStep}>Next</button>
     </form>
   );
