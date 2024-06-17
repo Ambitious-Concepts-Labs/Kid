@@ -50,10 +50,6 @@ const Dashboard = (props) => {
       <div className="row">
         <h1 style={{ textAlign: "center" }}>Dashboard</h1>
         <div className={currentUser.isAdmin ? "col-6" : "col"}>
-          {currentUser.isAdmin && (
-            <h2 style={{ textAlign: "center" }}>Courses</h2>
-          )}
-
           {currentUser.isStudent && (
             <>
               <Link
@@ -87,19 +83,6 @@ const Dashboard = (props) => {
             >
               My Courses
             </Link>
-          )}
-          {currentUser.isAdmin && (
-            <>
-              <Link
-                className="button btn btn-primary dashboard-link"
-                to="/admin/courses/pending"
-                onClick={() => {
-                  setCheckUser(false);
-                }}
-              >
-                Pending Courses
-              </Link>
-            </>
           )}
         </div>
         <div style={{ textAlign: "center", marginTop: "2%" }}></div>
