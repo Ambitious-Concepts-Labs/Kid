@@ -14,6 +14,7 @@ const EditCourse = (props) => {
 		setUpdatedCourse,
 		setEdit,
 		setLoading,
+		user
 	} = props;
 
 	const handleUpdate = (properties) => {
@@ -22,7 +23,7 @@ const EditCourse = (props) => {
 		setUpdatedCourse(async () => {
 			if (key !== "instructor") {
 				course[key] = e.target.value;
-				await setDoc(doc(db, "users", "5oZ5ta0mgbZSEqCNXftJ"), 
+				await setDoc(doc(db, "users", user.uid), 
 					{ course: [...course] }, { merge: true })
 				if (e.target.value.length) {
 					return {

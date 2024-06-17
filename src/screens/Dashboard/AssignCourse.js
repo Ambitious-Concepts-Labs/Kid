@@ -134,7 +134,6 @@ const AssignCourse = (props) => {
   };
 
   useEffect(() => {
-    // let source = Axios.CancelToken.source();
     let unmounted = false;
     if (loading) {
       const getData = async () => {
@@ -184,45 +183,12 @@ const AssignCourse = (props) => {
             }
           };
           getUsers();
-          // await Axios.get("/user/users", {
-          // 	cancelToken: source.token,
-          // })
-          // 	.then((res) => {
-          // 		if (!unmounted) {
-          // 			setUsers(
-          // 				res.data
-          // 					.filter((f) => f.isStudent)
-          // 					.sort((a, b) => {
-          // 						const aName = a.username.toUpperCase();
-          // 						const bName = b.username.toUpperCase();
-          // 						if (aName < bName) {
-          // 							return -1;
-          // 						} else if (aName > bName) {
-          // 							return 1;
-          // 						}
-          // 						return 0;
-          // 					})
-          // 			);
-          // 			setAreUsersLoaded(true);
-          // 			setLoading(false);
-          // 		}
-          // 	})
-          // 	.catch((err) => {
-          // 		if (!unmounted) {
-          // 			if (Axios.isCancel(err)) {
-          // 				console.log(`request cancelled:${err.message}`);
-          // 			} else {
-          // 				console.log("another error happened:" + err.message);
-          // 			}
-          // 		}
-          // 	});
         }
       };
       getData();
     }
     return function() {
       unmounted = true;
-      // source.cancel("Cancelling in cleanup");
     };
   }, [loading, areCoursesLoaded, areUsersLoaded]);
 

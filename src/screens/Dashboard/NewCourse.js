@@ -5,7 +5,6 @@ import StepForm from "../../components/Form/MultStep/StepForm";
 
 const NewCourse = (props) => {
   const history = useNavigate();
-  console.log(props)
   const { currentUser, loading, user } = props;
   const [newCourse, setNewCourse] = useState({
     num_of_students: 0,
@@ -17,7 +16,7 @@ const NewCourse = (props) => {
 
   return (
     <Layout>
-      <div id="course" style={{ width: "50%", margin: "auto" }}>
+      <div id="course" style={{ margin: "auto" }}>
         <h1>Create a New Course</h1>
         <StepForm state={state} />
       </div>

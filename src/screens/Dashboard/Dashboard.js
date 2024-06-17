@@ -46,122 +46,66 @@ const Dashboard = (props) => {
 	console.log({currentUser})
 	
 	return (
-		<div id="dashboard">
-			<div className="row">
-				<h1 style={{ textAlign: "center" }}>Dashboard</h1>
-				<div className={currentUser.isAdmin ? "col-6" : "col"}>
-					{currentUser.isAdmin && (
-						<h2 style={{ textAlign: "center" }}>Courses</h2>
-					)}
+    <div id="dashboard">
+      <div className="row">
+        <h1 style={{ textAlign: "center" }}>Dashboard</h1>
+        <div className={currentUser.isAdmin ? "col-6" : "col"}>
+          {currentUser.isAdmin && (
+            <h2 style={{ textAlign: "center" }}>Courses</h2>
+          )}
 
-					{currentUser.isStudent && (
-						<>
-							<Link
-								className="button btn btn-primary dashboard-link"
-								to={`/course/student/${currentUser.username}/all`}
-								// onClick={() => {
-								// 	setCheckUser(false);
-								// }}
-							>
-								My Courses
-							</Link>
-							<Link
-								className="button btn btn-primary dashboard-link"
-								to="/transactions"
-								// onClick={() => {
-								// 	setCheckUser(false);
-								// }}
-							>
-								My Transactions
-							</Link>
-						</>
-					)}
+          {currentUser.isStudent && (
+            <>
+              <Link
+                className="button btn btn-primary dashboard-link"
+                to={`/course/student/${currentUser.username}/all`}
+                // onClick={() => {
+                // 	setCheckUser(false);
+                // }}
+              >
+                My Courses
+              </Link>
+              <Link
+                className="button btn btn-primary dashboard-link"
+                to="/transactions"
+                // onClick={() => {
+                // 	setCheckUser(false);
+                // }}
+              >
+                My Transactions
+              </Link>
+            </>
+          )}
 
-					{currentUser.isTeacher && (
-						<Link
-							className="button btn btn-primary dashboard-link"
-							to={`/course/teacher/${currentUser.username}/all`}
-							// onClick={() => {
-							// 	setCheckUser(false);
-							// }}
-						>
-							My Courses
-						</Link>
-					)}
-					{(currentUser.isTeacher || currentUser.isAdmin) && (
-						<Link
-							className="button btn btn-primary dashboard-link"
-							to="/course/new"
-						>
-							Add a Course
-						</Link>
-					)}
-					{currentUser.isAdmin && (
-						<>
-							<Link
-								className="button btn btn-primary dashboard-link"
-								to="/admin/assigncourse"
-							>
-								Assign Course
-							</Link>
-							<Link
-								className="button btn btn-primary dashboard-link"
-								to="/admin/pendingcourses"
-								onClick={() => {
-									setCheckUser(false);
-								}}
-							>
-								Pending Courses
-							</Link>
-						</>
-					)}
-				</div>
-				{currentUser.isAdmin && (
-					<div className="col-6">
-						<h2 style={{ textAlign: "center" }}>Products</h2>
-
-						<Link
-							className="button btn btn-primary dashboard-link"
-							to="/admin/newinvoice"
-							onClick={() => {
-								setCheckUser(false);
-							}}
-						>
-							New Invoice
-						</Link>
-						<Link
-							className="button btn btn-primary dashboard-link"
-							to="/admin/pendingitems"
-							onClick={() => {
-								setCheckUser(false);
-							}}
-						>
-							Pending Items
-						</Link>
-						<Link
-							className="button btn btn-primary dashboard-link"
-							to="/admin/forpayment"
-							onClick={() => {
-								setCheckUser(false);
-							}}
-						>
-							For Payment
-						</Link>
-						<Link
-							className="button btn btn-primary dashboard-link"
-							to="/admin/completeditems"
-							onClick={() => {
-								setCheckUser(false);
-							}}
-						>
-							Completed Items
-						</Link>
-					</div>
-				)}
-				<div style={{ textAlign: "center", marginTop: "2%" }}></div>
-			</div>
-		</div>
-	);
+          {currentUser.isTeacher && (
+            <Link
+              className="button btn btn-primary dashboard-link"
+              to={`/course/teacher/${currentUser.username}/all`}
+              // onClick={() => {
+              // 	setCheckUser(false);
+              // }}
+            >
+              My Courses
+            </Link>
+          )}
+          {currentUser.isAdmin && (
+            <>
+              <Link
+                className="button btn btn-primary dashboard-link"
+                to="/admin/courses/pending"
+                onClick={() => {
+                  setCheckUser(false);
+                }}
+              >
+                Pending Courses
+              </Link>
+            </>
+          )}
+        </div>
+        <div style={{ textAlign: "center", marginTop: "2%" }}></div>
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;
