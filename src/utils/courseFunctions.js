@@ -1,10 +1,9 @@
-// import Axios from "axios";
 import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 
 const createCourse = async (props) => {
-  const { currentUser, newCourse, history } = props;
+  const { currentUser, newCourse, history, user } = props;
 
   if (currentUser.isTeacher) {
     newCourse.instructor = currentUser.username;
@@ -29,7 +28,14 @@ const createCourse = async (props) => {
       createdAt: serverTimestamp(),
       id: uuidv4(),
     });
-    history("/dash");
+    await setDoc(
+      doc(db, "users", user.uid),
+      {
+        courses: [...currentUser.courses, uid],
+      },
+      { merge: true }
+    );
+    history(`/course/${uid}`);
   } else {
     window.alert("Please fill in the required fields");
   }
@@ -298,14 +304,6 @@ const selectCourse = (props) => {
   console.log({ assignedCourse, course });
   setAssignedCourse({ ...course });
   setIsAssignedCourseLoading(false);
-  // Axios.get(`/course/${course._id}`, { params: { id: course._id } })
-  // 	.then((res) => {
-  // 		setAssignedCourse({ ...assignedCourse, ...res.data.course });
-  // 		setIsAssignedCourseLoading(false);
-  // 	})
-  // 	.catch((err) => {
-  // 		console.log(err);
-  // 	});
 };
 
 const assignCourse = async (props) => {
@@ -329,15 +327,15 @@ const assignCourse = async (props) => {
       console.log({ props });
       let updatedCourses = currentUser.courses;
       let exisiting = false;
-      updatedCourses.courses.map((course) => {
+	  console.log({updatedCourses})
+      updatedCourses.map((course) => {
         if (course.course_name == assignedCourse.course_name) exisiting = true;
       });
       if (!exisiting) {
         updatedCourses.push(assignedCourse);
-        await setDoc(
+        await updateDoc(
           doc(db, "users", currentUser.uid),
-          { courses: updatedCourses },
-          { merge: true }
+          { courses: updatedCourses }
         );
       }
       setLoading(true);
@@ -345,16 +343,6 @@ const assignCourse = async (props) => {
       setAreCoursesLoaded(false);
       setIsUserFound(false);
       setIsCourseFound(false);
-      // Axios.put("/admin/assigncourse", { assignedCourse }).then((res) => {
-      // 	window.alert(res.data.msg);
-      // 	if (res.data.msg === "Course assigned") {
-      // 		setLoading(true);
-      // 		setAreUsersLoaded(false);
-      // 		setAreCoursesLoaded(false);
-      // 		setIsUserFound(false);
-      // 		setIsCourseFound(false);
-      // 	}
-      // });
     } else {
       window.alert("Please pick a student.");
     }
