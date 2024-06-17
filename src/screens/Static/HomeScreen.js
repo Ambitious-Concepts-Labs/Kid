@@ -1,42 +1,42 @@
 import React from "react";
-import * as Components from "../components/all";
+import * as Components from "../../components/all";
 // home
-import bg from "../assets/home-bg.png";
-import bar from "../assets/home-bar.png";
-import left from "../assets/home-left.png";
-import scroll from "../assets/home-scroll.png";
+import bg from "../../assets/home-bg.png";
+import bar from "../../assets/home-bar.png";
+import left from "../../assets/home-left.png";
+import scroll from "../../assets/home-scroll.png";
 // move
-import moveLeft from "../assets/move-left.png";
-import moveRight from "../assets/move-right.png";
-import moveBg from "../assets/home-move.png";
-import quotation from "../assets/quotation.png";
-import arrRight from "../assets/right-arrow-simple.png";
-import circle from "../assets/white-circle.png";
+import moveLeft from "../../assets/move-left.png";
+import moveRight from "../../assets/move-right.png";
+import moveBg from "../../assets/home-move.png";
+import quotation from "../../assets/quotation.png";
+import arrRight from "../../assets/right-arrow-simple.png";
+import circle from "../../assets/white-circle.png";
 // news
-import newsLeft from "../assets/news-left.png";
-import book from "../assets/book.png";
-import swim from "../assets/swim.png";
-import golf from "../assets/golf.png";
-import newsRight from "../assets/news-btn-right.png";
+import newsLeft from "../../assets/news-left.png";
+import book from "../../assets/book.png";
+import swim from "../../assets/swim.png";
+import golf from "../../assets/golf.png";
+import newsRight from "../../assets/news-btn-right.png";
 // enroll
-import enrollLeft from "../assets/enroll-left.png";
-import enrollRight from "../assets/enroll-right.png";
-import interested from "../assets/interested.png";
-import consulting from "../assets/consulting.png";
-import register from "../assets/register.png";
-import enrollBg from "../assets/enroll-bg.png";
+import enrollLeft from "../../assets/enroll-left.png";
+import enrollRight from "../../assets/enroll-right.png";
+import interested from "../../assets/interested.png";
+import consulting from "../../assets/consulting.png";
+import register from "../../assets/register.png";
+import enrollBg from "../../assets/enroll-bg.png";
 // spotlight
-import spotRight from "../assets/spot-right.png";
-import spotBg from "../assets/spot-bg.png";
-import spotBg1 from "../assets/spot-bg1.png";
+import spotRight from "../../assets/spot-right.png";
+import spotBg from "../../assets/spot-bg.png";
+import spotBg1 from "../../assets/spot-bg1.png";
 // events
-import summer from "../assets/summer-class.png";
-import math from "../assets/math-book.png";
-import golf1 from "../assets/golf1.png";
-import eventRight from "../assets/event-btn-right.png";
+import summer from "../../assets/summer-class.png";
+import math from "../../assets/math-book.png";
+import golf1 from "../../assets/golf1.png";
+import eventRight from "../../assets/event-btn-right.png";
 // dates
-import datesBg from "../assets/dates-bg.png";
-import datesRight from "../assets/dates-right.png";
+import datesBg from "../../assets/dates-bg.png";
+import datesRight from "../../assets/dates-right.png";
 import { Slide } from "pure-react-carousel";
 
 export default function HomeScreen(props) {

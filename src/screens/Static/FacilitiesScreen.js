@@ -1,18 +1,18 @@
 import React from "react";
-import * as Components from "../components/all";
+import * as Components from "../../components/all";
 // facilities
-import facilitiesBg from "../assets/facilities-bg.png";
+import facilitiesBg from "../../assets/facilities-bg.png";
 // range
-import rangeBg from "../assets/range-bg.png";
+import rangeBg from "../../assets/range-bg.png";
 // fantastic
-import fantasticBg from "../assets/fantastic-bg.png";
+import fantasticBg from "../../assets/fantastic-bg.png";
 // teaching
-import teachingBg from "../assets/teaching-bg.png";
-import teachingBg1 from "../assets/teaching-bg1.png";
+import teachingBg from "../../assets/teaching-bg.png";
+import teachingBg1 from "../../assets/teaching-bg1.png";
 // may also like
-import support from "../assets/support.png";
-import campuses from "../assets/campuses.png";
-import union from "../assets/union.png";
+import support from "../../assets/support.png";
+import campuses from "../../assets/campuses.png";
+import union from "../../assets/union.png";
 import { Slide } from "pure-react-carousel";
 
 export default function FacilitiesScreen() {

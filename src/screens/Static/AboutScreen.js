@@ -1,28 +1,28 @@
 import React from "react";
-import * as Components from "../components/all";
+import * as Components from "../../components/all";
 // about
-import aboutBg from "../assets/about-bg.png";
-import aboutRight from "../assets/about-right.png";
-import aboutLeft from "../assets/about-left.png";
+import aboutBg from "../../assets/about-bg.png";
+import aboutRight from "../../assets/about-right.png";
+import aboutLeft from "../../assets/about-left.png";
 // higher
-import higherBg from "../assets/about-bg1.png";
-import overlay from "../assets/footer-bg.png";
-import higherRight from "../assets/higher-right.png";
+import higherBg from "../../assets/about-bg1.png";
+import overlay from "../../assets/footer-bg.png";
+import higherRight from "../../assets/higher-right.png";
 // glance
-import glanceBg from "../assets/glance-bg.png";
+import glanceBg from "../../assets/glance-bg.png";
 // meet
-import meetBg from "../assets/meet-bg.png";
+import meetBg from "../../assets/meet-bg.png";
 // offer
-import offerBg from "../assets/offer-bg.png";
+import offerBg from "../../assets/offer-bg.png";
 // culture
-import cultureBg from "../assets/culture-bg.png";
-import cultureBg1 from "../assets/culture-bg1.png";
+import cultureBg from "../../assets/culture-bg.png";
+import cultureBg1 from "../../assets/culture-bg1.png";
 // people
-import sarah from "../assets/people-sarah.png";
-import brickson from "../assets/people-brickson.png";
-import marnie from "../assets/people-marnie.png";
+import sarah from "../../assets/people-sarah.png";
+import brickson from "../../assets/people-brickson.png";
+import marnie from "../../assets/people-marnie.png";
 // funded
-import fundedBg from "../assets/funded-bg.png";
+import fundedBg from "../../assets/funded-bg.png";
 import { Slide } from "pure-react-carousel";
 
 export default function AboutScreen() {

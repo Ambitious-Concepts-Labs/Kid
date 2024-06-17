@@ -1,24 +1,24 @@
 import React from "react";
-import * as Components from "../components/all";
+import * as Components from "../../components/all";
 // admission
-import admissionBg from "../assets/admission-bg.png";
+import admissionBg from "../../assets/admission-bg.png";
 // affordable
-import affordableBg from "../assets/affordable-bg.png";
-import affordableBg1 from "../assets/affordable-bg1.png";
+import affordableBg from "../../assets/affordable-bg.png";
+import affordableBg1 from "../../assets/affordable-bg1.png";
 // facts
-import factsBg from "../assets/facts-bg.png";
+import factsBg from "../../assets/facts-bg.png";
 // may also like
-import apply from "../assets/apply.png";
-import estimate from "../assets/estimate.png";
-import types from "../assets/types.png";
+import apply from "../../assets/apply.png";
+import estimate from "../../assets/estimate.png";
+import types from "../../assets/types.png";
 // undergraduate
-import ugBg from "../assets/undergraduate-bg.png";
-import ugBg1 from "../assets/undergraduate-bg1.png";
+import ugBg from "../../assets/undergraduate-bg.png";
+import ugBg1 from "../../assets/undergraduate-bg1.png";
 // graduate
-import gBg from "../assets/graduate-bg.png";
-import gBg1 from "../assets/graduate-bg1.png";
+import gBg from "../../assets/graduate-bg.png";
+import gBg1 from "../../assets/graduate-bg1.png";
 // international
-import internationalBg from "../assets/international-bg.png";
+import internationalBg from "../../assets/international-bg.png";
 import { Slide } from "pure-react-carousel";
 
 export default function AdmissionScreen() {

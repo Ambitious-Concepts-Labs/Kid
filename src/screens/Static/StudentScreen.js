@@ -1,23 +1,23 @@
 import React from "react";
-import * as Components from "../components/all";
+import * as Components from "../../components/all";
 // student
-import studentBg from "../assets/student-bg.png";
+import studentBg from "../../assets/student-bg.png";
 // chat
-import chatBg from "../assets/chat-bg.png";
+import chatBg from "../../assets/chat-bg.png";
 // contact
-import contactBg from "../assets/contact-bg.png";
+import contactBg from "../../assets/contact-bg.png";
 // city
-import cityBg from "../assets/city-bg.png";
-import cityBg1 from "../assets/city-bg1.png";
+import cityBg from "../../assets/city-bg.png";
+import cityBg1 from "../../assets/city-bg1.png";
 // Arts
-import artsBg from "../assets/arts-bg.png";
+import artsBg from "../../assets/arts-bg.png";
 // Living
-import livingBg from "../assets/living-bg.png";
+import livingBg from "../../assets/living-bg.png";
 // sport
-import sportBg from "../assets/sport-bg.png";
-import sportBg1 from "../assets/sport-bg1.png";
+import sportBg from "../../assets/sport-bg.png";
+import sportBg1 from "../../assets/sport-bg1.png";
 // safety
-import safetyBg from "../assets/safety-bg.png";
+import safetyBg from "../../assets/safety-bg.png";
 
 export default function StudentScreen() {
 	return (

@@ -1,21 +1,21 @@
 import React from "react";
-import * as Components from "../components/all";
+import * as Components from "../../components/all";
 // academics
-import academicsBg from "../assets/academics-bg.png";
+import academicsBg from "../../assets/academics-bg.png";
 // colleges
-import collegesBg from "../assets/colleges-bg.png";
+import collegesBg from "../../assets/colleges-bg.png";
 // info
-import ugMajor from "../assets/major.png";
-import graduate from "../assets/graduate.png";
-import certificates from "../assets/certification.png";
+import ugMajor from "../../assets/major.png";
+import graduate from "../../assets/graduate.png";
+import certificates from "../../assets/certification.png";
 // fast forward
-import forwardBg from "../assets/forward-bg.png";
-import forwardBg1 from "../assets/forward-bg1.png";
+import forwardBg from "../../assets/forward-bg.png";
+import forwardBg1 from "../../assets/forward-bg1.png";
 // academic news
-import newsLeft from "../assets/news-left.png";
-import format from "../assets/format.png";
-import success from "../assets/success.png";
-import global from "../assets/global.png";
+import newsLeft from "../../assets/news-left.png";
+import format from "../../assets/format.png";
+import success from "../../assets/success.png";
+import global from "../../assets/global.png";
 import { Slide } from "pure-react-carousel";
 
 export default function AcademicsScreen() {

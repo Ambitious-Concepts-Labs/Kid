@@ -1,18 +1,18 @@
 import React from "react";
-import * as Components from "../components/all";
+import * as Components from "../../components/all";
 // about
-import worksBg from "../assets/works-bg.png";
+import worksBg from "../../assets/works-bg.png";
 // about
-import careBg from "../assets/care-bg.png";
+import careBg from "../../assets/care-bg.png";
 // preschool
-import preschoolBg from "../assets/preschool-bg.png";
+import preschoolBg from "../../assets/preschool-bg.png";
 // mode
-import modeBg from "../assets/mode-bg.png";
+import modeBg from "../../assets/mode-bg.png";
 // schedule
-import scheduleBg from "../assets/schedule-bg.png";
-import scheduleBg1 from "../assets/schedule-bg1.png";
+import scheduleBg from "../../assets/schedule-bg.png";
+import scheduleBg1 from "../../assets/schedule-bg1.png";
 // commitment
-import commitmentBg from "../assets/commitment-bg.png";
+import commitmentBg from "../../assets/commitment-bg.png";
 
 export default function WorksScreen() {
 	return (

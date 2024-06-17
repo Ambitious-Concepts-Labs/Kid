@@ -1,15 +1,20 @@
-import HomeScreen from "./HomeScreen";
-import AboutScreen from "./AboutScreen";
-import AcademicsScreen from "./AcademicsScreen";
-import FacilitiesScreen from "./FacilitiesScreen.js";
-import WorksScreen from "./WorksScreen";
-import StudentScreen from "./StudentScreen";
-import AdmissionScreen from "./AdmissionScreen";
-//
-import LoginScreen from "./Auth/LoginScreen";
+// Static Screens
+import AboutScreen from "./Static/AboutScreen";
+import AcademicsScreen from "./Static/AcademicsScreen";
+import AdmissionScreen from "./Static/AdmissionScreen";
+import FacilitiesScreen from "./Static/FacilitiesScreen.js";
+import HomeScreen from "./Static/HomeScreen";
+import StudentScreen from "./Static/StudentScreen";
+import WorksScreen from "./Static/WorksScreen";
+// Static Screens
+
+// Auth Screens
 import ForgotPasswordScreen from "./Auth/ForgotPaswordScreen";
+import LoginScreen from "./Auth/LoginScreen";
 import ResetPasswordScreen from "./Auth/ResetPasswordScreen";
 import SignUpScreen from "./Auth/SignUpScreen";
+// Auth Screens
+
 //
 import AdminDashboard from "./Admin/AdminDashboard";
 import AdminProfile from "./Profile/AdminProfile";
@@ -29,12 +34,11 @@ import AdminTeacher from "./Teacher/AdminTeacher";
 // import Meeting from "./Zoom/Meeting";
 // import Dashboard from "./Zoom/Dashboard";
 
-import Dash from "./Dashboard/Dashboard";
 import StudentCourses from "./Dashboard/StudentCourses";
 import Transaction from "./Dashboard/Transaction";
 import Transactions from "./Dashboard/Transactions";
 import Invoice from "./Dashboard/Invoice";
-import Course from "./Dashboard/Course";
+import UpdateCourse from "./Dashboard/UpdateCourse";
 import Courses from "./Dashboard/Courses";
 import TeacherCourses from "./Dashboard/TeacherCourses";
 import NewCourse from "./Dashboard/NewCourse";
@@ -49,55 +53,66 @@ import ForPayment from "./Dashboard/ForPayment";
 import CompletedItems from "./Dashboard/CompletedItems";
 import ViewStudents from "./Dashboard/ViewStudents";
 import ViewStudent from "./Dashboard/ViewStudent";
-	
-	 
+import UpdateChapter from "./Dashboard/UpdateChapter";
+import Search from "./Dashboard/Search.js";	 
+import ViewCourse from "./Dashboard/ViewCourse.js";
+import ViewChapter from "./Dashboard/ViewChapter.js";
+import ViewDashboardCourses from "./Dashboard/ViewDashboardCourses.js";
+import Analytics from "./Dashboard/Analytics.js";
+
 export {
-	HomeScreen,
-	AboutScreen,
-	AcademicsScreen,
-	FacilitiesScreen,
-	WorksScreen,
-	StudentScreen,
-	AdmissionScreen,
-	//
-	LoginScreen,
-	ForgotPasswordScreen,
-	ResetPasswordScreen,
-	SignUpScreen,
-	AdminDashboard,
-	AdminProfile,
-	AdminAssesment,
-	AdminSuggestions,
-	AdminZoom,
-	AdminRewards,
-	AdminPurchase,
-	AdminThankyou,
-	AdminTeacher,
-	// CreateMeeting,
-	// OneOnOneMeeting,
-	// VideoConference,
-	// MyMeetings,
-	// JoinMeeting,
-	// Meeting,
-	// Dashboard,
-	Dash,
-	StudentCourses,
-	TeacherCourses,
-	Transaction,
-	Transactions,
-	Invoice,
-	Course, 
-	Courses,
-	Products,
-	Cart,
-	NewCourse,
-	AssignCourse,
-	PendingCourse,
-	PendingCourses,
-	PendingItems,
-	ForPayment,
-	CompletedItems,
-	NewInvoice,
-	ViewStudent,
-	ViewStudents
+  AboutScreen,
+  AcademicsScreen,
+  AdmissionScreen,
+  FacilitiesScreen,
+  HomeScreen,
+  StudentScreen,
+  WorksScreen,
+
+  ForgotPasswordScreen,
+  LoginScreen,
+  ResetPasswordScreen,
+  SignUpScreen,
+  
+  AdminDashboard,
+  AdminProfile,
+  AdminAssesment,
+  AdminSuggestions,
+  AdminZoom,
+  AdminRewards,
+  AdminPurchase,
+  AdminThankyou,
+  AdminTeacher,
+  // CreateMeeting,
+  // OneOnOneMeeting,
+  // VideoConference,
+  // MyMeetings,
+  // JoinMeeting,
+  // Meeting,
+  // Dashboard,
+  StudentCourses,
+  TeacherCourses,
+  Transaction,
+  Transactions,
+  Invoice,
+  UpdateCourse,
+  Courses,
+  Products,
+  Cart,
+  NewCourse,
+  AssignCourse,
+  PendingCourse,
+  PendingCourses,
+  PendingItems,
+  ForPayment,
+  CompletedItems,
+  NewInvoice,
+  ViewStudent,
+  ViewStudents,
+  UpdateChapter,
+  Search,
+  ViewCourse,
+  ViewChapter,
+  ViewDashboardCourses,
+  Analytics,
 };
