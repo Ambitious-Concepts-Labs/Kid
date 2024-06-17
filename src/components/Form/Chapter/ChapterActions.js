@@ -78,7 +78,7 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }) => {
       }
       alert("Chapter deleted successfully");
       window.location.reload();
-      window.location.href = `/courses/${courseId}`;
+      window.location.href = `/dashboard/courses/${courseId}`;
     } catch {
       alert("Something went wrong");
     } finally {

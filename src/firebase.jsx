@@ -85,7 +85,6 @@ const signInWithGoogle = async () => {
         authProvider: "google",
         email: user.email,
         username: "",
-        phone: "",
         isAdmin: false,
         isTeacher: false,
         isStudent: true,
@@ -93,6 +92,7 @@ const signInWithGoogle = async () => {
         cart: {},
         courses: [],
         transactions: [],
+        announcements: [],
       });
     }
   } catch (err) {
