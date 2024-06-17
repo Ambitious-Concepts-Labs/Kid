@@ -1,5 +1,6 @@
 import React from "react";
 import * as Components from "../../components/all";
+import { ConfettiProvider } from "../../hooks/useConfettiStore";
 
 export default function Layout({children}) {
   return (
@@ -10,6 +11,7 @@ export default function Layout({children}) {
       {/* Right */}
       <div className="flex-1 flex flex-col items-stretch overflow-hidden">
         {/* Navbar */}
+        <ConfettiProvider />
         <Components.AdminNavbar page={"Profile"} />
         {children}
       </div>
