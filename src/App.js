@@ -98,11 +98,8 @@ function App() {
 					
 					{/* Student Routes */}
 					<Route exact path="/dashboard/cart" element={<Screens.Cart {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/dashboard/courses/browse" element={<Screens.Search {...states} user={user} authValue={authValue} />} /> 	
-					{/* Duplicate Routes */}
-					<Route exact path="/dashboard/coursess" element={<Screens.Courses {...states} user={user} authValue={authValue} />} /> 	
 					<Route exact path="/dashboard/courses" element={<Screens.ViewDashboardCourses {...states} user={user} authValue={authValue} />} /> 	
-					{/* Duplicate Routes */}
+					<Route exact path="/dashboard/courses/browse" element={<Screens.Search {...states} user={user} authValue={authValue} />} /> 	
 					<Route exact path="/dashboard/courses/:id" element={<Screens.ViewCourse {...states} user={user} authValue={authValue} />} /> 	
 					<Route exact path="/dashboard/courses/:id/chapters/:id" element={<Screens.ViewChapter {...states} user={user} authValue={authValue} />} /> 	
 					<Route exact path="/dashboard/course/:id/students/:studentusername" element={<Screens.ViewStudent {...states} user={user} authValue={authValue} />} /> 	
@@ -120,7 +117,6 @@ function App() {
 					<Route exact path="/dashboard/admin/course/:id/chapters/:id" element={<Screens.UpdateChapter {...states} user={user} authValue={authValue} />} /> 	
 					{/* issue rendering */}
 					<Route exact path="/dashboard/admin/course/new" element={<Screens.NewCourse {...states} user={user} authValue={authValue} />} /> 	
-					<Route exact path="/dashboard/admin/courses/all" element={<Screens.Courses {...states} user={user} authValue={authValue} />} /> 	
 					<Route exact path="/admin/courses/pending" element={<Screens.PendingCourses {...states} user={user} authValue={authValue} />} />
 					<Route exact path="/dashboard/admin/invoice/new" element={<Screens.NewInvoice {...states} user={user} authValue={authValue} />} />
 					<Route exact path="/dashboard/admin/invoices/completed" element={<Screens.CompletedItems {...states} user={user} authValue={authValue} />} />

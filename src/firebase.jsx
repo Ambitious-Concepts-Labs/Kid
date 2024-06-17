@@ -3,6 +3,7 @@ import { GoogleAuthProvider, getAuth, signInWithPopup, signInWithEmailAndPasswor
 createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "firebase/auth";
 import { getFirestore, query, getDocs, collection, where, addDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { generateUsername } from "./utils/helperfunctions";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -72,8 +73,6 @@ const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
-    console.log(res)
-    console.log(user)
     const q = query(collection(db, "users"), where("uid", "==", user.uid));
     const docs = await getDocs(q);
     if (docs.docs.length === 0) {
@@ -82,9 +81,9 @@ const signInWithGoogle = async () => {
         name: user.displayName,
         phone: user.phoneNumber,
         avatar: user.photoURL,
-        authProvider: "google",
+        authProvider: res.providerId,
         email: user.email,
-        username: "",
+        username: generateUsername(),
         isAdmin: false,
         isTeacher: false,
         isStudent: true,

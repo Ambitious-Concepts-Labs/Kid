@@ -40,7 +40,6 @@ import Transaction from "./Dashboard/Transaction";
 import Transactions from "./Dashboard/Transactions";
 import Invoice from "./Dashboard/Invoice";
 import UpdateCourse from "./Dashboard/UpdateCourse";
-import Courses from "./Dashboard/Courses";
 import TeacherCourses from "./Dashboard/TeacherCourses";
 import NewCourse from "./Dashboard/NewCourse";
 import Products from "./Dashboard/Products";
@@ -98,7 +97,6 @@ export {
   Transactions,
   Invoice,
   UpdateCourse,
-  Courses,
   Products,
   Cart,
   NewCourse,
