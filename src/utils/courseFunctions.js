@@ -35,7 +35,7 @@ const createCourse = async (props) => {
       },
       { merge: true }
     );
-    history(`/course/${uid}`);
+    history(`/dashboard/course/${uid}`);
   } else {
     window.alert("Please fill in the required fields");
   }

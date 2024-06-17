@@ -1,0 +1,108 @@
+body {
+  background-image: linear-gradient(to bottom right, #d80707, #d8a007);
+}
+
+.page-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.screen {
+  display: block;
+  max-width: 640px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 6px 6px rgba(0, 0, 0, 0.2);
+  transition: 0.4s ease-out;
+}
+
+.screen:hover {
+
+  transform: translate(-6px, -6px);
+
+  box-shadow: 12px 12px rgba(0, 0, 0, 0.2);
+
+}
+
+.innehall{
+text-align:center;
+  background-color: #FFF;
+position:relative;
+}
+
+
+#error{
+
+    font-family: Kaushan Script;
+
+  color: #333;
+
+  font-size: 40px;
+
+  font-weight: 250;
+
+
+}
+
+
+
+.body {
+  background: 
+    repeating-linear-gradient(
+
+      #ccc,
+      #ccc 1px,
+      transparent 1px,
+      transparent 10px
+    ),
+    repeating-linear-gradient(
+
+      #ccc,
+      #ccc 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  padding: 30px;
+
+}
+
+
+
+.body h2 {
+
+  color: #666;
+
+  font-size: 22px;
+
+  font-weight: 600;
+
+  margin-bottom: 30px;
+
+}
+
+
+
+.body p {
+  position:absolute;
+left:10px;
+bottom:-26px;
+
+  color: #1d1d1d;
+
+  font-size: 12px;
+
+  font-weight: 300;
+
+  margin-bottom: 30px;
+
+}
+
+
+
+
+
+
+
+

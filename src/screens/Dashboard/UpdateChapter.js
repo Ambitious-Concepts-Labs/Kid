@@ -37,7 +37,7 @@ const mockRedirect = (url) => {
   window.location.href = url;
 };
 
-const Chapter = () => {
+const UpdateChapter = () => {
   const [courseId, setCourseId] = useState(null);
   const [chapterId, setChapterId] = useState(null);
   const location = useLocation();
@@ -128,7 +128,7 @@ const Chapter = () => {
           <div className="flex items-center justify-between">
             <div className="w-full">
               <button
-                onClick={() => mockRedirect(`/course/${courseId}`)}
+                onClick={() => mockRedirect(`/dashboard/course/${courseId}`)}
                 className="flex items-center text-sm hover:opacity-75 transition-none mb-6"
               >
                 <FaArrowLeftLong className="h-4 w-4 mr-2" />
@@ -198,4 +198,4 @@ const Chapter = () => {
   );
 };
 
-export default Chapter;
+export default UpdateChapter;

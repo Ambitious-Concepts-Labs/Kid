@@ -26,7 +26,7 @@ import ChaptersForm from "../../components/Form/Course/ChaptersForm";
 import Banner from "../../components/Banner";
 import Actions from "../../components/Actions";
 
-const Course = (props) => {
+const UpdateCourse = (props) => {
   const { id } = useParams();
   const history = useNavigate();
   const { isLoggedin, setCheckUser } = props;
@@ -98,7 +98,7 @@ const Course = (props) => {
     course.courseDescription,
     course.courseContent,
     course.classNum,
-    course.courseInstructor,
+    course.instructor,
     course.subject,
     course.gradeLevel,
     course.price,
@@ -301,7 +301,7 @@ const Course = (props) => {
                               <button
                                 className="btn btn-info"
                                 onClick={() => {
-                                  history(`/course/${id}/students`);
+                                  history(`/dashboard/course/${id}/students`);
                                 }}
                               >
                                 Students
@@ -397,4 +397,4 @@ const Course = (props) => {
   }
 };
 
-export default Course;
+export default UpdateCourse;
