@@ -3,11 +3,12 @@ import { getDocs, collection } from "firebase/firestore";
 import imgPlaceholder from "./image-placeholder.png";
 import { assignCourse, selectCourse } from "../../utils/courseFunctions";
 import { db } from "../../firebase";
-import "./AssignCourse.css";
 import Layout from "../../components/Dashboard/Layout";
+import { useNavigate } from "react-router-dom";
 
 const AssignCourse = (props) => {
   const { currentUser } = props;
+  const history = useNavigate();
   const [users, setUsers] = useState([]);
   const [areUsersLoaded, setAreUsersLoaded] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
@@ -165,17 +166,6 @@ const AssignCourse = (props) => {
                 console.log(doc.id, " => ", doc.data());
               });
               setUsers(dataArr);
-              // setUsers(dataArr.filter((f) => f.isStudent)
-              // 			.sort((a, b) => {
-              // 				const aName = a.username.toUpperCase();
-              // 				const bName = b.username.toUpperCase();
-              // 				if (aName < bName) {
-              // 					return -1;
-              // 				} else if (aName > bName) {
-              // 					return 1;
-              // 				}
-              // 				return 0;
-              // 			}))
               setAreUsersLoaded(true);
               setLoading(false);
             } catch (error) {
@@ -208,16 +198,22 @@ const AssignCourse = (props) => {
     isAssignedCourseLoading,
   });
 
+  if (!currentUser) return <h1>Loading...</h1>;
+  if (!currentUser.isAdmin) history("/dashboard");
   if (!loading) {
     return (
       <Layout>
-        <div id="assign-course" style={{ width: "50%", margin: "auto" }}>
-          <div className="form-group">
-            <label htmlFor="assigned-user">User</label>
+        <div id="assign-course" className="w-1/2 mx-auto">
+          <div className="form-group mb-4">
+            <label
+              htmlFor="assigned-user"
+              className="block text-sm font-medium text-gray-700"
+            >
+              User
+            </label>
             <input
               type="text"
-              style={{ border: "inset" }}
-              className="form-control"
+              className="form-control block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               id="assigned-user"
               onClick={(e) => {
                 setShowUserResults(true);
@@ -231,18 +227,19 @@ const AssignCourse = (props) => {
               }}
             />
             {showUserResults && (
-              <div id="results-container">
+              <div id="results-container" className="mt-2 space-y-2">
                 {filteredUsers.slice(0, 10).map((user) => {
                   return (
-                    <textarea
+                    <button
                       key={user._id}
                       type="button"
-                      className="form-control results"
-                      placeholder={user.username}
+                      className="form-control block w-full text-left border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       onClick={() => {
                         handleSelectedUser(user);
                       }}
-                    />
+                    >
+                      {user.username}
+                    </button>
                   );
                 })}
               </div>
@@ -250,14 +247,18 @@ const AssignCourse = (props) => {
           </div>
 
           <div
-            className="form-group"
-            style={isUserFound ? { display: "block" } : { display: "none" }}
+            className={`form-group mb-4 ${isUserFound ? "block" : "hidden"}`}
           >
-            <label htmlFor="assigned-course-name">Course </label>
+            <label
+              htmlFor="assigned-course-name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Course
+            </label>
             {!isCourseFound ? (
               <input
                 type="text"
-                className="form-control"
+                className="form-control block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 id="assigned-course-name"
                 onClick={(e) => {
                   setShowCourseResults(true);
@@ -270,39 +271,40 @@ const AssignCourse = (props) => {
             ) : (
               <input
                 type="text"
-                style={{ border: "inset" }}
-                className="form-control"
+                className="form-control block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 id="assigned-course-name"
                 disabled
               />
             )}
 
             {showCourseResults && (
-              <div id="results-container">
+              <div id="results-container" className="mt-2 space-y-2">
                 {courses.map((course) => {
                   return (
-                    <textarea
+                    <button
                       key={course._id}
                       type="button"
-                      className="form-control results"
-                      placeholder={`Name: ${course.course_name}`}
+                      className="form-control block w-full text-left border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       onClick={() => {
                         handleSelectedCourse(course);
                       }}
-                    />
+                    >
+                      {`Name: ${course.course_name}`}
+                    </button>
                   );
                 })}
                 {filteredCourses.slice(0, 10).map((course) => {
                   return (
-                    <textarea
+                    <button
                       key={course._id}
                       type="button"
-                      className="form-control results"
-                      placeholder={`Name: ${course.course_name}, Instructor: ${course.instructor.username}`}
+                      className="form-control block w-full text-left border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       onClick={() => {
                         handleSelectedCourse(course);
                       }}
-                    />
+                    >
+                      {`Name: ${course.course_name}, Instructor: ${course.instructor.username}`}
+                    </button>
                   );
                 })}
               </div>
@@ -311,44 +313,57 @@ const AssignCourse = (props) => {
 
           {isCourseFound &&
             (!isAssignedCourseLoading ? (
-              <div
-                className="flex justify-content-center mt-1"
-                style={{ width: "100%" }}
-              >
-                <div className="card p-3 bg-white">
-                  <div className="about-product text-center mt-1">
-                    <img src={imgPlaceholder} width="100" alt="img" />
-                    <div>
-                      <h4>Course Name: {assignedCourse.course_name}</h4>
-                      <h6 className="mt-0 text-black-50">
+              <div className="flex justify-center mt-4 w-full">
+                <div className="card p-4 bg-white shadow-md rounded-lg w-full">
+                  <div className="about-product text-center mt-2">
+                    <img
+                      src={imgPlaceholder}
+                      width="100"
+                      alt="Course"
+                      className="mx-auto"
+                    />
+                    <div className="mt-2">
+                      <h4 className="text-lg font-semibold">
+                        Course Name: {assignedCourse.course_name}
+                      </h4>
+                      <h6 className="mt-1 text-gray-600">
                         by: {assignedCourse.instructor.username}
                       </h6>
                     </div>
                   </div>
-                  <div className="stats mt-2">
-                    <div className="d-flex justify-content-between p-price">
-                      <span>Class Number</span>
-                      <span>{assignedCourse.class_number}</span>
+                  <div className="stats mt-4">
+                    <div className="flex justify-between p-2">
+                      <span className="text-gray-700">Class Number</span>
+                      <span className="text-gray-900">
+                        {assignedCourse.class_number}
+                      </span>
                     </div>
-                    <div className="d-flex justify-content-between p-price">
-                      <span>Subject</span>
-                      <span>{assignedCourse.subject}</span>
+                    <div className="flex justify-between p-2">
+                      <span className="text-gray-700">Subject</span>
+                      <span className="text-gray-900">
+                        {assignedCourse.subject}
+                      </span>
                     </div>
-                    <div className="d-flex justify-content-between p-price">
-                      <span>Grade Level</span>
-                      <span>{assignedCourse.grade_level}</span>
+                    <div className="flex justify-between p-2">
+                      <span className="text-gray-700">Grade Level</span>
+                      <span className="text-gray-900">
+                        {assignedCourse.grade_level}
+                      </span>
                     </div>
-                    <div className="d-flex justify-content-between p-price">
-                      <span>Number of Students Enrolled</span>
-                      <span>{assignedCourse.num_of_students}</span>
+                    <div className="flex justify-between p-2">
+                      <span className="text-gray-700">
+                        Number of Students Enrolled
+                      </span>
+                      <span className="text-gray-900">
+                        {assignedCourse.num_of_students}
+                      </span>
                     </div>
                   </div>
 
-                  <div className="d-flex justify-content-center">
+                  <div className="flex justify-center mt-4">
                     <button
                       type="button"
-                      className="btn btn-danger"
-                      style={{ width: "150px" }}
+                      className="btn btn-danger w-36 mr-2 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                       onClick={() => {
                         setAssignedCourse({
                           assignedUser: selectedUser,
@@ -363,8 +378,7 @@ const AssignCourse = (props) => {
 
                     <button
                       type="button"
-                      className="btn btn-primary ms-2"
-                      style={{ width: "150px" }}
+                      className="btn btn-primary w-36 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       onClick={() => {
                         assignCourse({
                           isUserFound,
@@ -384,8 +398,8 @@ const AssignCourse = (props) => {
                 </div>
               </div>
             ) : (
-              <div className="spinner-border-container">
-                <div className="spinner-border" role="status">
+              <div className="flex justify-center mt-4">
+                <div className="spinner-border text-indigo-600" role="status">
                   <span className="visually-hidden">Loading...</span>
                 </div>
               </div>
@@ -395,8 +409,8 @@ const AssignCourse = (props) => {
     );
   } else {
     return (
-      <div className="spinner-border-container">
-        <div className="spinner-border" role="status">
+      <div className="flex justify-center items-center h-screen">
+        <div className="spinner-border text-indigo-600" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { search } from "./invoiceFunctions";
 import SearchBar from "./SearchBar";
 import "./PendingItems.css";
@@ -7,6 +7,7 @@ import Layout from "../../components/Dashboard/Layout";
 
 const PendingItems = (props) => {
   const { currentUser } = props;
+  const history = useNavigate();
   const [searched, setSearched] = useState(false);
   const [searchedItems, setSearchedItems] = useState([]);
   const [pendingItems, setPendingItems] = useState([]);
@@ -80,6 +81,8 @@ const PendingItems = (props) => {
     };
   }, [arePendingItemsLoaded, currentUser]);
 
+  if (!currentUser) return <h1>Loading...</h1>;
+  if (!currentUser.isAdmin) history("/dashboard");
   if (arePendingItemsLoaded) {
     return (
       <Layout>
@@ -141,7 +144,7 @@ const PendingItems = (props) => {
                                     <td>
                                       <Link
                                         className="btn btn-primary"
-                                        to={`/transaction/${transaction._id}`}
+                                        to={`/dashboard/transaction/${transaction._id}`}
                                       >
                                         View
                                       </Link>

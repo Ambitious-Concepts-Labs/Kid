@@ -1,19 +1,9 @@
 import React from "react";
 import { CourseProgress } from "./CourseProgress";
+import IconBadge from "../IconBadge";
+import { formatPrice } from "../../utils/helperfunctions";
+import { FaBook } from "react-icons/fa6";
 
-// Utility function to format price
-const formatPrice = (price) => {
-  return `$${price.toFixed(2)}`;
-};
-
-// IconBadge component (simple implementation)
-const IconBadge = ({ size, icon: Icon }) => (
-  <div className={`icon-badge icon-badge-${size}`}>
-    <Icon />
-  </div>
-);
-
-// CourseCard component
 const CourseCard = ({
   id,
   title,
@@ -45,8 +35,8 @@ const CourseCard = ({
             <IconBadge
               size="sm"
               icon={
-                () => <span> 🔖</span>
-                //   <BookOpen className="icon" />
+                () => 
+                  <FaBook className="icon" />
               }
             />
             <span>

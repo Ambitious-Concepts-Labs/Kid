@@ -131,6 +131,8 @@ const NewInvoice = (props) => {
     };
   }, []);
 
+  if (!currentUser) return <h1>Loading...</h1>;
+  if (!currentUser.isAdmin) history("/dashboard");
   if (!loading) {
     return (
       <Layout>

@@ -6,13 +6,12 @@ import { adminRoutes } from "../constants/index";
 import Dashboard from "../components/Icons/Dashboard";
 import Profile from "../components/Icons/Profile";
 import Assessments from "../components/Icons/Assessments";
-import Suggestions from "../components/Icons/Suggestions";
-import Zoom from "../components/Icons/Zoom";
-import ThankYou from "../components/Icons/ThankYou";
 import { GiClassicalKnowledge, GiHeartBeats } from "react-icons/gi";
 import { BiSolidPurchaseTagAlt, BiLogoZoom } from "react-icons/bi";
 import { TbShoppingCart } from "react-icons/tb";
 import { VscFeedback } from "react-icons/vsc";
+import { GiArchiveResearch } from "react-icons/gi";
+import { FaLayerGroup } from "react-icons/fa";
 
 export default function Sidebar({ page }) {
   const navigate = useNavigate();
@@ -34,6 +33,8 @@ export default function Sidebar({ page }) {
 
   const studentRoutes = [
     { name: "Dashboard", icon: <Dashboard page="dashboard" />, path: "/dashboard" },
+    { name: "All Courses", icon: <FaLayerGroup page="my courses" />, path: `/dashboard/courses` },
+    { name: "Browse Courses", icon: <GiArchiveResearch page="my courses" />, path: `/dashboard/courses/browse` },
     { name: "My Courses", icon: <GiClassicalKnowledge page="my courses" />, path: `/dashboard/course/student/${currentUser?.username}/all` },
     { name: "Order History", icon: <BiSolidPurchaseTagAlt page="orderhistory" />, path: `/dashboard/transactions` },
     { name: "Products", icon: <TbShoppingCart page="products" />, path: `/dashboard/products` },

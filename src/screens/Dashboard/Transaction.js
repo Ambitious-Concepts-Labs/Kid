@@ -88,7 +88,8 @@ const Transaction = (props) => {
     };
   }, [isTransactionLoaded, id, currentUser, history]);
 
-  
+  if (!currentUser || !transaction) return <h1>Loading...</h1>;
+  if (!currentUser.isAdmin) history("/dashboard");
   if (!loading && isTransactionLoaded && transaction) {
 	  console.log(transaction);
 	
@@ -96,7 +97,7 @@ const Transaction = (props) => {
       <>
         <Layout>
           <div id="transaction">
-            {transaction ? (
+            {transaction.length > 0 ? (
               <>
                 <div className="container">
                   <div className="row">
@@ -120,26 +121,26 @@ const Transaction = (props) => {
                                 </tr>
                               </thead>
                               <tbody style={{ verticalAlign: "middle" }}>
-                                {transaction[0].cart.items.map((item) => {
-                                    return (
-                                      <tr key={item._id}>
-                                        <td className="img-container">
-                                          <img
-                                            src={imgPlaceholder}
-                                            alt=""
-                                            id="transaction-img"
-                                          />
-                                          <p>{item.name}</p>
-                                        </td>
-                                        <td>{item.qty}</td>
-                                        <td>${item.price}</td>
-                                        <td>
-                                          ${(item.qty * item.price).toFixed(2)}
-                                        </td>
-                                        <td></td>
-                                      </tr>
-                                    );
-                                  })}
+                                {transaction.cart.items.map((item) => {
+                                  return (
+                                    <tr key={item._id}>
+                                      <td className="img-container">
+                                        <img
+                                          src={imgPlaceholder}
+                                          alt=""
+                                          id="transaction-img"
+                                        />
+                                        <p>{item.name}</p>
+                                      </td>
+                                      <td>{item.qty}</td>
+                                      <td>${item.price}</td>
+                                      <td>
+                                        ${(item.qty * item.price).toFixed(2)}
+                                      </td>
+                                      <td></td>
+                                    </tr>
+                                  );
+                                })}
 
                                 <tr className="summary">
                                   <td></td>
@@ -153,11 +154,13 @@ const Transaction = (props) => {
                                   </td>
                                   <td>
                                     <p>
-										{Date(transaction[0].createdAt)}
+                                      {Date(
+                                        transaction.createdAt
+                                      )}
                                     </p>
-                                    <p>{transaction[0].status.toUpperCase()}</p>
-                                    <p>{transaction[0].cart.total_quantity}</p>
-                                    <p>$ {transaction[0].cart.total_price}</p>
+                                    <p>{transaction.status.toUpperCase()}</p>
+                                    <p>{transaction.cart.total_quantity}</p>
+                                    <p>$ {transaction.cart.total_price}</p>
                                   </td>
                                 </tr>
                               </tbody>
@@ -167,7 +170,7 @@ const Transaction = (props) => {
                               style={{ width: "100px" }}
                             >
                               {currentUser.isAdmin &&
-                                transaction[0].status === "pending" && (
+                                transaction.status === "pending" && (
                                   <Link
                                     className="btn btn-primary"
                                     onClick={() => {
@@ -178,7 +181,7 @@ const Transaction = (props) => {
                                     Invoice
                                   </Link>
                                 )}
-                              {transaction[0].status === "pending" && (
+                              {transaction.status === "pending" && (
                                 <button
                                   className="btn btn-danger"
                                   onClick={() => {
@@ -196,14 +199,14 @@ const Transaction = (props) => {
                               )}
 
                               {!currentUser.isAdmin &&
-                                transaction[0].status === "for payment" && (
+                                transaction.status === "for payment" && (
                                   <>
                                     <Link
                                       className="btn btn-primary"
                                       onClick={() => {
                                         setIsTransactionLoaded(false);
                                       }}
-                                      to={`/dashboard/transaction/${transaction[0]._id}/invoice`}
+                                      to={`/dashboard/transaction/${transaction._id}/invoice`}
                                       style={{
                                         width: "200px",
                                         marginBottom: "5px",
@@ -212,10 +215,10 @@ const Transaction = (props) => {
                                       View Invoice
                                     </Link>
                                     <Paypal
-										{...props}
-										transaction={transaction}
-										setLoading={setLoading}
-									/>
+                                      {...props}
+                                      transaction={transaction}
+                                      setLoading={setLoading}
+                                    />
                                   </>
                                 )}
                             </div>
