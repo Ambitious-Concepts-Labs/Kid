@@ -1,5 +1,5 @@
 // import Axios from "axios";
-import { db } from "../../firebase";
+import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 

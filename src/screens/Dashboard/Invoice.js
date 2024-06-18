@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 // import { useParams } from "react-router-dom";
 import EditInvoice from "./EditInvoice";
-import { sendInvoice } from "./invoiceFunctions";
+import { sendInvoice } from "../../utils/invoiceFunctions";
 import imgPlaceholder from "./image-placeholder.png";
 // import Axios from "axios";
 import "./Invoice.css";

@@ -7,7 +7,7 @@ import {
 	editQuantity,
 	editRate,
 	// editDescription,
-} from "./invoiceFunctions";
+} from "../../utils/invoiceFunctions";
 import "./EditInvoice.css";
 // End
 

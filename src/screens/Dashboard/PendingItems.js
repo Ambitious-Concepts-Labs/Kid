@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { search } from "./invoiceFunctions";
+import { search } from "../../utils/invoiceFunctions";
 import SearchBar from "./SearchBar";
 import "./PendingItems.css";
 import Layout from "../../components/Dashboard/Layout";

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 // import { useParams, Link } from "react-router-dom";
 import Paypal from "../../components/Paypal3";
-import { cancelTransaction } from "./invoiceFunctions";
+import { cancelTransaction } from "../../utils/invoiceFunctions";
 import imgPlaceholder from "./image-placeholder.png";
 // import Axios from "axios";
 import "./Transaction.css";
