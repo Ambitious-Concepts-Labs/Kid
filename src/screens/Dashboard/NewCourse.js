@@ -13,7 +13,9 @@ const NewCourse = (props) => {
   });
   const state = { currentUser, history, newCourse, setNewCourse, user };
   if (loading || !currentUser) return <h1>Loading...</h1>;
-
+  if (!currentUser.isAdmin || !currentUser.isTeacher) {
+    history("/dashboard");
+  }
   return (
     <Layout>
       <div id="course" style={{ margin: "auto" }}>
