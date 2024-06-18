@@ -110,27 +110,29 @@ const handleInput = (props) => {
 };
 
 const handleRemove = (props) => {
-  const { item, setEdit, editedCart, setEditedCart } = props;
+  const { item, setEdit, editedCart, setEditedCart, setCart } = props;
+  console.log("click");
+  // let updatedItems = [
+  //   ...editedCart.items.filter((filtered) => {
+  //     return filtered._id !== item._id;
+  //   }),
+  // ];
 
-  let updatedItems = [
-    ...editedCart.items.filter((filtered) => {
-      return filtered._id !== item._id;
-    }),
-  ];
-
-  let updatedPrice = 0;
-  updatedItems.forEach((uitem) => {
-    updatedPrice += uitem.price * uitem.qty;
-  });
+  // let updatedPrice = 0;
+  // updatedItems.forEach((uitem) => {
+  //   updatedPrice += uitem.price * uitem.qty;
+  // });
   const confirm = window.confirm("Remove item?");
   if (confirm) {
-    setEdit(true);
-    setEditedCart({
-      ...editedCart,
-      items: updatedItems,
-      total_price: +updatedPrice,
-    });
+    // setEdit(true);
+    // setEditedCart({
+    //   ...editedCart,
+    //   items: updatedItems,
+    //   total_price: +updatedPrice,
+    // });
   }
+  setCart({ items: [], total_price: 0, total_quantity: 0 })
+  window.location.reload();
 };
 
 const editCart = (props) => {

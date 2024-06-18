@@ -99,7 +99,7 @@ const InvoiceTransaction = (props) => {
 	if (transaction.length > 0 && currentUser) {
 		return (
       <Layout>
-        <div id="invoice">
+        <div style={{overflow: "scroll"}} id="invoice">
           {!edit ? (
             <div id="invoice-ready">
               <header>
@@ -291,7 +291,7 @@ const InvoiceTransaction = (props) => {
                   <button
                     className="btn btn-primary"
                     onClick={() => {
-                      history(`/transaction/${id}`);
+                      history(`/dashboard/transaction/${id}`);
                     }}
                   >
                     Return
