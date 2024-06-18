@@ -5,24 +5,37 @@ import { searchCourse } from "../../utils/courseFunctions";
 import imgPlaceholder from "./image-placeholder.png";
 import "./TeacherCourses.css";
 import Layout from "../../components/Dashboard/Layout";
+import { db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { removeDuplicates } from "../../utils/helperfunctions";
 
 const UserCourses = (props) => {
   // const history = useHistory();
   const { currentUser } = props;
-  const [searchedItems, setSearchedItems] = useState(
-    currentUser.courses.sort((a, b) => {
-      const aName = a.course_name.toUpperCase();
-      const bName = b.course_name.toUpperCase();
-      if (aName < bName) {
-        return -1;
-      } else if (aName > bName) {
-        return 1;
-      }
-      return 0;
-    })
-  );
+  const [courses, setCourses] = useState([]);
+  const [searchedItems, setSearchedItems] = useState();
   const [coursesSlice, setCoursesSlice] = useState([0, 3]);
+  const getCourses = async () => {
+    currentUser.courses.map(async (course) => {
+      const courseRef = doc(db, "courses", course);
+      const courseDoc = await getDoc(courseRef);
+      const courseData = courseDoc.data();
+      setCourses((prev) => [...prev, courseData]);
+    });
+    const uniqueCourses = removeDuplicates(courses);
+    setCourses(uniqueCourses);
+  };
+  React.useEffect(() => {
+    // 3000 milliseconds = 3 seconds
+    const threeMilliseconds = 3 * 1000;
+    const timer = setTimeout(() => {
+      getCourses();
+    }, threeMilliseconds);
 
+    // Cleanup the timer on component unmount
+    return () => clearTimeout(timer);
+  }, [currentUser]);
+  if (!currentUser) return <h1>Loading...</h1>;
   return (
     <Layout>
       <div id="teacher-courses" style={{ textAlign: "center" }}>
@@ -38,13 +51,14 @@ const UserCourses = (props) => {
                 placeholder="search a course name"
               />
             </div>
-            {searchedItems.length > 0 ? (
+            <h2>Your Courses</h2>
+            {currentUser.courses.length > 0 ? (
               <>
                 <ul
                   className="courses-list"
                   style={{ margin: "auto", width: "60%" }}
                 >
-                  {searchedItems
+                  {courses
                     .slice(coursesSlice[0], coursesSlice[1])
                     .map((course) => {
                       return (

@@ -38,6 +38,10 @@ const adminRoutes = [
   { name: "View Pending Invoices", icon: "", path: "/admin/invoices/pending" },
   { name: "View Invoices For Payment", icon: "", path: "/admin/invoices/payment" },
   { name: "View Invoices Completed", icon: "", path: "/admin/invoices/completed" },
+  { name: "Assign Course", icon: <Dashboard page="assigncourse" />, path: "/dashboard/admin/assigncourse" },
+  { name: "Pending Items", icon: <Dashboard page="pendingitems" />, path: "/dashboard/admin/pendingitems" },
+  { name: "For Payment Items", icon: <Dashboard page="forpayment" />, path: "/dashboard/admin/forpayment" },
+  { name: "Completed Items", icon: <Dashboard page="completeditems" />, path: "/dashboard/admin/completeditems" },
 ];
 
 const studentRoutes = [

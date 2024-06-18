@@ -22,110 +22,26 @@ export default function Sidebar({ page }) {
   const isTeacher = currentUser?.isTeacher;
 
   const teacherRoutes = [
-    {
-      name: "Dashboard",
-      icon: <Dashboard page="dashboard" />,
-      path: "/dashboard",
-    },
-    { name: "Profile", icon: <Profile page="profile" />, path: "/profile" },
-    {
-      name: "Assesments",
-      icon: <Assessments page="assesment" />,
-      path: "/assesment",
-    },
-    {
-      name: "Suggestions",
-      icon: <Suggestions page="suggestions" />,
-      path: "/suggestions",
-    },
-    {
-      name: "View Courses",
-      icon: <Dashboard page="viewcourses" />,
-      path: `/course/teacher/${currentUser?.username}/all`,
-    },
-    {
-      name: "View Students",
-      icon: <Dashboard page="viewstudents" />,
-      path: "/course/:id/students",
-    },
-    {
-      name: "Create Course",
-      icon: <Dashboard page="createcourse" />,
-      path: "/admin/course/new",
-    },
-    {
-      name: "Assign Course",
-      icon: <Dashboard page="assigncourse" />,
-      path: "/admin/assigncourse",
-    },
-    {
-      name: "Pending Courses",
-      icon: <Dashboard page="pendingcourses" />,
-      path: "/admin/pendingcourses",
-    },
-    {
-      name: "Pending Items",
-      icon: <Dashboard page="pendingitems" />,
-      path: "/admin/pendingitems",
-    },
-    {
-      name: "For Payment Items",
-      icon: <Dashboard page="forpayment" />,
-      path: "/admin/forpayment",
-    },
-    {
-      name: "Completed Items",
-      icon: <Dashboard page="completeditems" />,
-      path: "/admin/completeditems",
-    },
+    { name: "Dashboard", icon: <Dashboard page="dashboard" />, path: "/dashboard" },
+    { name: "Profile", icon: <Profile page="profile" />, path: "/dashboard/profile" },
+    { name: "Assesments", icon: <Assessments page="assesment" />, path: "/dashboard/assesment" },
+    { name: "Suggestions", icon: <VscFeedback page="suggestions" />, path: "/dashboard/suggestions" },
+    { name: "View Courses", icon: <Dashboard page="viewcourses" />, path: `/dashboard/course/teacher/${currentUser?.username}/all` },
+    { name: "View Enrolled Students", icon: <Dashboard page="viewstudents" />, path: "/dashboard/course/:id/students" },
+    { name: "Create Course", icon: <Dashboard page="createcourse" />, path: "/dashboard/admin/course/new" },
+    { name: "Zoom Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
   ];
 
   const studentRoutes = [
-    {
-      name: "Dashboard",
-      icon: <Dashboard page="dashboard" />,
-      path: "/dashboard",
-    },
-    {
-      name: "My Courses",
-      icon: <GiClassicalKnowledge page="my courses" />,
-      path: `/dashboard/course/student/${currentUser?.username}/all`,
-    },
-    {
-      name: "Order History",
-      icon: <BiSolidPurchaseTagAlt page="orderhistory" />,
-      path: `/dashboard/transactions`,
-    },
-    {
-      name: "Products",
-      icon: <TbShoppingCart page="products" />,
-      path: `/dashboard/products`,
-    },
-    {
-      name: "Profile",
-      icon: <Profile page="profile" />,
-      path: "/dashboard/profile",
-    },
-    {
-      name: "Assesments",
-      icon: <Assessments page="assessments" />,
-      path: "/dashboard/assesment",
-    },
-    {
-      name: "Suggestions",
-      icon: <VscFeedback page="suggestions" />,
-      path: "/dashboard/suggestions",
-    },
-    {
-      name: "Zoom Sessions",
-      icon: <BiLogoZoom page="zoom" />,
-      path: "/dashboard/zoom",
-    },
-    {
-      name: "Thank You",
-      icon: <GiHeartBeats page="thankyou" />,
-      path: "/dashboard/thankyou",
-    },
+    { name: "Dashboard", icon: <Dashboard page="dashboard" />, path: "/dashboard" },
+    { name: "My Courses", icon: <GiClassicalKnowledge page="my courses" />, path: `/dashboard/course/student/${currentUser?.username}/all` },
+    { name: "Order History", icon: <BiSolidPurchaseTagAlt page="orderhistory" />, path: `/dashboard/transactions` },
+    { name: "Products", icon: <TbShoppingCart page="products" />, path: `/dashboard/products` },
+    { name: "Profile", icon: <Profile page="profile" />, path: "/dashboard/profile" },
+    { name: "Assesments", icon: <Assessments page="assessments" />, path: "/dashboard/assesment" },
+    { name: "Suggestions", icon: <VscFeedback page="suggestions" />, path: "/dashboard/suggestions" },
+    { name: "Zoom Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
+    { name: "Thank You", icon: <GiHeartBeats page="thankyou" />, path: "/dashboard/thankyou" },
   ];
 
   const routes = isAdmin
