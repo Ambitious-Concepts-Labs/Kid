@@ -1,5 +1,7 @@
 export const cn = (...classes) => classes.filter(Boolean).join(" ");
 
+export const removeDuplicates = (arr) => { return [...new Set(arr)] };
+
 export const generateUsername = () => {
   const adjectives = [
     "Cool",

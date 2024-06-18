@@ -3,11 +3,15 @@ import { useNavigate, Link } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import "./Transactions.css";
 import Layout from "../../components/Dashboard/Layout";
+import { db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { removeDuplicates } from "../../utils/helperfunctions";
 
 const Transactions = (props) => {
   const history = useNavigate();
   const { currentUser, isLoggedin, setCheckUser } = props;
   const [currentPage, setCurrentPage] = useState(1);
+  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [transactionsSlice, setTransactionsSlice] = useState([
     (currentPage - 1) * 10,
@@ -18,14 +22,28 @@ const Transactions = (props) => {
     setTransactionsSlice([(currentPage - 1) * 10, currentPage * 10]);
   }, [currentPage]);
 
-  // useEffect(() => {
-  // 	if (!isLoggedin) {
-  // 		window.alert("Log in first");
-  // 		history("/login");
-  // 	} else {
-  // 		setLoading(false);
-  // 	}
-  // }, [isLoggedin, history]);
+  const getTransactions = async () => {
+    currentUser.transactions.map(async (transaction) => {
+      const transRef = doc(db, "transactions", transaction);
+      const transDoc = await getDoc(transRef);
+      const transData = transDoc.data();
+      setTransactions((prev) => [...prev, transData]);
+    });
+    const uniqueTransactions = removeDuplicates(transactions);
+    setTransactions(uniqueTransactions);
+  };
+
+    React.useEffect(() => {
+      // 3000 milliseconds = 3 seconds
+      const threeMilliseconds = 3 * 1000;
+      const timer = setTimeout(() => {
+        getTransactions();
+      }, threeMilliseconds);
+
+      // Cleanup the timer on component unmount
+      return () => clearTimeout(timer);
+    }, [currentUser]);
+
 
   let sortedTransactions = [];
   console.log(currentUser, isLoggedin);
@@ -80,7 +98,7 @@ const Transactions = (props) => {
     return (
       <Layout>
         <div id="transactions">
-          {currentUser.transactions ? (
+          {transactions ? (
             <>
               <div className="container">
                 <div className="row">
@@ -104,7 +122,7 @@ const Transactions = (props) => {
                                 <th></th>
                               </tr>
                             </thead>
-                            {/* {sortedTransactions
+                            {transactions
 														.slice(transactionsSlice[0], transactionsSlice[1])
 														.map((transaction) => {
 															return (
@@ -120,7 +138,7 @@ const Transactions = (props) => {
 																		<td>
 																			<Link
 																				className="btn btn-primary"
-																				to={`/transaction/${transaction._id}`}
+																				to={`/dashboard/transaction/${transaction._id}`}
 																				onClick={() => {
 																					setCheckUser(false);
 																				}}
@@ -131,7 +149,7 @@ const Transactions = (props) => {
 																	</tr>
 																</tbody>
 															);
-														})} */}
+														})}
                             {sortedTransactions.map((transaction) => {
                               return (
                                 <tbody

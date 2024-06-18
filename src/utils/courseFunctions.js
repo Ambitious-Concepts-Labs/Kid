@@ -327,7 +327,6 @@ const assignCourse = async (props) => {
       console.log({ props });
       let updatedCourses = currentUser.courses;
       let exisiting = false;
-	  console.log({updatedCourses})
       updatedCourses.map((course) => {
         if (course.course_name == assignedCourse.course_name) exisiting = true;
       });

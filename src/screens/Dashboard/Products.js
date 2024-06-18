@@ -1,201 +1,179 @@
-// Imports
 import React, { useState, useEffect } from "react";
-// import { useHistory } from "react-router-dom";
-import { addToCart } from "./cartFunctions";
-import * as Papa from "papaparse";
-
-// import Axios from "axios";
-import "./Products.css";
+import { useNavigate } from "react-router-dom";
+import { addToCart } from "../../utils/cartFunctions";
+import Papa from "papaparse";
 import Layout from "../../components/Dashboard/Layout";
-// End
+import "./Products.css";
 
 const Products = (props) => {
-  // const history = useHistory();
-  const { currentUser } = props;
+  const { currentUser, cart, setCart } = props;
+  const history = useNavigate();
   const [products, setProducts] = useState([]);
   const [productsSlice, setProductsSlice] = useState([0, 10]);
   const [areProductsLoaded, setAreProductsLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [sortField, setSortField] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [filterText, setFilterText] = useState("");
 
-  //To load products list from dataset
   useEffect(() => {
-    // let source = Axios.CancelToken.source();
     let unmounted = false;
     if (!areProductsLoaded) {
       try {
         const readCsv = () => {
-          fetch("data.csv")
+          fetch("/data.csv")
             .then((response) => response.text())
             .then((responseText) => {
-              var data = Papa.parse(responseText, {
+              Papa.parse(responseText, {
                 complete: function(results) {
-                  console.log("results: ", results.data);
-                  let res = [];
-                  for (const data of results.data) {
-                    // if (res.length === 0) {
-                    res.push({
-                      _id: data[0],
-                      price: data[20],
-                      name: data[19],
-                    });
-                    // } else {
-                    // 	// if (
-                    // 	// 	!res.some(
-                    // 	// 		(result) => result._id.toString() === data.id.toString()
-                    // 	// 	)
-                    // 	// ) {
-                    // 		res.push({
-                    // 			_id: data[0],
-                    // 			price: data[20],
-                    // 			name: data[19],
-                    // 		});
-                    // 	// }
-                    // }
-                  }
-                  console.log("results: ", results.data);
-                  console.log({ res });
-
-                  // const test = res.slice(0, 100).sort((a, b) => {
-                  // 		if (a.name.toUpperCase() < b.name.toUpperCase()) {
-                  // 			return -1;
-                  // 		}
-                  // 		if (a.name.toUpperCase() > b.name.toUpperCase()) {
-                  // 			return 1;
-                  // 		}
-                  // 		return 0;
-                  // 	})
-
-                  // console.log({test})
+                  const res = results.data.map((data) => ({
+                    _id: data[0],
+                    price: data[20],
+                    name: data[19],
+                  }));
                   setProducts(res);
+                  setAreProductsLoaded(true);
                 },
               });
-              return data;
-              // setProducts( responseText );
+            })
+            .catch((error) => {
+              if (!unmounted) {
+                console.log(`Error loading CSV: ${error.message}`);
+              }
             });
         };
 
         if (!unmounted) {
-          // const productsData = readCsv()
-          // setProducts(productsData)
           readCsv();
-          setAreProductsLoaded(true);
         }
       } catch (error) {
         if (!unmounted) {
-          console.log(`request cancelled:${error.message}`);
+          console.log(`Error: ${error.message}`);
         }
       }
-
-      // Axios.get("/product/products", {
-      // 		cancelToken: source.token,
-      // 	})
-      // 		.then((res) => {
-      // 				if (!unmounted) {
-      // 						setProducts(res.data);
-      // 						setAreProductsLoaded(true);
-      // 					}
-      // 				})
-      // 				.catch((err) => {
-      // 						if (!unmounted) {
-      // 								if (Axios.isCancel(err)) {
-      // 										console.log(`request cancelled:${err.message}`);
-      // 									} else {
-      // 											console.log("another error happened:" + err.message);
-      // 										}
-      // 									}
-      // 								});
     }
     return function() {
       unmounted = true;
-      // source.cancel("Cancelling in cleanup");
     };
   }, [areProductsLoaded]);
+
+  const handleSort = (field) => {
+    const order = sortField === field && sortOrder === "asc" ? "desc" : "asc";
+    setSortField(field);
+    setSortOrder(order);
+
+    const sortedProducts = [...products].sort((a, b) => {
+      if (a[field] < b[field]) return order === "asc" ? -1 : 1;
+      if (a[field] > b[field]) return order === "asc" ? 1 : -1;
+      return 0;
+    });
+
+    setProducts(sortedProducts);
+  };
+
+  const filteredProducts = products.filter((item) =>
+    item.name.toLowerCase().includes(filterText.toLowerCase())
+  );
 
   if (!currentUser) return <h2>Loading...</h2>;
   if (!loading && areProductsLoaded) {
     return (
       <Layout>
-        <div id="products">
-          <>
-            <h2 className="title">Products</h2>
-            <div className="row">
-              <h2 className="col-8">Item Name</h2>
-              <h2 className="col">Price</h2>
-              {!currentUser.isAdmin && (
-                <h2 className="col" style={{ visibility: "hidden" }}>
-                  Filler
-                </h2>
-              )}
-            </div>
-            {products.slice(productsSlice[0], productsSlice[1]).map((item) => {
-              return (
-                <div className="row item" key={item._id}>
-                  <p className="col-8" style={{ display: "inline" }}>
-                    {item.name}
-                  </p>
-                  <p className="col" style={{ display: "inline" }}>
-                    ${item.price}
-                  </p>
-                  {currentUser.isStudent && (
-                    <div className="col">
-                      <button
-                        className="btn btn-primary"
-                        style={{ display: "inline" }}
-                        onClick={() => {
-                          addToCart({
-                            item,
-                            ...props,
-                            // history,
-                            setLoading,
-                          });
-                        }}
-                      >
-                        Add to cart
-                      </button>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            <div className="div" style={{ textAlign: "center" }}>
-              {productsSlice[0] === 0 ? (
-                ""
-              ) : (
-                <button
-                  className="btn btn-primary"
-                  onClick={() =>
-                    setProductsSlice([
-                      productsSlice[0] - 10,
-                      productsSlice[1] - 10,
-                    ])
-                  }
+        <div style={{overflow: "scroll"}} className="container mx-auto p-4">
+          <h2 className="text-2xl font-bold mb-4">Products</h2>
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Filter by name"
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+              className="border p-2 mr-2"
+            />
+          </div>
+          <table className="min-w-full bg-white border">
+            <thead>
+              <tr>
+                <th
+                  className="py-2 px-4 border-b cursor-pointer"
+                  onClick={() => handleSort("name")}
                 >
-                  Prev
-                </button>
-              )}
-              {productsSlice[1] === 100 ? (
-                ""
-              ) : (
-                <button
-                  className="btn btn-primary"
-                  onClick={() =>
-                    setProductsSlice([
-                      productsSlice[0] + 10,
-                      productsSlice[1] + 10,
-                    ])
-                  }
+                  Item Name
+                </th>
+                <th
+                  className="py-2 px-4 border-b cursor-pointer"
+                  onClick={() => handleSort("price")}
                 >
-                  Next
-                </button>
-              )}
-            </div>
-          </>
+                  Price
+                </th>
+                {!currentUser.isAdmin && (
+                  <th className="py-2 px-4 border-b">Action</th>
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              {filteredProducts
+                .slice(productsSlice[0], productsSlice[1])
+                .map((item) => (
+                  <tr key={item._id}>
+                    <td className="py-2 px-4 border-b">{item.name}</td>
+                    <td className="py-2 px-4 border-b">${item.price}</td>
+                    {currentUser.isStudent && (
+                      <td className="py-2 px-4 border-b">
+                        <button
+                          className="bg-blue-500 text-white px-4 py-2 rounded"
+                          onClick={() => {
+                            addToCart({
+                              setCart,
+                              cart,
+                              item,
+                              ...props,
+                              setLoading,
+                              history
+                            });
+                          }}
+                        >
+                          Add to cart
+                        </button>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+          <div className="flex justify-center mt-4">
+            {productsSlice[0] > 0 && (
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                onClick={() =>
+                  setProductsSlice([
+                    productsSlice[0] - 10,
+                    productsSlice[1] - 10,
+                  ])
+                }
+              >
+                Prev
+              </button>
+            )}
+            {productsSlice[1] < filteredProducts.length && (
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={() =>
+                  setProductsSlice([
+                    productsSlice[0] + 10,
+                    productsSlice[1] + 10,
+                  ])
+                }
+              >
+                Next
+              </button>
+            )}
+          </div>
         </div>
       </Layout>
     );
   } else {
     return (
-      <div className="spinner-border-container">
+      <div className="flex justify-center items-center h-screen">
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
