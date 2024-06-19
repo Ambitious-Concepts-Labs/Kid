@@ -40,10 +40,10 @@ export default function AdminNavbar({ page }) {
     if (loading) return;
     // if (!currentUser) return navigate("/");
     if (selectedOption.value === "Admin Mode")
-      return navigate("/admin/courses/all");
+      return navigate("/dashboard/courses/browse");
     if (selectedOption.value === "Teacher Mode")
-      return navigate("/teacher/courses");
-    if (selectedOption.value === "Profile") return navigate("/profile");
+      return navigate("/dashboard/teacher/courses");
+    if (selectedOption.value === "Profile") return navigate("/dashboard/profile");
     if (selectedOption.value === "Logout") {
       logout();
       navigate("/login");

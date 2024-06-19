@@ -32,7 +32,6 @@ const adminRoutes = [
   { name: "View Invoices", icon: "", path: "/dashboard/admin/invoices/all" },
   { name: "View Teacher Courses", icon: "", path: "/dashboard/teacher/courses" },
   { name: "Browse Courses", icon: "", path: "/dashboard/courses/browse" },
-  { name: "View All Courses", icon: "", path: "/dashboard/admin/courses/all" },
   { name: "Create Invoice", icon: "", path: "/dashboard/admin/invoice/new" },
 ];
 
