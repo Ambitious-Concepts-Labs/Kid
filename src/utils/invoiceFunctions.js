@@ -1,7 +1,7 @@
 // import Axios from "axios";
 import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc, getDocs, collection } from "firebase/firestore";
 
 const editName = (props) => {
 	const { event, editedInvoice, setEditedInvoice, item, transaction } = props;
@@ -244,12 +244,12 @@ const cancelTransaction = (props) => {
 
 const sendInvoice = async (props) => {
 	const {
-		transactionId = "",
-		userId = "",
+		transactionId ,
 		currentUser,
 		history,
 		newInvoice = { user: "" },
 		isNewInvoice = false,
+		currentInvoice
 	} = props;
 
 	if (isNewInvoice) {
@@ -260,7 +260,6 @@ const sendInvoice = async (props) => {
 		if (complete) {
 			const confirm = window.confirm("Confirm to send invoice?");
 			if (confirm) {
-
 				let updatedTransactions = currentUser.transactions
 				const newTransaction = {
 					cart: { ...newInvoice.cart },
@@ -269,26 +268,11 @@ const sendInvoice = async (props) => {
 					createdAt: serverTimestamp(),
 					_id: uuidv4(),
 				}
-				updatedTransactions.push(newTransaction)
-				
-				await setDoc(doc(db, "users", "5oZ5ta0mgbZSEqCNXftJ"), 
-						{ transactions: updatedTransactions }, { merge: true })
-				// Axios.put("/admin/sendinvoice", {
-				// 	transactionId: transactionId,
-				// 	userId: userId,
-				// 	newInvoice: newInvoice,
-				// 	isNewInvoice: isNewInvoice,
-				// })
-				// 	.then((res) => {
-				// 		if (res.data.msg === "Invoice successfully sent") {
-				// 			history.push("/admin/forpayment");
-				// 		}
-				// 		window.alert(res.data.msg);
-				// 	})
-				// 	.catch((e) => {
-				// 		console.log(e);
-				// 	});
-		
+				const transactionId = uuidv4()
+				updatedTransactions.push(transactionId);
+				await setDoc(doc(db, "transactions", transactionId), { ...newTransaction }, { merge: true })				
+				await setDoc(doc(db, "users", currentUser.id), { transactions: updatedTransactions }, { merge: true })
+				history("/dashboard/invoices/all")
 			}
 		} else {
 			window.alert("Please fill in the required fields");
@@ -297,21 +281,9 @@ const sendInvoice = async (props) => {
 		const confirm = window.confirm("Confirm to send invoice?");
 
 		if (confirm) {
-			// Axios.put("/admin/sendinvoice", {
-			// 	transactionId: transactionId,
-			// 	userId: userId,
-			// 	newInvoice: newInvoice,
-			// 	isNewInvoice: isNewInvoice,
-			// })
-			// 	.then((res) => {
-			// 		if (res.data.msg === "Invoice successfully sent") {
-			// 			history.push("/admin/forpayment");
-			// 		}
-			// 		window.alert(res.data.msg);
-			// 	})
-			// 	.catch((e) => {
-			// 		console.log(e);
-			// 	});
+			currentInvoice.status = "pendnig";
+			await setDoc(doc(db, "transactions", transactionId), { ...currentInvoice }, { merge: true })				
+			history("/dashboard/invoices/all")
 		}
 	}
 };

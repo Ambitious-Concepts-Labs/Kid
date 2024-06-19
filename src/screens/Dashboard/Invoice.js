@@ -86,7 +86,6 @@ const InvoiceTransaction = (props) => {
 		}
 		return function () {
 			unmounted = true;
-			// source.cancel("Cancelling in cleanup");
 		};
 	}, [
 		isTransactionLoaded,
@@ -95,7 +94,6 @@ const InvoiceTransaction = (props) => {
 		history,
 	]);
 
-	console.log(currentUser)
 	if (transaction.length > 0 && currentUser) {
 		return (
       <Layout>
@@ -278,6 +276,7 @@ const InvoiceTransaction = (props) => {
                           transactionId: id,
                           userId: transaction.user._id,
                           history,
+                          currentInovice: transaction,
                         });
                       }}
                     >

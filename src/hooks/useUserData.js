@@ -9,9 +9,19 @@ const useUserData = () => {
 
   const fetchUserInfo = async () => {
     try {
+      const usersSnapshot = await getDocs(collection(db, "users"));
+      const usersData = usersSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       const q = query(collection(db, "users"), where("uid", "==", user?.uid));
       const doc = await getDocs(q);
       const data = doc.docs[0].data();
+      usersData.forEach((user) => {
+          if (user.uid === data.uid) {
+           data.id = user.id;
+          }
+        });
       setCurrentUser(data);
     } catch (err) {
       console.error(err);
