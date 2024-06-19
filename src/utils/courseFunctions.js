@@ -251,7 +251,7 @@ const approve = async (props) => {
       { merge: true }
     );
     setCheckUser(false);
-    history("/admin/pendingcourses");
+    history("/dashboard/admin/pendingcourses");
     // Axios.put("/admin/approvecourse", { pendingCourse }).then((res) => {
     // 	window.alert(res.data.msg);
     // 	if (res.data.msg === "Approval successful") {

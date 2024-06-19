@@ -48,9 +48,6 @@ import NewInvoice from "./Dashboard/NewInvoice";
 import AssignCourse from "./Dashboard/AssignCourse";
 import PendingCourse from "./Dashboard/PendingCourse";
 import PendingCourses from "./Dashboard/PendingCourses";
-import PendingItems from "./Dashboard/PendingItems";
-import ForPayment from "./Dashboard/ForPayment";
-import CompletedItems from "./Dashboard/CompletedItems";
 import ViewStudents from "./Dashboard/ViewStudents";
 import ViewStudent from "./Dashboard/ViewStudent";
 import UpdateChapter from "./Dashboard/UpdateChapter";
@@ -59,6 +56,7 @@ import ViewCourse from "./Dashboard/ViewCourse.js";
 import ViewChapter from "./Dashboard/ViewChapter.js";
 import ViewDashboardCourses from "./Dashboard/ViewDashboardCourses.js";
 import Analytics from "./Dashboard/Analytics.js";
+import UnifiedInvoiceTable from "./Dashboard/UnifiedInvoiceTable.js";
 
 export {
   AboutScreen,
@@ -69,12 +67,10 @@ export {
   NotFound,
   StudentScreen,
   WorksScreen,
-
   ForgotPasswordScreen,
   LoginScreen,
   ResetPasswordScreen,
   SignUpScreen,
-  
   AdminDashboard,
   AdminProfile,
   AdminAssesment,
@@ -103,9 +99,6 @@ export {
   AssignCourse,
   PendingCourse,
   PendingCourses,
-  PendingItems,
-  ForPayment,
-  CompletedItems,
   NewInvoice,
   ViewStudent,
   ViewStudents,
@@ -115,4 +108,5 @@ export {
   ViewChapter,
   ViewDashboardCourses,
   Analytics,
+  UnifiedInvoiceTable,
 };

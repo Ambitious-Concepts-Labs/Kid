@@ -355,7 +355,7 @@ function App() {
           />
           <Route
             exact
-            path="/admin/courses/pending"
+            path="/dashboard/admin/courses/pending"
             element={
               <Screens.PendingCourses
                 {...states}
@@ -377,37 +377,16 @@ function App() {
           />
           <Route
             exact
-            path="/dashboard/admin/invoices/completed"
+            path="/dashboard/admin/invoices/all"
             element={
-              <Screens.CompletedItems
+              <Screens.UnifiedInvoiceTable
                 {...states}
                 user={user}
                 authValue={authValue}
               />
             }
           />
-          <Route
-            exact
-            path="/dashboard/admin/invoices/pending"
-            element={
-              <Screens.PendingItems
-                {...states}
-                user={user}
-                authValue={authValue}
-              />
-            }
-          />
-          <Route
-            exact
-            path="/dashboard/admin/invoices/payment"
-            element={
-              <Screens.ForPayment
-                {...states}
-                user={user}
-                authValue={authValue}
-              />
-            }
-          />
+
           <Route
             exact
             path="/admin/user/:userid/pendingcourse/:courseid"
