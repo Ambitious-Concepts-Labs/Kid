@@ -65,8 +65,6 @@ const ChapterVideoForm = ({ initialData, courseId, chapterId }) => {
   });
   const [videoUrl, setVideoUrl] = useState(initialData?.videoUrl || "");
   const toggleEdit = () => setIsEditing((current) => !current);
-
-  console.log({ videoUrl });
   
   const handMuxUpload = async () => {
         const auth = {
@@ -131,7 +129,7 @@ const ChapterVideoForm = ({ initialData, courseId, chapterId }) => {
       <div className="font-medium flex items-center justify-between">
         Course Video
         <Button variant="ghost" onClick={toggleEdit}>
-          {isEditing ? (
+          {isEditing && !videoUrl  ? (
             <> Cancel </>
           ) : (
             <>
@@ -164,19 +162,19 @@ const ChapterVideoForm = ({ initialData, courseId, chapterId }) => {
             >
               <source src={initialData.videoUrl || videoUrl} type="video/mp4" />
             </video>
-            <MuxPlayer
+            {/* <MuxPlayer
               playbackId={
                 initialData?.muxData?.playbackId ||
                 "5021Rs017DxNRIHuCrR00IWmJbEiFdzfESNC502G01rwlLJk"
               }
-            />
+            /> */}
           </div>
         ))}
       {isEditing && (
         <div>
-          <div>
+          {/* <div>
             <MuxUploader endpoint={muxUrl} />
-          </div>
+          </div> */}
           <CloudinaryUploadWidget
             uwConfig={uwConfig}
             setPublicId={setPublicId}
@@ -185,7 +183,7 @@ const ChapterVideoForm = ({ initialData, courseId, chapterId }) => {
             toggleEdit={toggleEdit}
             courseId={courseId}
             chapterId={chapterId}
-          /> 
+          />
           <div className="text-xs text-muted-foreground mt-4">
             Upload this chapter&apos;s video
           </div>

@@ -139,3 +139,16 @@ export const mockCourses = [
     isPublished: "true",
   },
 ];
+
+export const mockFetchChapter = async (courseId, chapterId) => {
+  // Mock data fetching logic
+  return {
+    id: chapterId,
+    courseId: courseId,
+    title: "Sample Chapter Title",
+    description: "Sample Chapter Description",
+    videoUrl: "https://sample-videos.com/video123.mp4",
+    isPublished: false,
+    muxData: { playbackId: "samplePlaybackId" },
+  };
+};

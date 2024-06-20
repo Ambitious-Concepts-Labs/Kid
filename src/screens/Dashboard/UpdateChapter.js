@@ -11,26 +11,10 @@ import IconBadge from "../../components/IconBadge";
 import Banner from "../../components/Banner";
 import Layout from "../../components/Dashboard/Layout";
 import { useLocation } from "react-router-dom";
-import { getDoc, doc, getDocs, collection } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
-// Mock Data and Functions (Replace these with actual data fetching and authentication logic)
-const mockFetchChapter = async (courseId, chapterId) => {
-  // Mock data fetching logic
-  return {
-    id: chapterId,
-    courseId: courseId,
-    title: "Sample Chapter Title",
-    description: "Sample Chapter Description",
-    videoUrl: "https://sample-videos.com/video123.mp4",
-    isPublished: false,
-    muxData: { playbackId: "samplePlaybackId" },
-  };
-};
+import { mockFetchChapter } from "../../constants/mockData";
 
-const mockAuth = () => {
-  // Mock authentication logic
-  return { userId: "sampleUserId" };
-};
 
 const mockRedirect = (url) => {
   // Mock redirect logic
@@ -41,7 +25,6 @@ const UpdateChapter = () => {
   const [courseId, setCourseId] = useState(null);
   const [chapterId, setChapterId] = useState(null);
   const location = useLocation();
-  const { userId } = mockAuth();
   const [chapter, setChapter] = useState(mockFetchChapter(courseId, chapterId));
   const [course, setCourse] = useState(null);
 
@@ -76,10 +59,7 @@ const UpdateChapter = () => {
   };
 
   useEffect(() => {
-    const fetchCourse = async () => {
-      getCourse();
-    };
-    fetchCourse();
+    getCourse();
   }, [courseId, chapterId]);
 
   useEffect(() => {
@@ -91,12 +71,7 @@ const UpdateChapter = () => {
     fetchChapter();
   }, [course]);
 
-        if (!courseId || !chapterId) return <div>Loading...</div>;
-
-  if (!userId) {
-    mockRedirect("/");
-    return null;
-  }
+  if (!courseId || !chapterId) return <div>Loading...</div>;
 
   if (!chapter) {
     return <div>Loading...</div>;
@@ -110,11 +85,6 @@ const UpdateChapter = () => {
   const completionText = `(${completedFields}/${totalFields})`;
   const isComplete = requiredFields.every(Boolean);
 
-  console.log({
-    chapter,
-    courseId,
-    chapterId,
-  });
   return (
     <Layout>
       <>
@@ -128,7 +98,7 @@ const UpdateChapter = () => {
           <div className="flex items-center justify-between">
             <div className="w-full">
               <button
-                onClick={() => mockRedirect(`/dashboard/course/${courseId}`)}
+                onClick={() => mockRedirect(`/dashboard/admin/course/${courseId}`)}
                 className="flex items-center text-sm hover:opacity-75 transition-none mb-6"
               >
                 <FaArrowLeftLong className="h-4 w-4 mr-2" />

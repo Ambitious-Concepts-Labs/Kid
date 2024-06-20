@@ -138,8 +138,7 @@ const ChaptersForm = ({ initialData, courseId }) => {
   };
 
   const handleEdit = (id) => {
-    // window.location.href = `/teacher/courses/${courseId}/chapters/${id}`;
-    window.location.href = `/dasboard/course/${courseId}/chapters/${id}`;
+    window.location.href = `/dashboard/admin/course/${courseId}/chapters/${id}`;
   };
 
   return (
