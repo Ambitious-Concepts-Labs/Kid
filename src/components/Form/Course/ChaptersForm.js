@@ -62,7 +62,6 @@ const validateTitle = (title) => {
   return null;
 };
 
-// Main component
 const ChaptersForm = ({ initialData, courseId }) => {
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -72,10 +71,6 @@ const ChaptersForm = ({ initialData, courseId }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toggleCreating = () => setIsCreating(!isCreating);
-
-  if (!initialData.chapters) {
-    return <>Loading...</>;
-  }
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -105,15 +100,21 @@ const ChaptersForm = ({ initialData, courseId }) => {
     setIsSubmitting(true);
     try {
       const courseDoc = doc(db, "courses", courseId);
-
-      await updateDoc(courseDoc, {
-        chapters: [...initialData.chapters, title],
-      });
+      if (initialData.chapters) {
+        await updateDoc(courseDoc, {
+          chapters: [...initialData.chapters, title],
+        });
+      } else {
+        await updateDoc(courseDoc, {
+          chapters: [title],  
+        });
+      }
       alert("Chapter created successfully");
       toggleCreating();
       window.location.reload();
     } catch (error) {
       alert("Something went wrong");
+      console.log({msg: error});
     } finally {
       setIsSubmitting(false);
     }
@@ -180,10 +181,8 @@ const ChaptersForm = ({ initialData, courseId }) => {
       )}
       {!isCreating && (
         <div
-          className={`text-sm mt-2 ${!initialData.chapters.length &&
-            "text-slate-500 italic"}`}
-        >
-          {initialData.chapters.length === 0 ?
+          className={`text-sm mt-2 ${!initialData.chapters ? "text-slate-500 italic" : ""}`}>
+          {!initialData.chapters ?
             "No Chapter"
             :
             <ChaptersList

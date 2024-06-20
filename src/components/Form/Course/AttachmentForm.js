@@ -28,7 +28,6 @@ const AttachmentForm = ({ initialData, courseId }) => {
               // All the items under listRef.
               getDownloadURL(itemRef)
                 .then((url) => {
-                  console.log({ url });
                   if (!attachments.includes(url)) {
                     setAttachments((prev) => [
                       ...prev,

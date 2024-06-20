@@ -15,7 +15,13 @@ const Confirm = ({ prevStep, values, state }) => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    createCourse({ currentUser, setCheckUser, newCourse: values, history, user });
+    createCourse({
+      currentUser,
+      setCheckUser,
+      newCourse: values,
+      history,
+      user,
+    });
     alert("Form submitted!");
   };
 
@@ -25,34 +31,42 @@ const Confirm = ({ prevStep, values, state }) => {
   };
 
   return (
-    <form>
-      <h2>Confirm your details</h2>
-      <ul>
-        <li>
-          <strong>Class Name:</strong> {classNum}
-        </li>
-        <li>
-          <strong>Course Name:</strong> {courseName}
-        </li>
-        <li>
-          <strong>Course Description:</strong> {courseDescription}
-        </li>
-        <li>
-          <strong>Course Instructor:</strong> {courseInstructor}
-        </li>
-        <li>
-          <strong>Course Content:</strong> {courseContent}
-        </li>
-        <li>
-          <strong>Subject:</strong> {subject}
-        </li>
-        <li>
-          <strong>Grade Level:</strong> {gradeLevel}
-        </li>
-      </ul>
-      <button onClick={goBack}>Back</button>
-      <button onClick={submitForm}>Submit</button>
-    </form>
+    <div className="container mt-5">
+      <form className="shadow p-4 rounded bg-white">
+        <h2 className="mb-4 text-center">Confirm Your Details</h2>
+        <ul className="list-group mb-4">
+          <li className="list-group-item">
+            <strong>Class Number:</strong> {classNum}
+          </li>
+          <li className="list-group-item">
+            <strong>Course Name:</strong> {courseName}
+          </li>
+          <li className="list-group-item">
+            <strong>Course Description:</strong> {courseDescription}
+          </li>
+          <li className="list-group-item">
+            <strong>Course Instructor:</strong> {courseInstructor}
+          </li>
+          <li className="list-group-item">
+            <strong>Course Content:</strong> {courseContent}
+          </li>
+          <li className="list-group-item">
+            <strong>Subject:</strong> {subject}
+          </li>
+          <li className="list-group-item">
+            <strong>Grade Level:</strong> {gradeLevel}
+          </li>
+        </ul>
+        <div className="d-flex justify-content-between">
+          <button className="btn btn-outline-secondary" onClick={goBack}>
+            Back
+          </button>
+          <button className="btn btn-success" onClick={submitForm}>
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

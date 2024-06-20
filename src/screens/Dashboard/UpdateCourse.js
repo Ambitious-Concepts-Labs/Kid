@@ -25,85 +25,32 @@ import { FaRegFile } from "react-icons/fa";
 import ChaptersForm from "../../components/Form/Course/ChaptersForm";
 import Banner from "../../components/Banner";
 import Actions from "../../components/Actions";
+import useGetCouseById from "../../hooks/useGetCouseById";
+import useGetAllCategories from "../../hooks/useGetAllCategories";
 
 const UpdateCourse = (props) => {
   const { id } = useParams();
   const history = useNavigate();
   const { isLoggedin, setCheckUser } = props;
-  const [course, setCourse] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [isCourseLoaded, setIsCourseLoaded] = useState(false);
   const [edit, setEdit] = useState(false);
   const [updatedCourse, setUpdatedCourse] = useState({});
   const { user, currentUser } = useUserData();
-  const [categories, setCategories] = useState([]);
+  const { course, loading, setLoading } = useGetCouseById(id);
+  const { categories } = useGetAllCategories(setLoading);
+ 
 
-  const getCourse = async () => {
-    const docRef = await getDoc(doc(db, "courses", id));
-    if (!docRef.exists()) {
-      console.log("No such document!");
-    } else {
-      console.log("Document data:", docRef);
-      console.log("Document data:", docRef.data());
-      setCourse(docRef.data());
-    }
-  };
-
-  useEffect(() => {
-    let unmounted = false;
-    if (!unmounted) {
-      if (loading && !isCourseLoaded) {
-        console.log(currentUser);
-        getCourse();
-        setIsCourseLoaded(true);
-        setLoading(false);
-      }
-    }
-    return function() {
-      unmounted = true;
-    };
-  }, [loading, isCourseLoaded, id, history]);
-
-  const getCategories = async () => {
-    try {
-      const dataArr = [];
-      const querySnapshot = await getDocs(collection(db, "categories"));
-      querySnapshot.forEach((course) => {
-        console.log({ course: course.data() });
-        const obj = { ...course.data() };
-        console.log({ obj });
-        dataArr.push(obj);
-      });
-
-      if (dataArr.length === 0) {
-        console.log("No matching documents.");
-        return [];
-      }
-
-      return dataArr;
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      return [];
-    }
-  };
-  useEffect(() => {
-    getCategories().then((data) => {
-      setCategories(data);
-    });
-  }, []);
   if (!user || !currentUser) return <>Loading...</>;
 
   const requiredFields = [
     course.courseName,
     course.courseDescription,
-    course.courseContent,
     course.classNum,
-    course.instructor,
+    course.courseInstructor,
     course.subject,
     course.gradeLevel,
     course.price,
     course.imageUrl,
-    course.category,
+    course.categoryId,
   ];
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter((field) => field).length;
@@ -224,20 +171,14 @@ const UpdateCourse = (props) => {
                               <IconBadge icon={LuListChecks} />
                               <h2 className="text-xl">Course Chapters</h2>
                             </div>
-                            <ChaptersForm
-                              initialData={course}
-                              courseId={id}
-                            />
+                            <ChaptersForm initialData={course} courseId={id} />
                           </div>
                           <div>
                             <div className="flex items-center gap-x-2">
                               <IconBadge icon={BsCurrencyDollar} />
                               <h2 className="text-xl">Sell your course</h2>
                             </div>
-                            <PriceForm
-                              initialData={course}
-                              courseId={id}
-                            />
+                            <PriceForm initialData={course} courseId={id} />
                           </div>
                           <div>
                             <div className="flex items-center gap-x-2">
@@ -253,38 +194,8 @@ const UpdateCourse = (props) => {
                           </div>
                         </div>
                       </div>
-                      <div className="header">{course.courseName}</div>
-
-                      <div className="banner-img">
-                        <img src={imgPlaceholder} alt="img-placeholder" />
-                      </div>
-
-                      <div className="author">
-                        <div className="start">
-                          <strong>CLASS NUMBER</strong>
-                          {course.classNum}
-                        </div>
-                        <div className="ends">
-                          <strong>INSTRUCTOR</strong>
-                          {course.courseInstructor}
-                        </div>
-                      </div>
-
-                      <div className="stats">
-                        <div>
-                          <strong>SUBJECT</strong> {course.subject}
-                        </div>
-                        <div>
-                          <strong>GRADE LEVEL</strong> {course.gradeLevel}
-                        </div>
-
-                        <div>
-                          <strong>STUDENTS ENROLLED</strong>
-                          {course.num_of_students || 0}
-                        </div>
-                      </div>
-
-                      <div className="footer">
+                      <br />
+                      <div className="flex justify-around w-100">
                         {!currentUser.isStudent ? (
                           (currentUser.isAdmin ||
                             currentUser._id === course.instructor._id) && (
