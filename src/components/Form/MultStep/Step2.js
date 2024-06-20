@@ -12,23 +12,33 @@ const Step2 = ({ nextStep, prevStep, handleChange, values }) => {
   };
 
   return (
-    <form>
-      <h2>Step 2: Instructor Information</h2>
-      <div className="form-group">
-        <label htmlFor="courseInstructor">Instructor:</label>
-        <input
-          type="text"
-          className="form-control"
-          id="courseInstructor"
-          required
-          value={values.courseInstructor}
-          onChange={handleChange("courseInstructor")}
-        />
-      </div>
-      <br />
-      <button onClick={goBack}>Back</button>
-      <button onClick={continueStep}>Next</button>
-    </form>
+    <div className="container mt-5">
+      <form className="shadow p-4 rounded bg-white">
+        <h2 className="mb-4 text-center">Step 2: Instructor Information</h2>
+        <div className="form-group mb-4">
+          <label htmlFor="courseInstructor" className="form-label">
+            Instructor:
+          </label>
+          <br />
+          <input
+            type="text"
+            className="form-control border border-secondary"
+            id="courseInstructor"
+            required
+            value={values.courseInstructor}
+            onChange={handleChange("courseInstructor")}
+          />
+        </div>
+        <div className="d-flex justify-content-between">
+          <button className="btn btn-outline-secondary" onClick={goBack}>
+            Back
+          </button>
+          <button className="btn btn-primary" onClick={continueStep}>
+            Next
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

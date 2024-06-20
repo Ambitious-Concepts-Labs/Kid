@@ -23,19 +23,27 @@ const createCourse = async (props) => {
 
   if (ifComplete(newCourse)) {
     const uid = uuidv4();
-    await setDoc(doc(db, "courses", uid), {
-      ...newCourse,
-      createdAt: serverTimestamp(),
-      id: uuidv4(),
-    });
-    await setDoc(
-      doc(db, "users", user.uid),
-      {
-        courses: [...currentUser.courses, uid],
-      },
-      { merge: true }
-    );
-    history(`/dashboard/course/${uid}`);
+    try {
+      await setDoc(doc(db, "courses", uid), {
+        ...newCourse,
+        createdAt: serverTimestamp(),
+        id: uuidv4(),
+      });
+    } catch (error) {
+      console.log({error});
+    }
+    try {
+      await setDoc(
+        doc(db, "users", currentUser.id),
+        {
+          courses: [...currentUser.courses, uid],
+        },
+        { merge: true }
+      );
+    } catch (error) {
+      console.log({error});
+    }
+    history(`/dashboard/admin/course/${uid}`);
   } else {
     window.alert("Please fill in the required fields");
   }

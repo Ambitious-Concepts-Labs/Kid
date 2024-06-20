@@ -6,7 +6,8 @@ import Confirm from "./Confirm";
 import Overview from "./Overview";
 
 const StepForm = ({ state }) => {
-  const { newCourse, user } = state;
+  const { newCourse, currentUser } = state;
+  console.log("newCourse", currentUser);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     courseName: "",
@@ -17,7 +18,7 @@ const StepForm = ({ state }) => {
     subject: "",
     gradeLevel: "",
     imageUrl: "",
-    userId: user.uid,
+    userId: currentUser.id,
     price: "",
     categoryId: "",
     category: "",

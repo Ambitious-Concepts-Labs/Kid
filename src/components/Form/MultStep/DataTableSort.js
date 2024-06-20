@@ -88,7 +88,7 @@ const TableHeader = ({ children }) => (
 );
 
 // Main DataTable component
-const DataTableSort = ({ columns, data }) => {
+const DataTableSort = ({ columns, data, continueStep }) => {
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -148,9 +148,7 @@ const DataTableSort = ({ columns, data }) => {
             className="max-w-sm"
           />
         </div>
-        <a href="/admin/course/new">
-          <Button>New Course</Button>
-        </a>
+        <Button onClick={continueStep}>New Course</Button>
       </div>
       <div className="rounded-md border">
         <Table>
