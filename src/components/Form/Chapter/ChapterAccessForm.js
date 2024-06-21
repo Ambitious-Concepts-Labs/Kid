@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Checkbox } from "../../Checkbox";
 import Button from "./Button";
-import { db } from "../../../firebase";
+import { db } from "../../../lib/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { cn } from "../../../utils/helperfunctions";
 

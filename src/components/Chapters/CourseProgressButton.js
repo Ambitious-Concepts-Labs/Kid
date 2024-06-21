@@ -3,7 +3,7 @@ import { useConfettiStore } from "../../hooks/useConfettiStore";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 // import toast from "react-hot-toast";
-import { db } from "../../firebase";
+import { db } from "../../lib/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const CourseProgressButton = ({

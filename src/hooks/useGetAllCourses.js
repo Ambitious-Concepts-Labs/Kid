@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getDocs, collection } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../lib/firebase";
 
 const useGetAllCourses = () => {
   const [courses, setCourses] = useState([]);

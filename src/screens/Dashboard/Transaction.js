@@ -4,7 +4,7 @@ import Paypal from "../../components/Paypal3";
 import { cancelTransaction } from "../../utils/invoiceFunctions";
 import imgPlaceholder from "./image-placeholder.png";
 import "./Transaction.css";
-import { db } from "../../firebase";
+import { db } from "../../lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import Layout from "../../components/Dashboard/Layout";
 

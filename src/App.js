@@ -3,7 +3,7 @@ import "./App.css";
 import * as Screens from "./screens/all";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import ProtectedRoute from "./ProtectedRoute2"
-import { AuthContext } from "./firebaseAuthContext";
+import { AuthContext } from "./lib/index";
 import useUserData from "./hooks/useUserData";
 
 function App() {

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Components from "../../components/all";
 import logo from "../../assets/logo1.png";
-import { useNavigate, Link, useHistory } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   auth,
   registerWithEmailAndPassword,
   signInWithGoogle,
-} from "../../firebase.jsx";
+} from "../../lib/firebase";
 
 function SignUpScreen() {
   const navigate = useNavigate();

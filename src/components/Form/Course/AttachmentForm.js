@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { storage } from "../../../firebase";
+import { storage } from "../../../lib/firebase";
 import {
   ref,
   deleteObject,

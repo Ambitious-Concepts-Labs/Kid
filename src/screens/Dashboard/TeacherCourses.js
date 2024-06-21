@@ -5,7 +5,7 @@ import { searchCourse } from "../../utils/courseFunctions";
 import imgPlaceholder from "./image-placeholder.png";
 import "./TeacherCourses.css";
 import Layout from "../../components/Dashboard/Layout";
-import { db } from "../../firebase";
+import { db } from "../../lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { removeDuplicates } from "../../utils/helperfunctions";
 

@@ -1,7 +1,7 @@
 // import Axios from "axios";
-import { db } from "../firebase";
+import { db } from "../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { doc, serverTimestamp, setDoc, getDocs, collection } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 const editName = (props) => {
 	const { event, editedInvoice, setEditedInvoice, item, transaction } = props;

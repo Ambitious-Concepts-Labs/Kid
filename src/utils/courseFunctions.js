@@ -1,4 +1,4 @@
-import { db } from "../firebase";
+import { db } from "../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
 import { doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 

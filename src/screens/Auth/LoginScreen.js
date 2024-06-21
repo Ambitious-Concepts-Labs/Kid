@@ -7,7 +7,7 @@ import {
   auth,
   logInWithEmailAndPassword,
   signInWithGoogle,
-} from "../../firebase.jsx";
+} from "../../lib/firebase";
 
 function LoginScreen() {
   const navigate = useNavigate();

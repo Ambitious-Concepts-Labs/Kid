@@ -3,8 +3,7 @@ import * as Components from "../../components/all";
 import logo from "../../assets/logo1.png";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { auth, sendPasswordReset } from "../../firebase";
+import { auth, sendPasswordReset } from "../../lib/firebase";
 
 function ResetPasswordScreen() {
 	const [email, setEmail] = useState("");

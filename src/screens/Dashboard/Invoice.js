@@ -1,4 +1,3 @@
-// Imports
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 // import { useParams } from "react-router-dom";
@@ -8,16 +7,11 @@ import imgPlaceholder from "./image-placeholder.png";
 // import Axios from "axios";
 import "./Invoice.css";
 
-import { db } from "../../firebase";
+import { db } from "../../lib/firebase";
 import {
-  doc,
-  getDoc,
-  query,
   collection,
   getDocs,
-  where,
 } from "firebase/firestore";
-import { removeDuplicates } from "../../utils/helperfunctions";
 import Layout from "../../components/Dashboard/Layout";
 
 const InvoiceTransaction = (props) => {

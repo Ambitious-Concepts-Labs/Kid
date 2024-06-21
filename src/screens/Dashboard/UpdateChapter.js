@@ -12,7 +12,7 @@ import Banner from "../../components/Banner";
 import Layout from "../../components/Dashboard/Layout";
 import { useLocation } from "react-router-dom";
 import { getDoc, doc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../lib/firebase";
 import { mockFetchChapter } from "../../constants/mockData";
 
 

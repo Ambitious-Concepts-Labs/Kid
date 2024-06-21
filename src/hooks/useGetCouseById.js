@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../lib/firebase";
 
 const useGetCouseById = (id) => {
   const [course, setCourse] = useState({});

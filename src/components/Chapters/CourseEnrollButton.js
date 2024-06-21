@@ -2,7 +2,7 @@ import Button from "../Button";
 // import axios from "axios";
 import React from "react";
 // import toast from "react-hot-toast";
-import { db } from "../../firebase";
+import { db } from "../../lib/firebase";
 import { collection, addDoc, onSnapshot } from "firebase/firestore";
 
 const CourseEnrollButton = ({ courseId, price }) => {

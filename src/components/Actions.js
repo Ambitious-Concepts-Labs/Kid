@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { db } from "../firebase";
+import { db } from "../lib/firebase";
 import { doc, updateDoc } from "firebase/firestore";
 
 // Custom ConfirmModal component

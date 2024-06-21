@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../firebase";
-import { query, collection, getDocs, where } from "firebase/firestore";
 import * as Components from "../../components/all";
 // chart
 import {

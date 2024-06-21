@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ChaptersList from "../../ChaptersList";
 import { FiPlusCircle } from "react-icons/fi";
-import { db } from "../../../firebase";
+import { db } from "../../../lib/firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 

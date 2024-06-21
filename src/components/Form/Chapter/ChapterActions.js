@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ConfirmModal } from "../../Modal/Confirm";
 import Button from "./Button";
-import { db } from "../../../firebase";
+import { db } from "../../../lib/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 // Placeholder for the Trash icon

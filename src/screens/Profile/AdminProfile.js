@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../firebase";
+import { db } from "../../lib/firebase";
 import { query, collection, getDocs, where, updateDoc } from "firebase/firestore";
 import * as Components from "../../components/all";
 import userImg from "../../assets/user.png";

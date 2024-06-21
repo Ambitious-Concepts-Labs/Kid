@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Dashboard/Layout";
 import SearchBar from "./SearchBar";
-import { search } from "../../utils/invoiceFunctions";
-import { getDoc, doc, getDocs, collection } from "firebase/firestore";
-import { db } from "../../firebase";
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "../../lib/firebase";
 import { removeDuplicates } from "../../utils/helperfunctions";
 
 const UnifiedInvoiceTable = ({ currentUser }) => {

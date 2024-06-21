@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   updateCourse,
@@ -6,10 +6,7 @@ import {
   requestCourse,
 } from "../../utils/courseFunctions";
 import EditCourse from "./EditCourse";
-import imgPlaceholder from "./image-placeholder.png";
 import "./Course.css";
-import { getDoc, doc, getDocs, collection } from "firebase/firestore";
-import { db } from "../../firebase";
 import useUserData from "../../hooks/useUserData";
 import Layout from "../../components/Dashboard/Layout";
 import TitleForm from "../../components/Form/Course/TitleForm";

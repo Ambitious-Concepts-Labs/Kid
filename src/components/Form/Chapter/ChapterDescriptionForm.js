@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Editor from "../../Editor";
 import Preview from "../../Preview";
 import Button from "./Button";
-import { db } from "../../../firebase";
+import { db } from "../../../lib/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { cn } from "../../../utils/helperfunctions";
 

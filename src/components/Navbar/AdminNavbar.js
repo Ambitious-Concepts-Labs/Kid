@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as Components from "../all";
 import image from "../../assets/adminImage.png";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../firebase";
+import { logout } from "../../lib/firebase";
 import Select from "react-select";
 import useUserData from "../../hooks/useUserData";
 

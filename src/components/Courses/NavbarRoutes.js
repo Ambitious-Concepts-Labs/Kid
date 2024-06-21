@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 // import { useHistory, useLocation } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { logout } from "../../firebase";
+import { logout } from "../../lib/firebase";
 
 
 // Mock SearchInput component

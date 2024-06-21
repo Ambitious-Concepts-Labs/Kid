@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { storage } from "../firebase";
+import { storage } from "../lib/firebase";
 import { ref, getDownloadURL, listAll } from "firebase/storage";
 
 const useGetCourseAttachments = (courseId) => {
