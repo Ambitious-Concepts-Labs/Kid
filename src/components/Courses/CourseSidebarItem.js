@@ -14,8 +14,19 @@ const PlayCircle = ({ size, className }) => (
   <div className={`icon play-circle ${className}`} style={{ fontSize: size }} />
 );
 
-const CourseSidebarItem = ({ id, label, isCompleted, courseId, isLocked }) => {
+const CourseSidebarItem = ({
+  id,
+  label,
+  isCompleted,
+  courseId,
+  isLocked,
+  setChapterId,
+}) => {
   const [pathname, setPathname] = React.useState(window.location.pathname);
+
+  React.useEffect(() => {
+    setChapterId(id)
+  }, []);
 
   const Icon = isLocked ? Lock : isCompleted ? CheckCircle : PlayCircle;
   const isActive = pathname.includes(id);
@@ -38,7 +49,16 @@ const CourseSidebarItem = ({ id, label, isCompleted, courseId, isLocked }) => {
         ${isCompleted && isActive ? "bg-emerald-200/20" : ""}`}
     >
       <div className="flex items-center gap-x-2 py-4">
-        <span> {isLocked ? <span>🔒</span> : <span>✅</span>}</span>
+        <span>
+          {" "}
+          {isLocked ? (
+            <span>🔒</span>
+          ) : isCompleted ? (
+            <span>✅</span>
+          ) : (
+            <span>⭕️</span>
+          )}
+        </span>
         <Icon
           size={22}
           className={`text-slate-500 ${isActive ? "text-slate-700" : ""} ${

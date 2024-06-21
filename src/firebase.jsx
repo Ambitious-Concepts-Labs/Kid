@@ -31,6 +31,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       isTeacher: false,
       isStudent: true,
       pendingCourses: [],
+      completedCourses: [],
       cart: {},
       courses: [],
       transactions: [],

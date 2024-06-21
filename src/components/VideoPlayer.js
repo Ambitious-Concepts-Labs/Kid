@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import MuxPlayer from "@mux/mux-player-react";
-import { db } from "../../../firebase";
+import { db } from "../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { cn } from "../../../utils/helperfunctions";
+import { cn } from "../utils/helperfunctions";
 
 const VideoPlayer = ({
+  chapter,
   chapterId,
   title,
   courseId,
@@ -12,6 +13,7 @@ const VideoPlayer = ({
   playbackId,
   isLocked,
   completeOnEnd,
+  course
 }) => {
   const [isReady, setIsReady] = useState(false);
 
@@ -50,6 +52,8 @@ const VideoPlayer = ({
     }
   };
 
+  console.log("playbackId", course, chapterId, chapter);
+
   return (
     <div className="relative aspect-video">
       {!isLocked && !isReady && (
@@ -65,14 +69,23 @@ const VideoPlayer = ({
         </div>
       )}
       {!isLocked && (
-        <MuxPlayer
-          title={title}
-          className={cn(!isReady && "hidden")}
-          onCanPlay={() => setIsReady(true)}
-          onEnded={onEnd}
-          autoPlay
-          playbackId={playbackId}
-        />
+         <div className="relative aspect-video mt-2">
+            <video
+              className="object-cover rounded-md"
+              style={{ width: "100%", height: "auto" }}
+              controls
+            >
+              <source src={chapter.videoUrl} type="video/mp4" />
+            </video>
+          </div>
+        // <MuxPlayer
+        //   title={title}
+        //   className={cn(!isReady && "hidden")}
+        //   onCanPlay={() => setIsReady(true)}
+        //   onEnded={onEnd}
+        //   autoPlay
+        //   playbackId={playbackId}
+        // />
       )}
     </div>
   );

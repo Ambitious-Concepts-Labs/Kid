@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Banner from "../../components/Banner";
 import CourseLayout from "../../components/Courses/CourseLayout";
 import Layout from "../../components/Dashboard/Layout";
-import VideoPlayer from "../../components/Form/Chapter/VideoPlayer";
-
+import VideoPlayer from "../../components/VideoPlayer";
+import useGetCouseById from "../../hooks/useGetCouseById";
+import useGetCourseAttachments from "../../hooks/useGetCourseAttachments";
 // Mock functions and data to simulate authentication and database fetching
 const mockUserId = "user123";
 const mockChapter = {
@@ -42,10 +44,6 @@ const getChapter = async ({ userId, chapterId, courseId }) => {
   };
 };
 
-const Banner = ({ variant, label }) => (
-  <div className={`banner ${variant}`}>{label}</div>
-);
-
 // const VideoPlayer = ({ title, playbackId, isLocked, completeOnEnd }) => (
 //   <div className={`video-player ${isLocked ? "locked" : ""}`}>
 //     <h3>{title}</h3>
@@ -71,73 +69,59 @@ const Separator = () => <hr className="separator" />;
 
 const Preview = ({ value }) => <div className="preview">{value}</div>;
 
-const ChapterIdPage = ({ params }) => {
+const ChapterIdPage = ({ currentUser }) => {
   const location = useLocation();
-  const [userId, setUserId] = useState(null);
-  const [chapterData, setChapterData] = useState(null);
-  const [courseId, setCourseId] = useState(null);
-  const [chapterId, setChapterId] = useState(null);
+  const url = location.pathname;
+  const regex = /\/courses\/([^/]+)\/chapters\/([^/]+)/;
+  const match = url.match(regex);
+  const courseId = match[1];
+  const chapterId = match[2];
+  const [chapterData, setChapterData] = useState({
+    id: "",
+    title: "",
+    description: "",
+    isFree: false,
+    muxData: null,
+    userProgress: null,
+  });
+  const [nextChapter, setNextChapter] = useState(null);
+  const { course } = useGetCouseById(courseId);
+  const attachments = useGetCourseAttachments(courseId);
+  const [chapId, setChapterId] = useState(null);
 
   useEffect(() => {
-    const url = location.pathname;
-    const regex = /\/courses\/([^/]+)\/chapters\/([^/]+)/;
-    const match = url.match(regex);
-
-    if (match) {
-      const courseId = match[1];
-      const chapterId = match[2];
-      setCourseId(courseId);
-      setChapterId(chapterId);
-      console.log(`Course ID: ${courseId}`);
-      console.log(`Chapter ID: ${chapterId}`);
-    } else {
-      console.log("No match found");
+    if (course.chapters) {
+      const currentIndex = course.chapters.findIndex(
+        (chapter) => chapter.id === chapterId
+      );
+      if (currentIndex !== -1) {
+        setChapterData(course.chapters[currentIndex]);
+        setNextChapter(course.chapters[currentIndex + 1] || null);
+      }
     }
-  }, [courseId, chapterId]);
+  }, [course, chapterId, chapterData]);
 
-  useEffect(() => {
-    // Simulate authentication
-    setUserId(mockUserId);
-
-    // Fetch chapter data
-    const fetchChapterData = async () => {
-      const data = await getChapter({
-        userId: mockUserId,
-        chapterId: chapterId,
-        courseId: courseId,
-      });
-      setChapterData(data);
-    };
-
-    fetchChapterData();
-  }, [chapterId, courseId]);
-
-  if (!userId) {
-    // window.location.href = "/";
-    // return null;
-  }
+  console.log({course, chapterData, nextChapter})
 
   if (!chapterData) {
-    return <div>Loading...</div>;
+    return <div>pLoading...</div>;
   }
 
-  const {
-    chapter,
-    course,
-    muxData,
-    attachments,
-    nextChapter,
-    userProgress,
-    purchase,
-  } = chapterData;
-  const isLocked = !chapter.isFree && !purchase;
-  const completeOnEnd = !!purchase && !userProgress?.isCompleted;
+  const purchase = currentUser?.courses.find((course) => course.id === courseId);
+
+  const isLocked = !chapterData.isFree && !purchase;
+  const completeOnEnd = !!purchase && !chapterData.userProgress?.isCompleted;
 
   return (
     <Layout>
-      <CourseLayout>
+      <CourseLayout
+        courseId={courseId}
+        currentUser={currentUser}
+        course={course}
+        setChapterId={setChapterId}
+      >
         <div>
-          {userProgress?.isCompleted && (
+          {chapterData.userProgress?.isCompleted && (
             <Banner
               variant="success"
               label="You already complete this chapter"
@@ -152,18 +136,25 @@ const ChapterIdPage = ({ params }) => {
           <div className="flex flex-col max-w-4xl mx-auto pb-20">
             <div className="p-4">
               <VideoPlayer
-                title={chapter.title}
-                playbackId={muxData?.playbackId}
+                chapter={chapterData}
+                chapterId={chapterId}
+                title={chapterData.title}
+                courseId={courseId}
+                course={course}
+                nextChapterId={nextChapter?.id}
+                playbackId={null}
                 isLocked={isLocked}
                 completeOnEnd={completeOnEnd}
               />
             </div>
             <div>
               <div className="p-4 flex flex-col md:flex-row items-center justify-between">
-                <h2 className="text-2xl font-semibold mb-2">{chapter.title}</h2>
+                <h2 className="text-2xl font-semibold mb-2">
+                  {chapterData.title}
+                </h2>
                 {purchase ? (
                   <CourseProgressButton
-                    isCompleted={!!userProgress?.isCompleted}
+                    isCompleted={!!chapterData.userProgress?.isCompleted}
                     nextChapterId={nextChapter?.id}
                   />
                 ) : (
@@ -172,7 +163,7 @@ const ChapterIdPage = ({ params }) => {
               </div>
               <Separator />
               <div>
-                <Preview value={chapter.description} />
+                <Preview value={chapterData.description} />
               </div>
               {!!attachments.length && (
                 <>

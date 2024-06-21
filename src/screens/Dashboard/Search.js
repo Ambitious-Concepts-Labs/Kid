@@ -3,26 +3,14 @@ import Layout from "../../components/Dashboard/Layout";
 import SearchInput from "../../components/SearchInput";
 import CoursesList from "../../components/Courses/CoursesList";
 import Categories from "../../components/Courses/Categories";
-import { db } from "../../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import useGetAllCourses from "../../hooks/useGetAllCourses";
+import { mockSearchCourses } from "../../constants/mockData";
 
 export default function Search() {
-  const [courses, setCourses] = React.useState([]);
-  const getAllCourses = async () => {
-    const dataArr = [];
-    const querySnapshot = await getDocs(collection(db, "courses"));
-    querySnapshot.forEach((course) => {
-      const obj = { ...course.data(), courseId: course.id };
-      dataArr.push(obj);
-    });
-    setCourses(dataArr);
-
-    console.log(dataArr);
-  };
-
-  React.useEffect(() => {
-    getAllCourses();
-  }, []);
+  const courses = useGetAllCourses();
+  const filteredCourses = courses.filter(
+    (course) => Array.isArray(course.chapters) && course.chapters.length > 0
+  );
 
   const handleSearch = (searchTerm) => {
     console.log("Searching for:", searchTerm);
@@ -36,46 +24,6 @@ export default function Search() {
     { id: 4, name: "Design" },
   ];
 
-  const mockcourses = [
-    {
-      courseId: 1,
-      title: "Course Title 1",
-      imageUrl: "https://via.placeholder.com/150",
-      price: 100,
-      progress: null,
-      category: { id: 1, name: "Development" },
-      chapters: [],
-    },
-    {
-      courseId: 2,
-      title: "Course Title 2",
-      imageUrl: "https://via.placeholder.com/150",
-      price: 200,
-      progress: 30,
-      category: { id: 2, name: "Business" },
-      chapters: [{}, {}],
-    },
-    {
-      courseId: 3,
-      title: "Course Title 3",
-      imageUrl: "https://via.placeholder.com/150",
-      price: 150,
-      progress: null,
-      category: { id: 3, name: "Finance" },
-      chapters: [],
-    },
-    {
-      courseId: 4,
-      title: "Course Title 4",
-      imageUrl: "https://via.placeholder.com/150",
-      price: 50,
-      progress: 100,
-      category: { id: 4, name: "Design" },
-      chapters: [],
-    },
-  ];
-    
-    console.log({ courses });
 
   return (
     <Layout>
@@ -86,12 +34,8 @@ export default function Search() {
       </div>
       <div className="p-6 space-y-4">
         <Categories items={categories} />
-        {
-            courses.length > 0 && (
-                <CoursesList items={[courses[5]]} />
-            )
-        }
-        <CoursesList items={mockcourses} />
+        {(courses.length > 0 && process.env.NODE_ENV === "development") && <CoursesList items={filteredCourses} />}
+        <CoursesList items={mockSearchCourses} />
       </div>
     </Layout>
   );

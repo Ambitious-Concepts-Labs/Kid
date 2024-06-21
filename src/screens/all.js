@@ -35,7 +35,6 @@ import AdminTeacher from "./Teacher/AdminTeacher";
 // import Meeting from "./Zoom/Meeting";
 // import Dashboard from "./Zoom/Dashboard";
 
-import StudentCourses from "./Dashboard/StudentCourses";
 import Transaction from "./Dashboard/Transaction";
 import Transactions from "./Dashboard/Transactions";
 import Invoice from "./Dashboard/Invoice";
@@ -87,7 +86,6 @@ export {
   // JoinMeeting,
   // Meeting,
   // Dashboard,
-  StudentCourses,
   TeacherCourses,
   Transaction,
   Transactions,

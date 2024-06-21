@@ -32,27 +32,23 @@ const CourseCard = ({
         <p className="text-xs text-muted-foreground">{category}</p>
         <div className="my-3 flex items-center gap-x-2 text-sm md:text-xs">
           <div className="flex items-center gap-x-1 text-slate-500">
-            <IconBadge
-              size="sm"
-              icon={
-                () => 
-                  <FaBook className="icon" />
-              }
-            />
+            <IconBadge size="sm" icon={() => <FaBook className="icon" />} />
             <span>
               {chaptersLength} {chaptersLength === 1 ? "Chapter" : "Chapters"}
             </span>
           </div>
         </div>
-        {progress !== null ? (
+        {progress ? (
           <CourseProgress
             size="sm"
             value={progress}
             variant={progress === 100 ? "success" : "default"}
           />
+        ) : price === 0 ? (
+          <p className="text-md md:text-sm font-medium text-slate-700">Free Course</p>
         ) : (
           <p className="text-md md:text-sm font-medium text-slate-700">
-            {formatPrice(price)}
+            {formatPrice(parseInt(price))}
           </p>
         )}
       </div>

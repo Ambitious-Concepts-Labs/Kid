@@ -33,9 +33,8 @@ export default function Sidebar({ page }) {
 
   const studentRoutes = [
     { name: "Dashboard", icon: <Dashboard page="dashboard" />, path: "/dashboard" },
-    { name: "All Courses", icon: <FaLayerGroup page="my courses" />, path: `/dashboard/courses` },
+    { name: "My Courses", icon: <FaLayerGroup page="my courses" />, path:`/dashboard/courses/student/${currentUser?.username}/all` },
     { name: "Browse Courses", icon: <GiArchiveResearch page="my courses" />, path: `/dashboard/courses/browse` },
-    { name: "My Courses", icon: <GiClassicalKnowledge page="my courses" />, path: `/dashboard/course/student/${currentUser?.username}/all` },
     { name: "Order History", icon: <BiSolidPurchaseTagAlt page="orderhistory" />, path: `/dashboard/transactions` },
     { name: "Products", icon: <TbShoppingCart page="products" />, path: `/dashboard/products` },
     { name: "Profile", icon: <Profile page="profile" />, path: "/dashboard/profile" },

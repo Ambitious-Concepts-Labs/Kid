@@ -1,30 +1,8 @@
 import React, { useState, useEffect } from "react";
 // import { useHistory, useLocation } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { logout } from "../../firebase";
 
-// Mock authentication function
-const useAuth = () => {
-  const [userId, setUserId] = useState(null);
-
-  useEffect(() => {
-    // Replace with actual authentication logic
-    const mockUserId = "some-user-id"; // Mock user ID
-    setUserId(mockUserId);
-  }, []);
-
-  return { userId };
-};
-
-// Mock logout function
-const logOut = () => {
-  // Replace with actual logout logic
-  console.log("User logged out");
-};
-
-// Mock isTeacher function
-const isTeacher = (userId) => {
-  return userId === process.env.REACT_APP_TEACHER_ID;
-};
 
 // Mock SearchInput component
 const SearchInput = () => (
@@ -35,13 +13,6 @@ const SearchInput = () => (
   />
 );
 
-// Mock UserButton component
-const UserButton = ({ afterSignOutUrl }) => (
-  <button onClick={logOut}>
-    <span>Log Out</span>
-  </button>
-);
-
 // Mock Button component
 const Button = ({ children, size, variant, onClick }) => (
   <button onClick={onClick} className={`btn ${size} ${variant}`}>
@@ -49,8 +20,7 @@ const Button = ({ children, size, variant, onClick }) => (
   </button>
 );
 
-const NavbarRoutes = () => {
-  const { userId } = useAuth();
+const NavbarRoutes = ({currentUser}) => {
   // const history = useHistory();
   const location = useLocation();
 
@@ -75,18 +45,20 @@ const NavbarRoutes = () => {
           <SearchInput />
         </div>
       )}
-      <div className="flex gap-x-2 ml-auto">
+      <div className="flex gap-x-2 ml-auto w-[100%] justify-evenly">
         {isTeacherPage || isCoursePage ? (
           <Button size="sm" variant="ghost" onClick={handleExit}>
             <span className="h-4 w-4 mr-2">🔙</span>
             Exit
           </Button>
-        ) : isTeacher(userId) ? (
+        ) : currentUser.isTeacher ? (
           <Button size="sm" variant="ghost" onClick={handleTeacherMode}>
             Teacher mode
           </Button>
         ) : null}
-        <UserButton afterSignOutUrl="/" />
+        <Button size="sm" variant="ghost" onClick={logout}>
+          Log Out
+        </Button>
       </div>
     </>
   );

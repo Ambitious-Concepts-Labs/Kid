@@ -152,3 +152,63 @@ export const mockFetchChapter = async (courseId, chapterId) => {
     muxData: { playbackId: "samplePlaybackId" },
   };
 };
+
+export const mockSearchCourses = [
+  {
+    courseId: 1,
+    title: "Course Title 1",
+    imageUrl: "https://via.placeholder.com/150",
+    price: 100,
+    progress: null,
+    category: { id: 1, name: "Development" },
+    chapters: [],
+  },
+  {
+    courseId: 2,
+    title: "Course Title 2",
+    imageUrl: "https://via.placeholder.com/150",
+    price: 200,
+    progress: 30,
+    category: { id: 2, name: "Business" },
+    chapters: [{}, {}],
+  },
+  {
+    courseId: 3,
+    title: "Course Title 3",
+    imageUrl: "https://via.placeholder.com/150",
+    price: 150,
+    progress: null,
+    category: { id: 3, name: "Finance" },
+    chapters: [],
+  },
+  {
+    courseId: 4,
+    title: "Course Title 4",
+    imageUrl: "https://via.placeholder.com/150",
+    price: 50,
+    progress: 100,
+    category: { id: 4, name: "Design" },
+    chapters: [],
+  },
+];
+
+export const mockSidebarCourse = {
+  id: "course1",
+  title: "Sample Course",
+  chapters: [
+    {
+      id: "chapter1",
+      title: "Chapter 1",
+      isFree: true,
+      userProgress: [{ isCompleted: true }],
+    },
+    {
+      id: "chapter2",
+      title: "Chapter 2",
+      isFree: false,
+      userProgress: [{ isCompleted: false }],
+    },
+  ],
+};
+
+export const mockPurchase = { courseId: mockSidebarCourse.id };
