@@ -167,7 +167,7 @@ function App() {
           {/* Teacher Routes */}
           <Route
             exact
-            path="/dashboard/course/:id/students"
+            path="/dashboard/teacher/course/:id/students"
             element={
               <Screens.ViewStudents
                 {...states}
@@ -178,19 +178,14 @@ function App() {
           />
           <Route
             exact
-            path="/dashboard/course/teacher/:username/all"
+            path="/dashboard/courses/teacher/:username/all"
             element={
-              <Screens.TeacherCourses
+              <Screens.TeachersCourses
                 {...states}
                 user={user}
                 authValue={authValue}
               />
             }
-          />
-          <Route
-            exact
-            path="/dashboard/teacher/courses"
-            element={<Screens.AdminTeacher user={user} authValue={authValue} />}
           />
           {/* Teacher Routes */}
 

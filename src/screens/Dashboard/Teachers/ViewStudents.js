@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { searchStudent } from "../../utils/courseFunctions";
-import SearchBar from "./SearchBar";
-import Layout from "../../components/Dashboard/Layout";
+import { searchStudent } from "../../../utils/courseFunctions";
+import SearchBar from "../SearchBar";
+import Layout from "../../../components/Dashboard/Layout";
 
 const ViewStudents = (props) => {
   const { currentUser } = props;

@@ -25,8 +25,7 @@ export default function Sidebar({ page }) {
     { name: "Profile", icon: <Profile page="profile" />, path: "/dashboard/profile" },
     { name: "Assesments", icon: <Assessments page="assesment" />, path: "/dashboard/assesment" },
     { name: "Suggestions", icon: <VscFeedback page="suggestions" />, path: "/dashboard/suggestions" },
-    { name: "View Courses", icon: <Dashboard page="viewcourses" />, path: `/dashboard/course/teacher/${currentUser?.username}/all` },
-    { name: "View Enrolled Students", icon: <Dashboard page="viewstudents" />, path: "/dashboard/course/:id/students" },
+    { name: "View Courses", icon: <Dashboard page="viewcourses" />, path: `/dashboard/courses/teacher/${currentUser?.username}/all` },
     { name: "Create Course", icon: <Dashboard page="createcourse" />, path: "/dashboard/admin/course/new" },
     { name: "Zoom Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
   ];

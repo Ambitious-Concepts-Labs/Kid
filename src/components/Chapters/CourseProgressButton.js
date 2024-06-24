@@ -17,6 +17,7 @@ const CourseProgressButton = ({
   const [isLoading, setIsLoading] = React.useState(false);
 //   const Icon = isCompleted ? XCircle : CheckCircle;
   const onClick = async () => {
+    alert("clicked");
     try {
       setIsLoading(true);
        const courseRef = doc(db, "courses", courseId);
@@ -29,14 +30,15 @@ const CourseProgressButton = ({
 
        if (chapterIndex !== -1) {
          chapters[chapterIndex].isCompleted = {
-           isCompleted: !isCompleted,
+           isCompleted: !chapters[chapterIndex].isCompleted,
          };
 
          await updateDoc(courseRef, { chapters });
+         isCompleted = !chapters[chapterIndex].isCompleted;
        }
 
       if (!isCompleted && !nextChapterId) {
-        confetti.onOpen();
+        // confetti.onOpen();
       }
 
       if (!isCompleted && nextChapterId) {
@@ -46,6 +48,7 @@ const CourseProgressButton = ({
     //   toast.success("Progress updated");
       window.location.reload();
     } catch (error) {
+      console.error("Error updating progress: ", error);
     //   toast.error("Something went wrong");
     } finally {
       setIsLoading(false);

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 // import { useHistory } from "react-router-dom";
-import SearchBar from "./SearchBar";
-import { searchCourse } from "../../utils/courseFunctions";
-import imgPlaceholder from "./image-placeholder.png";
+import SearchBar from "../SearchBar";
+import { searchCourse } from "../../../utils/courseFunctions";
+import imgPlaceholder from "../image-placeholder.png";
 import "./TeacherCourses.css";
-import Layout from "../../components/Dashboard/Layout";
-import { db } from "../../lib/firebase";
+import Layout from "../../../components/Dashboard/Layout";
+import { db } from "../../../lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { removeDuplicates } from "../../utils/helperfunctions";
+import { removeDuplicates } from "../../../utils/helperfunctions";
 
 const UserCourses = (props) => {
   // const history = useHistory();

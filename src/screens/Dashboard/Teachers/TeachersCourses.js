@@ -1,16 +1,17 @@
 import React from "react";
-import CoursesList from "../../components/Courses/CoursesList";
-import InfoCard from "../../components/Dashboard/InfoCard";
+import TeacherCoursesList from "../../../components/Courses/TeacherCoursesList";
+import InfoCard from "../../../components/Dashboard/InfoCard";
 import { CiClock2 } from "react-icons/ci";
 import { FaCheckCircle } from "react-icons/fa";
-import Layout from "../../components/Dashboard/Layout";
-import useGetAllCourses from "../../hooks/useGetAllCourses";
+import Layout from "../../../components/Dashboard/Layout";
+import useGetAllCourses from "../../../hooks/useGetAllCourses";
 
-const Dashboard = ({ currentUser }) => {
+const TeachersCourses = ({ currentUser }) => {
   const [userCourses, setUserCourses] = React.useState([]);
   const [completedCourses, setCompletedCourses] = React.useState([]);
   const [coursesInProgress, setCoursesInProgress] = React.useState([]);
   const courses = useGetAllCourses();
+
   React.useEffect(() => {
     if (currentUser) {
       setCompletedCourses(currentUser.completedCourses);
@@ -19,12 +20,6 @@ const Dashboard = ({ currentUser }) => {
       if (courses) {
         courses.forEach((course) => {
           const userCourse = currentUser.courses.find((c) => c.id === course.id);
-          const userProgressCourse = currentUser.completedCourses.find(
-            (c) => c.id === course.id
-          );
-          if (userProgressCourse) {
-            allCourses.push(course);
-          } 
           if (userCourse) {
             allCourses.push(course);
           }
@@ -41,6 +36,9 @@ const Dashboard = ({ currentUser }) => {
   return (
     <Layout>
       <div className="p-6 space-y-4">
+        <h2>
+          View Enrolled Students
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <InfoCard
             icon={CiClock2}
@@ -49,21 +47,19 @@ const Dashboard = ({ currentUser }) => {
           />
           <InfoCard
             icon={FaCheckCircle}
-            label={"Completed"}
+            label={"Pass Courses"}
             numberOfItems={completedCourses.length}
             variant="success"
           />
         </div>
-        {
-          userCourses.length === 0 ? (
-            <h2>Loading...</h2>
-          ) : (
-            <CoursesList items={userCourses} />
-          )
-        }
+        {userCourses.length === 0 ? (
+          <h2>Loading...</h2>
+        ) : (
+          <TeacherCoursesList items={userCourses} />
+        )}
       </div>
     </Layout>
   );
 };
 
-export default Dashboard;
+export default TeachersCourses;

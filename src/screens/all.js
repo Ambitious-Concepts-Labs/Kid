@@ -25,7 +25,6 @@ import AdminZoom from "./Admin/AdminZoom";
 import AdminRewards from "./Admin/AdminRewards";
 import AdminPurchase from "./Admin/AdminPurchase";
 import AdminThankyou from "./Admin/AdminThankyou";
-import AdminTeacher from "./Teacher/AdminTeacher";
 
 // import CreateMeeting from "./Zoom/CreateMeeting";
 // import OneOnOneMeeting from "./Zoom/OneOnOneMeeting";
@@ -39,7 +38,8 @@ import Transaction from "./Dashboard/Transaction";
 import Transactions from "./Dashboard/Transactions";
 import Invoice from "./Dashboard/Invoice";
 import UpdateCourse from "./Dashboard/UpdateCourse";
-import TeacherCourses from "./Dashboard/TeacherCourses";
+import TeacherCourses from "./Dashboard/Teachers/TeacherCourses";
+import TeachersCourses from "./Dashboard/Teachers/TeachersCourses.js";
 import NewCourse from "./Dashboard/NewCourse";
 import Products from "./Dashboard/Products";
 import Cart from "./Dashboard/Cart";
@@ -47,13 +47,13 @@ import NewInvoice from "./Dashboard/NewInvoice";
 import AssignCourse from "./Dashboard/AssignCourse";
 import PendingCourse from "./Dashboard/PendingCourse";
 import PendingCourses from "./Dashboard/PendingCourses";
-import ViewStudents from "./Dashboard/ViewStudents";
+import ViewStudents from "./Dashboard/Teachers/ViewStudents.js";
 import ViewStudent from "./Dashboard/ViewStudent";
 import UpdateChapter from "./Dashboard/UpdateChapter";
 import Search from "./Dashboard/Search.js";	 
 import ViewCourse from "./Dashboard/ViewCourse.js";
 import ViewChapter from "./Dashboard/ViewChapter.js";
-import ViewDashboardCourses from "./Dashboard/ViewDashboardCourses.js";
+import ViewDashboardCourses from "./Dashboard/Students/ViewDashboardCourses.js";
 import Analytics from "./Dashboard/Analytics.js";
 import UnifiedInvoiceTable from "./Dashboard/UnifiedInvoiceTable.js";
 
@@ -78,7 +78,6 @@ export {
   AdminRewards,
   AdminPurchase,
   AdminThankyou,
-  AdminTeacher,
   // CreateMeeting,
   // OneOnOneMeeting,
   // VideoConference,
@@ -87,6 +86,7 @@ export {
   // Meeting,
   // Dashboard,
   TeacherCourses,
+  TeachersCourses,
   Transaction,
   Transactions,
   Invoice,

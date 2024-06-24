@@ -6,6 +6,7 @@ import Layout from "../../components/Dashboard/Layout";
 import VideoPlayer from "../../components/VideoPlayer";
 import useGetCouseById from "../../hooks/useGetCouseById";
 import useGetCourseAttachments from "../../hooks/useGetCourseAttachments";
+import CourseProgressButton from "../../components/Chapters/CourseProgressButton";
 // Mock functions and data to simulate authentication and database fetching
 const mockUserId = "user123";
 const mockChapter = {
@@ -55,11 +56,6 @@ const getChapter = async ({ userId, chapterId, courseId }) => {
 //   </div>
 // );
 
-const CourseProgressButton = ({ isCompleted, nextChapterId }) => (
-  <button className={`progress-button ${isCompleted ? "completed" : ""}`}>
-    {isCompleted ? "Completed" : "Mark as Complete"}
-  </button>
-);
 
 const CourseEnrollButton = ({ price }) => (
   <button className="enroll-button">Enroll for ${price}</button>
