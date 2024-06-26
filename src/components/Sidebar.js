@@ -18,7 +18,7 @@ import { IoIosCreate } from "react-icons/io";
 import { MdAssignmentAdd } from "react-icons/md";
 import { RiPassPendingFill } from "react-icons/ri";
 
-export default function Sidebar({ page }) {
+export default function Sidebar({ page, setPage }) {
   const navigate = useNavigate();
   const { currentUser } = useUserData();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -49,18 +49,18 @@ export default function Sidebar({ page }) {
   ];
 
   const adminRoutes = [
-  { name: "Dashboard", icon: <Dashboard fill="white" page="dashboard" />, path: "/dashboard" },
+  { name: "Dashboard", icon: <RiPassPendingFill />, path: "/dashboard" },
+  { name: "All Courses", icon: <RiPassPendingFill />, path: "/dashboard/courses/browse" },
+  { name: "Teacher Courses", icon: <RiPassPendingFill />, path: "/dashboard/teacher/courses" },
   { name: "Create Course", icon: <IoIosCreate />, path: "/dashboard/admin/course/new" },
   { name: "Assign Course", icon: <MdAssignmentAdd page="assigncourse" />, path: "/dashboard/admin/course/assign" },
-  { name: "View Pending Courses", icon: <RiPassPendingFill />, path: "/dashboard/admin/courses/pending" },
+  { name: "Pending Courses", icon: <RiPassPendingFill />, path: "/dashboard/admin/courses/pending" },
   { name: "Delete Courses", icon: <RiPassPendingFill />, path: "/dashboard/admin/courses/delete" },
-  { name: "Profile", icon: <Profile page="profile" />, path: "/dashboard/profile" },
+  { name: "Create Invoice", icon: <RiPassPendingFill />, path: "/dashboard/admin/invoice/new" },
+  { name: "View Invoices", icon: <RiPassPendingFill />, path: "/dashboard/admin/invoices/all" },
+  { name: "User Profile", icon: <RiPassPendingFill />, path: "/dashboard/profile" },
   { name: "Assesments", icon: <Assessments page="assessments" />, path: "/dashboard/assesment" },
-  { name: "Suggestions", icon: <Suggestions page="suggestions" />, path: "/dashboard/suggestions" },
-  { name: "View Invoices", icon: "", path: "/dashboard/admin/invoices/all" },
-  { name: "View Teacher Courses", icon: "", path: "/dashboard/teacher/courses" },
-  { name: "Browse Courses", icon: "", path: "/dashboard/courses/browse" },
-  { name: "Create Invoice", icon: "", path: "/dashboard/admin/invoice/new" },
+  { name: "Suggestions", icon: <RiPassPendingFill />, path: "/dashboard/suggestions" },
 ];
 
 
@@ -72,6 +72,12 @@ export default function Sidebar({ page }) {
 
   const handleMobileToggle = () => {
     setIsMobileOpen(!isMobileOpen);
+  };
+
+  const handleOnClick = (route) => {
+    console.log('route', route, page)
+    setPage(route.name.toLowerCase());
+    navigate(route.path);
   };
 
   return (
@@ -88,7 +94,7 @@ export default function Sidebar({ page }) {
             className={`flex items-center w-full pl-8 pr-5 py-1.5 rounded-md mb-4 ${page ===
               route.name.toLowerCase() &&
               "bg-[#F2E4E6] text-[#C33B4C]"} cursor-pointer hover:opacity-50`}
-            onClick={() => navigate(route.path)}
+            onClick={() => handleOnClick(route)}
           >
             {route.icon}
             <span className="ml-2">{route.name}</span>

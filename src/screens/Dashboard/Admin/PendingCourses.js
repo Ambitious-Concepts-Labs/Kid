@@ -2,179 +2,204 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { searchCourse } from "../../../utils/courseFunctions";
 import SearchBar from "../SearchBar";
-import useUserData from "../../../hooks/useUserData";
 import Layout from "../../../components/Dashboard/Layout";
+import useGetAllUsers from "../../../hooks/useGetAllUsers";
+import { db } from "../../../lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const PendingCourses = (props) => {
-  // const { currentUser } = props;
-  const { currentUser } = useUserData();
+  const { currentUser } = props;
+  const users = useGetAllUsers();
   const [searchedItems, setSearchedItems] = useState([]);
   const [pendingCourses, setPendingCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [coursesSlice, setCoursesSlice] = useState([0, 10]);
 
+  const getUserPendingCourses = async (id) => {
+    const docRef = await getDoc(doc(db, "courses", id));
+    return {...docRef.data(), courseId: id};
+  };
+
   useEffect(() => {
-    let unmounted = false;
-    if (currentUser && loading) {
-      if (!unmounted) {
-        if (currentUser.pendingCourses.length) {
-          const sortedPendingCourses = currentUser.pendingCourses.sort(
-            (a, b) => {
-              const userA = a.user.username.toUpperCase();
-              const userB = b.user.username.toUpperCase();
-              if (userA < userB) {
-                return -1;
-              } else if (userA > userB) {
-                return 1;
-              }
-              return 0;
-            }
-          );
-          setPendingCourses(sortedPendingCourses);
-          setSearchedItems(sortedPendingCourses);
-        }
+    const fetchPendingCourses = async () => {
+      if (currentUser && users.length > 0) {
+        const usersWithPendingCourses = users.filter(
+          (user) => user.pendingCourses.length > 0
+        );
+
+        const pendingCoursesData = await Promise.all(
+          usersWithPendingCourses.map(async (user) => {
+            const userPendingCourses = await Promise.all(
+              user.pendingCourses.map(async (courseId) => {
+                return getUserPendingCourses(courseId);
+              })
+            );
+            return { ...user, pendingCourses: userPendingCourses };
+          })
+        );
+
+        setPendingCourses(pendingCoursesData);
+        setSearchedItems(pendingCoursesData);
         setLoading(false);
       }
-    }
-    return function() {
-      unmounted = true;
     };
-  }, [currentUser]);
 
-  if (!currentUser) return <h1>Loading...</h1>;
+    fetchPendingCourses();
+  }, [currentUser, users]);
 
-  if (!loading) {
+  if (loading) {
     return (
-      <Layout>
-        <div className="container" id="pending-items">
-          <div className="row">
-            <div className="col-xs-10">
-              <div className="panel panel-primary">
-                {pendingCourses.length > 0 ? (
-                  <>
-                    <div className="panel-heading">
-                      <h2 className="panel-title">Pending Courses</h2>
-                    </div>
-                    <div>
-                      <SearchBar
-                        setSearchedItems={setSearchedItems}
-                        search={searchCourse}
-                        items={pendingCourses}
-                        currentUser={currentUser}
-                        setItemsSlice={setCoursesSlice}
-                        placeholder="search course name"
-                      />
-                    </div>
-                    <ul className="list-group">
-                      <li className="list-group-item">
-                        <table className="table table-hover">
-                          <thead>
-                            <tr>
-                              <th>Username</th>
-                              <th>Class Number</th>
-                              <th>Course Name</th>
-                              <th>Course Instructor</th>
-                              <th>Course Type</th>
-                              <th>Course Subject</th>
-                              <th>Grade Level</th>
-                              <th>Number of Students</th>
-                              <th>
-                                <button style={{ visibility: "hidden" }}>
-                                  xxxx
-                                </button>
-                              </th>
-                            </tr>
-                          </thead>
-
-                          {searchedItems
-                            // .slice(coursesSlice[0], coursesSlice[1])
-                            .map((course, index) => {
-                              return (
-                                <tbody
-                                  style={{ verticalAlign: "middle" }}
-                                  key={`${course.class_number}${index}`}
-                                >
-                                  <tr>
-                                    <td>{currentUser.username}</td>
-                                    <td>{course.class_number}</td>
-                                    <td>{course.course_name}</td>
-                                    <td>
-                                      {course.instructor || "No Instructor"}
-                                    </td>
-                                    <td>{course.type.toUpperCase()}</td>
-                                    <td>{course.subject}</td>
-                                    <td>{course.grade_level}</td>
-                                    <td>{course.num_of_students}</td>
-                                    <td>
-                                      <Link
-                                        className="btn btn-primary"
-                                        to={`/admin/user/${currentUser.username}/pendingcourse/${course._id}`}
-                                      >
-                                        View
-                                      </Link>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              );
-                            })}
-                        </table>
-                        {!searchedItems.length && (
-                          <h2 style={{ textAlign: "center", width: "100%" }}>
-                            No transactions found with searched user
-                          </h2>
-                        )}
-                      </li>
-                    </ul>
-                    {searchedItems.length > 3 && (
-                      <div className="div" style={{ textAlign: "center" }}>
-                        {coursesSlice[0] !== 0 && (
-                          <button
-                            className="btn btn-primary"
-                            onClick={() =>
-                              setCoursesSlice([
-                                coursesSlice[0] - 3,
-                                coursesSlice[1] - 3,
-                              ])
-                            }
-                          >
-                            Prev
-                          </button>
-                        )}
-                        {coursesSlice[1] <= searchedItems.length - 1 &&
-                          searchedItems.length > 3 && (
-                            <button
-                              className="btn btn-primary"
-                              onClick={() =>
-                                setCoursesSlice([
-                                  coursesSlice[0] + 3,
-                                  coursesSlice[1] + 3,
-                                ])
-                              }
-                            >
-                              Next
-                            </button>
-                          )}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <h2>There are no pending courses</h2>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Layout>
-    );
-  } else {
-    return (
-      <div className="spinner-border-container">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
     );
   }
+
+  if (!searchedItems.length) {
+    return (
+      <Layout>
+        <div className="container mx-auto p-4">
+          <div className="flex justify-center">
+            <div className="w-full md:w-2/3 lg:w-1/2">
+              <div className="bg-white shadow-md rounded-lg p-6">
+                <h2 className="text-xl font-bold text-center">
+                  There are no pending courses
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  return (
+    <Layout>
+      <div className="container mx-auto p-4">
+        <div className="flex justify-center">
+          <div className="w-full">
+            <div className="bg-white shadow-md rounded-lg p-6">
+              <div className="mb-4">
+                <h2 className="text-2xl font-bold mb-4">Pending Courses</h2>
+                <SearchBar
+                  setSearchedItems={setSearchedItems}
+                  search={searchCourse}
+                  items={pendingCourses}
+                  currentUser={currentUser}
+                  setItemsSlice={setCoursesSlice}
+                  placeholder="Search course name"
+                />
+              </div>
+              <ul className="list-none p-0">
+                <li className="mb-4">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead>
+                      <tr>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Username
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Class Number
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Course Name
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Course Instructor
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Course Type
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Course Subject
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Grade Level
+                        </th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Number of Students
+                        </th>
+                        <th className="px-4 py-2"></th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {searchedItems
+                        .slice(coursesSlice[0], coursesSlice[1])
+                        .map((user, index) =>
+                          user.pendingCourses.map((course, courseIndex) => (
+                            <tr
+                              key={`${course.classNum}${index}${courseIndex}`}
+                            >
+                              <td className="px-4 py-2">{user.username}</td>
+                              <td className="px-4 py-2">{course.classNum}</td>
+                              <td className="px-4 py-2">{course.courseName}</td>
+                              <td className="px-4 py-2">
+                                {course.courseInstructor || "No Instructor"}
+                              </td>
+                              <td className="px-4 py-2">{course.subject}</td>
+                              <td className="px-4 py-2">{course.gradeLevel}</td>
+                              <td className="px-4 py-2">
+                                {course.num_of_students}
+                              </td>
+                              <td className="px-4 py-2">
+                                <Link
+                                  className="btn btn-primary"
+                                  to={`/admin/user/${user.username}/pendingcourse/${course.courseId}`}
+                                >
+                                  View
+                                </Link>
+                              </td>
+                            </tr>
+                          ))
+                        )}
+                    </tbody>
+                  </table>
+                  {!searchedItems.length && (
+                    <h2 className="text-center mt-4">
+                      No transactions found with searched user
+                    </h2>
+                  )}
+                </li>
+              </ul>
+              {searchedItems.length > 3 && (
+                <div className="text-center mt-4">
+                  {coursesSlice[0] !== 0 && (
+                    <button
+                      className="btn btn-primary mr-2"
+                      onClick={() =>
+                        setCoursesSlice([
+                          coursesSlice[0] - 3,
+                          coursesSlice[1] - 3,
+                        ])
+                      }
+                    >
+                      Prev
+                    </button>
+                  )}
+                  {coursesSlice[1] <= searchedItems.length - 1 &&
+                    searchedItems.length > 3 && (
+                      <button
+                        className="btn btn-primary"
+                        onClick={() =>
+                          setCoursesSlice([
+                            coursesSlice[0] + 3,
+                            coursesSlice[1] + 3,
+                          ])
+                        }
+                      >
+                        Next
+                      </button>
+                    )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
 };
 
 export default PendingCourses;

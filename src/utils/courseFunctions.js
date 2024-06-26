@@ -242,31 +242,26 @@ const approve = async (props) => {
 
   const confirm = window.confirm("Approve the request of user?");
   if (confirm) {
-    let updatedCourses = currentUser.courses;
-    pendingCourse.status = "for payment";
+    let updatedCourses = currentUser.forPaymentCourses;
     updatedCourses.push(pendingCourse);
 
     let updatedPendingCourses = [];
     let pendingCourses = currentUser.pendingCourses;
     pendingCourses.forEach((course) => {
-      if (course._id !== pendingCourse._id) {
+      if (course.id !== pendingCourse.id) {
         updatedPendingCourses.push(course);
       }
     });
     await setDoc(
-      doc(db, "users", "5oZ5ta0mgbZSEqCNXftJ"),
-      { courses: updatedCourses, pendingCourses: updatedPendingCourses },
+      doc(db, "users", currentUser.uid),
+      {
+        forPaymentCourses: updatedCourses,
+        pendingCourses: updatedPendingCourses,
+      },
       { merge: true }
     );
     setCheckUser(false);
-    history("/dashboard/admin/pendingcourses");
-    // Axios.put("/admin/approvecourse", { pendingCourse }).then((res) => {
-    // 	window.alert(res.data.msg);
-    // 	if (res.data.msg === "Approval successful") {
-    // 		setCheckUser(false);
-    // 		history.push("/admin/pendingcourses");
-    // 	}
-    // });
+    history("/dashboard/admin/courses/pending");
   }
 };
 const deny = async (props) => {
@@ -274,31 +269,23 @@ const deny = async (props) => {
 
   const confirm = window.confirm("Deny the request of user?");
   if (confirm) {
-    let updatedCourses = currentUser.courses;
-    pendingCourse.status = "cancelled";
+    let updatedCourses = currentUser.deniedCourses;
     updatedCourses.push(pendingCourse);
 
     let updatedPendingCourses = [];
     let pendingCourses = currentUser.pendingCourses;
     pendingCourses.forEach((course) => {
-      if (course._id !== pendingCourse._id) {
+      if (course.id !== pendingCourse.id) {
         updatedPendingCourses.push(course);
       }
     });
     await setDoc(
-      doc(db, "users", "5oZ5ta0mgbZSEqCNXftJ"),
-      { courses: updatedCourses, pendingCourses: updatedPendingCourses },
+      doc(db, "users", currentUser.uid),
+      { deniedCourses: updatedCourses, pendingCourses: updatedPendingCourses },
       { merge: true }
     );
     setCheckUser(false);
-    history("/admin/pendingcourses");
-    // Axios.put("/admin/denycourse", { pendingCourse }).then((res) => {
-    // 	window.alert(res.data.msg);
-    // 	if (res.data.msg === "Course request denied") {
-    // 		setCheckUser(false);
-    // 		history.push("/admin/pendingcourses");
-    // 	}
-    // });
+    history("/admin/courses/pending");
   }
 };
 

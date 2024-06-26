@@ -24,6 +24,7 @@ import { barData, barOptions, lineData, lineOptions, doughnutOptions, doughnutDa
 	studentLineOptions, studentDoughnutData, studentBarData} from "../../utils/chartJsOptions";
 import Student from "../../components/Icons/Student";
 import Earnings from "../../components/Icons/Earnings";
+import Layout from "../../components/Dashboard/Layout";
 
 ChartJS.register(
 	CategoryScale,
@@ -823,15 +824,8 @@ export default function AdminDashboard(props) {
 	}
 
 	return (
-		<div className="AdminDashboard bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-			{/* Sidebar */}
-			<Components.Sidebar page={"dashboard"} />
+		<Layout>
 
-			{/* Right */}
-			<div className="flex-1 flex flex-col items-stretch overflow-hidden">
-				{/* Navbar */}
-				<Components.AdminNavbar page={"Dashboard"} />
-				{/* Page */}
 				<div className="p-4 flex-1 flex flex-col h-full overflow-auto">
 					{/* banner */}
 					<div className="relative flex bg-white py-3 px-8 items-center rounded-md shadow">
@@ -1330,7 +1324,7 @@ export default function AdminDashboard(props) {
 					</div>
 					{currentUser.isStudent ? isStudent() : currentUser.isAdmin ? isAdmin() : isTeacher()}				
 				</div>
-			</div>
-		</div>
+		</Layout>
+		
 	);
 }
