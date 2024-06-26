@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import "./Transactions.css";
-import Layout from "../../components/Dashboard/Layout";
-import { db } from "../../lib/firebase";
+import Layout from "../../../components/Dashboard/Layout";
+import { db } from "../../../lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { removeDuplicates } from "../../utils/helperfunctions";
+import { removeDuplicates } from "../../../utils/helperfunctions";
 
 const Transactions = (props) => {
   const history = useNavigate();

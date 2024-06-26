@@ -4,10 +4,10 @@ import {
   editCart,
   handleInput,
   handleRemove,
-} from "../../utils/cartFunctions";
-import imgPlaceholder from "./image-placeholder.png";
+} from "../../../utils/cartFunctions";
+import imgPlaceholder from "../image-placeholder.png";
 import "./Cart.css";
-import Layout from "../../components/Dashboard/Layout";
+import Layout from "../../../components/Dashboard/Layout";
 
 const Cart = (props) => {
   const { currentUser, cart, setCart } = props;

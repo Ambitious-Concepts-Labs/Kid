@@ -1,13 +1,13 @@
 // Imports
 import React, { useState, useEffect } from "react";
-import imgPlaceholder from "./image-placeholder.png";
+import imgPlaceholder from "../image-placeholder.png";
 import {
 	confirmEdit,
 	editName,
 	editQuantity,
 	editRate,
 	// editDescription,
-} from "../../utils/invoiceFunctions";
+} from "../../../utils/invoiceFunctions";
 import "./EditInvoice.css";
 // End
 

@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// import { useParams } from "react-router-dom";
 import EditInvoice from "./EditInvoice";
-import { sendInvoice } from "../../utils/invoiceFunctions";
-import imgPlaceholder from "./image-placeholder.png";
+import { sendInvoice } from "../../../utils/invoiceFunctions";
+import imgPlaceholder from "../image-placeholder.png";
 // import Axios from "axios";
 import "./Invoice.css";
 
-import { db } from "../../lib/firebase";
+import { db } from "../../../lib/firebase";
 import {
   collection,
   getDocs,
 } from "firebase/firestore";
-import Layout from "../../components/Dashboard/Layout";
+import Layout from "../../../components/Dashboard/Layout";
 
 const InvoiceTransaction = (props) => {
 	const { id } = useParams();

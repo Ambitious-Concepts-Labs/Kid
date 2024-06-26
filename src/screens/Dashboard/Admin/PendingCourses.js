@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { searchCourse } from "../../utils/courseFunctions";
-import SearchBar from "./SearchBar";
-import useUserData from "../../hooks/useUserData";
-import Layout from "../../components/Dashboard/Layout";
+import { searchCourse } from "../../../utils/courseFunctions";
+import SearchBar from "../SearchBar";
+import useUserData from "../../../hooks/useUserData";
+import Layout from "../../../components/Dashboard/Layout";
 
 const PendingCourses = (props) => {
   // const { currentUser } = props;

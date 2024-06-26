@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import imgPlaceholder from "./image-placeholder.png";
-import { addItem, removeItem, sendInvoice } from "../../utils/invoiceFunctions";
+import imgPlaceholder from "../image-placeholder.png";
+import { addItem, removeItem, sendInvoice } from "../../../utils/invoiceFunctions";
 import "./NewInvoice.css";
 import * as Papa from "papaparse";
-import Layout from "../../components/Dashboard/Layout";
+import Layout from "../../../components/Dashboard/Layout";
 
 const NewInvoice = (props) => {
   const { currentUser } = props;

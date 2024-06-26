@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../../components/Dashboard/Layout";
-import StepForm from "../../components/Form/MultStep/StepForm";
+import Layout from "../../../components/Dashboard/Layout";
+import StepForm from "../../../components/Form/MultStep/StepForm";
 
 const NewCourse = (props) => {
   const history = useNavigate();

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { getDocs, collection } from "firebase/firestore";
-import imgPlaceholder from "./image-placeholder.png";
-import { assignCourse, selectCourse } from "../../utils/courseFunctions";
-import { db } from "../../lib/firebase";
-import Layout from "../../components/Dashboard/Layout";
+import imgPlaceholder from "../image-placeholder.png";
+import { assignCourse, selectCourse } from "../../../utils/courseFunctions";
+import { db } from "../../../lib/firebase";
+import Layout from "../../../components/Dashboard/Layout";
 import { useNavigate } from "react-router-dom";
 
 const AssignCourse = (props) => {

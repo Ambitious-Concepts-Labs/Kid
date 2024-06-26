@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { approve, deny } from "../../utils/courseFunctions";
+import { approve, deny } from "../../../utils/courseFunctions";
 // import Axios from "axios";
 import "./PendingCourse.css";
 

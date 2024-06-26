@@ -16,7 +16,7 @@ import ResetPasswordScreen from "./Auth/ResetPasswordScreen";
 import SignUpScreen from "./Auth/SignUpScreen";
 // Auth Screens
 
-//
+
 import AdminDashboard from "./Admin/AdminDashboard";
 import AdminProfile from "./Profile/AdminProfile";
 import AdminAssesment from "./Admin/AdminAssesment";
@@ -34,20 +34,24 @@ import AdminThankyou from "./Admin/AdminThankyou";
 // import Meeting from "./Zoom/Meeting";
 // import Dashboard from "./Zoom/Dashboard";
 
-import Transaction from "./Dashboard/Transaction";
-import Transactions from "./Dashboard/Transactions";
-import Invoice from "./Dashboard/Invoice";
 import UpdateCourse from "./Dashboard/UpdateCourse";
+
 import TeacherCourses from "./Dashboard/Teachers/TeacherCourses";
 import TeachersCourses from "./Dashboard/Teachers/TeachersCourses.js";
-import NewCourse from "./Dashboard/NewCourse";
-import Products from "./Dashboard/Products";
-import Cart from "./Dashboard/Cart";
-import NewInvoice from "./Dashboard/NewInvoice";
-import AssignCourse from "./Dashboard/AssignCourse";
-import PendingCourse from "./Dashboard/PendingCourse";
-import PendingCourses from "./Dashboard/PendingCourses";
 import ViewStudents from "./Dashboard/Teachers/ViewStudents.js";
+
+import NewCourse from "./Dashboard/Admin/NewCourse.js";
+import Products from "./Dashboard/Products";
+
+import Cart from "./Dashboard/Students/Cart.js";
+import Transaction from "./Dashboard/Students/Transaction.js";
+import Transactions from "./Dashboard/Students/Transactions.js";
+
+import AssignCourse from "./Dashboard/Admin/AssignCourse.js";
+import Invoice from "./Dashboard/Admin/Invoice.js";
+import NewInvoice from "./Dashboard/Admin/NewInvoice.js";
+import PendingCourse from "./Dashboard/Admin/PendingCourse.js";
+import PendingCourses from "./Dashboard/Admin/PendingCourses.js";
 import ViewStudent from "./Dashboard/ViewStudent";
 import UpdateChapter from "./Dashboard/UpdateChapter";
 import Search from "./Dashboard/Search.js";	 
