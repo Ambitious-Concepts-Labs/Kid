@@ -79,6 +79,7 @@ const ViewStudents = (props) => {
                 <h2 className="panel-title text-2xl mt-2">
                   Course: {course.courseName}
                 </h2>
+                <Link to={`/dashboard/admin/course/${id}`}> Edit course</Link>
               </div>
               <div className="p-4">
                 <SearchBar

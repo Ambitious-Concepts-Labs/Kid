@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   updateCourse,
@@ -35,6 +35,13 @@ const UpdateCourse = (props) => {
   const { course, loading, setLoading } = useGetCouseById(id);
   const { categories } = useGetAllCategories(setLoading);
  
+  useEffect(() => {
+    if (course && currentUser) {
+      if (currentUser.isStudent || currentUser.id !== course.instructor) {
+        history(-1);
+      }
+    }
+  }, [user, currentUser, course]);
 
   if (!user || !currentUser) return <>Loading...</>;
 
