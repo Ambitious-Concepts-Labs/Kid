@@ -325,18 +325,18 @@ const assignCourse = async (props) => {
     setIsUserFound,
     setIsCourseFound,
   } = props;
-  const { course_name } = assignedCourse;
+  const { courseName } = assignedCourse;
 
   const confirm = window.confirm("Assign course to student?");
 
   if (confirm) {
     setLoading(true);
-    if (course_name && isUserFound) {
+    if (courseName && isUserFound) {
       console.log({ props });
       let updatedCourses = currentUser.courses;
       let exisiting = false;
       updatedCourses.map((course) => {
-        if (course.course_name == assignedCourse.course_name) exisiting = true;
+        if (course.courseName == assignedCourse.courseName) exisiting = true;
       });
       if (!exisiting) {
         updatedCourses.push(assignedCourse);
@@ -344,7 +344,11 @@ const assignCourse = async (props) => {
           doc(db, "users", currentUser.uid),
           { courses: updatedCourses }
         );
+        await updateDoc(doc(db, "coures", assignedCourse.id), {
+          instructor: currentUser.uid,
+        });
       }
+
       setLoading(true);
       setAreUsersLoaded(false);
       setAreCoursesLoaded(false);

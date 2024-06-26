@@ -339,6 +339,17 @@ function App() {
           />
           <Route
             exact
+            path="/dashboard/admin/courses/delete"
+            element={
+              <Screens.DeleteCourse
+                {...states}
+                user={user}
+                authValue={authValue}
+              />
+            }
+          />
+          <Route
+            exact
             path="/dashboard/admin/courses/pending"
             element={
               <Screens.PendingCourses

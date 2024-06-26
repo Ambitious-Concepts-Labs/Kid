@@ -48,6 +48,7 @@ import Transaction from "./Dashboard/Students/Transaction.js";
 import Transactions from "./Dashboard/Students/Transactions.js";
 
 import AssignCourse from "./Dashboard/Admin/AssignCourse.js";
+import DeleteCourse from "./Dashboard/Admin/DeleteCourse.js";
 import Invoice from "./Dashboard/Admin/Invoice.js";
 import NewInvoice from "./Dashboard/Admin/NewInvoice.js";
 import PendingCourse from "./Dashboard/Admin/PendingCourse.js";
@@ -111,4 +112,5 @@ export {
   ViewDashboardCourses,
   Analytics,
   UnifiedInvoiceTable,
+  DeleteCourse,
 };

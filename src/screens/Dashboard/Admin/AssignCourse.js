@@ -289,7 +289,7 @@ const AssignCourse = (props) => {
                         handleSelectedCourse(course);
                       }}
                     >
-                      {`Name: ${course.course_name}`}
+                      {`Name: ${course.courseName}`}
                     </button>
                   );
                 })}

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import logo from "../assets/logo1.png";
 import { useNavigate } from "react-router-dom";
 import useUserData from "../hooks/useUserData";
-import { adminRoutes } from "../constants/index";
 import Dashboard from "../components/Icons/Dashboard";
 import Profile from "../components/Icons/Profile";
 import Assessments from "../components/Icons/Assessments";
@@ -12,6 +11,12 @@ import { TbShoppingCart } from "react-icons/tb";
 import { VscFeedback } from "react-icons/vsc";
 import { GiArchiveResearch } from "react-icons/gi";
 import { FaLayerGroup } from "react-icons/fa";
+import Suggestions from "../components/Icons/Suggestions";
+import Zoom from "../components/Icons/Zoom";
+import ThankYou from "../components/Icons/ThankYou";
+import { IoIosCreate } from "react-icons/io";
+import { MdAssignmentAdd } from "react-icons/md";
+import { RiPassPendingFill } from "react-icons/ri";
 
 export default function Sidebar({ page }) {
   const navigate = useNavigate();
@@ -42,6 +47,22 @@ export default function Sidebar({ page }) {
     { name: "Zoom Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
     { name: "Thank You", icon: <GiHeartBeats page="thankyou" />, path: "/dashboard/thankyou" },
   ];
+
+  const adminRoutes = [
+  { name: "Dashboard", icon: <Dashboard fill="white" page="dashboard" />, path: "/dashboard" },
+  { name: "Create Course", icon: <IoIosCreate />, path: "/dashboard/admin/course/new" },
+  { name: "Assign Course", icon: <MdAssignmentAdd page="assigncourse" />, path: "/dashboard/admin/course/assign" },
+  { name: "View Pending Courses", icon: <RiPassPendingFill />, path: "/dashboard/admin/courses/pending" },
+  { name: "Delete Courses", icon: <RiPassPendingFill />, path: "/dashboard/admin/courses/delete" },
+  { name: "Profile", icon: <Profile page="profile" />, path: "/dashboard/profile" },
+  { name: "Assesments", icon: <Assessments page="assessments" />, path: "/dashboard/assesment" },
+  { name: "Suggestions", icon: <Suggestions page="suggestions" />, path: "/dashboard/suggestions" },
+  { name: "View Invoices", icon: "", path: "/dashboard/admin/invoices/all" },
+  { name: "View Teacher Courses", icon: "", path: "/dashboard/teacher/courses" },
+  { name: "Browse Courses", icon: "", path: "/dashboard/courses/browse" },
+  { name: "Create Invoice", icon: "", path: "/dashboard/admin/invoice/new" },
+];
+
 
   const routes = isAdmin
     ? adminRoutes
