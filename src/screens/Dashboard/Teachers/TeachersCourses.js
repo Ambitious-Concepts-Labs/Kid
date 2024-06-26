@@ -19,15 +19,16 @@ const TeachersCourses = ({ currentUser }) => {
       const allCourses = [];
       if (courses) {
         courses.forEach((course) => {
-          const userCourse = currentUser.courses.find((c) => c.id === course.id);
-          if (userCourse) {
-            allCourses.push(course);
-          }
+          currentUser.courses.forEach((id) => {
+            if (id === course.courseId) {
+              allCourses.push(course);
+            }
+          });
         });
-        setUserCourses(allCourses);
+        setUserCourses([...allCourses]);
       }
     }
-  }, [currentUser, userCourses]);
+  }, [currentUser]);
 
   if (!currentUser) {
     return <Layout>Loading this page.</Layout>;

@@ -3,204 +3,162 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { searchStudent } from "../../../utils/courseFunctions";
 import SearchBar from "../SearchBar";
 import Layout from "../../../components/Dashboard/Layout";
+import { db } from "../../../lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import useGetAllCourses from "../../../hooks/useGetAllCourses";
 
 const ViewStudents = (props) => {
   const { currentUser } = props;
   const { id } = useParams();
-  const history = useNavigate();
+  const navigate = useNavigate();
+  const courses = useGetAllCourses();
   const [searchedItems, setSearchedItems] = useState([]);
-  const [course, setCourse] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [course, setCourse] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [studentsSlice, setCourseSlice] = useState([
-    (currentPage - 1) * 10,
-    currentPage * 10,
-  ]);
+  const [studentsSlice, setStudentsSlice] = useState([0, 10]);
 
   useEffect(() => {
-    setCourseSlice([(currentPage - 1) * 10, currentPage * 10]);
+    setStudentsSlice([(currentPage - 1) * 10, currentPage * 10]);
   }, [currentPage]);
 
-  useEffect(() => {
-    // let source = Axios.CancelToken.source();
-    let unmounted = false;
-    if (!unmounted && currentUser) {
-      if (loading) {
-        let currentCourse = currentUser.courses.map((course) => {
-          if (course._id == id) return course;
-        });
-        setCourse(currentCourse);
-
-        if (currentCourse.students) {
-          const sortedStudents = currentCourse.students.sort((a, b) => {
-            const userA = a.username.toUpperCase();
-            const userB = b.username.toUpperCase();
-            if (userA < userB) {
-              return -1;
-            } else if (userA > userB) {
-              return 1;
-            }
-            return 0;
-          });
-          setSearchedItems(sortedStudents);
-        }
-        setLoading(false);
-        // Axios.get(
-        // 	`/course/${id}`,
-        // 	{ params: id },
-        // 	{ cancelToken: source.token }
-        // )
-        // 	.then((res) => {
-        // 		if (!unmounted) {
-        // 			if (res.data.msg === "Course retrieved") {
-        // 				const sortedStudents = res.data.course.students.sort((a, b) => {
-        // 					const userA = a.username.toUpperCase();
-        // 					const userB = b.username.toUpperCase();
-        // 					if (userA < userB) {
-        // 						return -1;
-        // 					} else if (userA > userB) {
-        // 						return 1;
-        // 					}
-        // 					return 0;
-        // 				});
-        // 				setCourse(res.data.course);
-        // 				setSearchedItems(sortedStudents);
-        // 				setLoading(false);
-        // 			} else {
-        // 				history("/products");
-        // 			}
-        // 		}
-        // 	})
-        // 	.catch((err) => {
-        // 		if (!unmounted) {
-        // 			if (Axios.isCancel(err)) {
-        // 				console.log(`request cancelled:${err.message}`);
-        // 			} else {
-        // 				console.log("another error happened:" + err.message);
-        // 			}
-        // 		}
-        // 	});
+  const getStudents = async (currentCourse) => {
+    const students = [];
+    for (const studentId of currentCourse.students) {
+      const studentRef = doc(db, "users", studentId);
+      const studentDoc = await getDoc(studentRef);
+      if (studentDoc.exists()) {
+        console.log(studentDoc.data());
+        students.push({ id: studentDoc.id, ...studentDoc.data() });
       }
     }
-    return function() {
-      unmounted = true;
-      // source.cancel("Cancelling in cleanup");
-    };
-  }, [loading, id, history]);
+    return students;
+  };
 
-  console.log({ course });
+  const updateStudents = async (currentCourse) => {
+    const students = await getStudents(currentCourse);
+    const sortedStudents = students.sort((a, b) => {
+      const userA = a.username.toUpperCase();
+      const userB = b.username.toUpperCase();
+      return userA.localeCompare(userB);
+    });
+    setSearchedItems(sortedStudents);
+    setLoading(false);
+  };
 
-  if (!loading) {
+  useEffect(() => {
+    if (currentUser) {
+      const currentCourse = courses.find((course) => course.courseId === id);
+      setCourse(currentCourse);
+      if (currentCourse && currentCourse.students.length > 0) {
+        updateStudents(currentCourse);
+      } else {
+        setLoading(false);
+      }
+    }
+  }, [id, currentUser, courses]);
+
+  if (loading) {
     return (
-      <Layout>
-        <div className="container" id="pending-items">
-          <div className="row">
-            <div className="col-xs-10">
-              <div className="panel panel-primary">
-                <div className="panel-heading">
-                  <h2 className="panel-title">{course.course_name}</h2>
-                  <h4 className="panel-title">Students</h4>
-                </div>
-                <div>
-                  <SearchBar
-                    setSearchedItems={setSearchedItems}
-                    search={searchStudent}
-                    items={course.students}
-                    setItemsSlice={setCourseSlice}
-                    placeholder={"search student username"}
-                  />
-                </div>
-                <ul className="list-group">
-                  <li className="list-group-item">
-                    <table className="table table-hover">
-                      {searchedItems.length > 0 && (
-                        <thead>
-                          <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>
-                              <button style={{ visibility: "hidden" }}>
-                                xxxx
-                              </button>
-                            </th>
-                          </tr>
-                        </thead>
-                      )}
-
-                      {/* {searchedItems
-											.slice(studentsSlice[0], studentsSlice[1])
-											.map((student) => {
-												return (
-													<tbody
-														style={{ verticalAlign: "middle" }}
-														key={student._id}
-													>
-														<tr>
-															<td>{student._id}</td>
-															<td>{student.username}</td>
-															<td>
-																<Link
-																	className="btn btn-primary"
-																	to={`/course/${id}/students/${student.username}`}
-																>
-																	View
-																</Link>
-															</td>
-														</tr>
-													</tbody>
-												);
-											})} */}
-                    </table>
-                    {!searchedItems.length && (
-                      <h2 style={{ textAlign: "center", width: "100%" }}>
-                        No student found
-                      </h2>
-                    )}
-                  </li>
-                </ul>
-                {searchedItems.length > 10 && (
-                  <div className="div" style={{ textAlign: "center" }}>
-                    {studentsSlice[0] === 0 ? (
-                      ""
-                    ) : (
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => {
-                          setCurrentPage(currentPage - 1);
-                        }}
-                      >
-                        Prev
-                      </button>
-                    )}
-                    {studentsSlice[1] < searchedItems.length ? (
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => {
-                          setCurrentPage(currentPage + 1);
-                        }}
-                      >
-                        Next
-                      </button>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Layout>
-    );
-  } else {
-    return (
-      <div className="spinner-border-container">
+      <div className="flex items-center justify-center h-screen">
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
     );
   }
+
+  return (
+    <Layout>
+      <div className="container mx-auto px-4 py-8">
+        <div className="row">
+          <div className="col-xs-10 w-full">
+            <div className="panel panel-primary">
+              <div className="panel-heading bg-blue-500 text-white p-4 rounded-t">
+                <h4 className="panel-title text-lg">Enrolled Students</h4>
+                <h2 className="panel-title text-2xl mt-2">
+                  Course: {course.courseName}
+                </h2>
+              </div>
+              <div className="p-4">
+                <SearchBar
+                  setSearchedItems={setSearchedItems}
+                  search={searchStudent}
+                  items={course.students}
+                  setItemsSlice={setStudentsSlice}
+                  placeholder={"Search student username"}
+                />
+              </div>
+              <ul className="list-group">
+                <li className="list-group-item p-4">
+                  <table className="table table-hover w-full">
+                    {searchedItems.length > 0 && (
+                      <thead>
+                        <tr>
+                          <th className="border px-4 py-2">ID</th>
+                          <th className="border px-4 py-2">Username</th>
+                          <th className="border px-4 py-2">
+                            <button style={{ visibility: "hidden" }}>
+                              xxxx
+                            </button>
+                          </th>
+                        </tr>
+                      </thead>
+                    )}
+                    {searchedItems
+                      .slice(studentsSlice[0], studentsSlice[1])
+                      .map((student) => (
+                        <tbody key={student.id} className="border-t">
+                          <tr>
+                            <td className="border px-4 py-2">{student.id}</td>
+                            <td className="border px-4 py-2">
+                              {student.username}
+                            </td>
+                            <td className="border px-4 py-2">
+                              <Link
+                                className="btn btn-primary bg-blue-500 text-white py-1 px-3 rounded"
+                                to={`/dashboard/course/${id}/students/${student.username}`}
+                              >
+                                View
+                              </Link>
+                            </td>
+                          </tr>
+                        </tbody>
+                      ))}
+                  </table>
+                  {!searchedItems.length && (
+                    <h2 className="text-center w-full py-4">
+                      No student found
+                    </h2>
+                  )}
+                </li>
+              </ul>
+              {searchedItems.length > 10 && (
+                <div className="flex justify-center mt-4">
+                  {studentsSlice[0] > 0 && (
+                    <button
+                      className="btn btn-primary bg-blue-500 text-white py-1 px-3 rounded mx-2"
+                      onClick={() => setCurrentPage(currentPage - 1)}
+                    >
+                      Prev
+                    </button>
+                  )}
+                  {studentsSlice[1] < searchedItems.length && (
+                    <button
+                      className="btn btn-primary bg-blue-500 text-white py-1 px-3 rounded mx-2"
+                      onClick={() => setCurrentPage(currentPage + 1)}
+                    >
+                      Next
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
 };
 
 export default ViewStudents;
