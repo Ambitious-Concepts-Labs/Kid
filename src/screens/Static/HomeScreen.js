@@ -38,15 +38,12 @@ import eventRight from "../../assets/event-btn-right.png";
 import datesBg from "../../assets/dates-bg.png";
 import datesRight from "../../assets/dates-right.png";
 import { Slide } from "pure-react-carousel";
+import StaticLayout from "../../components/StaticLayout";
 
 export default function HomeScreen(props) {
 	console.log(props)
 	return (
-		<div className="HomeScreen bg-[#E2E2E2]">
-			{/* Navbar */}
-			<Components.Navbar />
-
-			{/* Top Banner */}
+		<StaticLayout page="home">
 			<div
 				style={{
 					backgroundImage: `url(${bg})`,
@@ -832,9 +829,6 @@ export default function HomeScreen(props) {
 					/>
 				</div>
 			</div>
-
-			{/* Footer */}
-			<Components.Footer />
-		</div>
+		</StaticLayout>
 	);
 }
