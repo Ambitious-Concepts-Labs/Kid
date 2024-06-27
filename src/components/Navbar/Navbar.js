@@ -21,37 +21,35 @@ export default function Navbar({ white }) {
 	const menu = white ? menuOrange : menuBlack;
 
 	return (
-		<>
-			{/* Navbar */}
-			<div
-				style={{
-					filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-				}}
-				className={`Navbar absolute top-0 left-0 w-full flex items-center justify-between px-10 md:px-20 py-6 ${
-					white && "bg-white z-30"
-				}`}
-			>
-				<img
-					src={logo}
-					alt="logo_img"
-					className="h-[50px] object-contain cursor-pointer md:z-50"
-					onClick={() => {}}
-				/>
+    <>
+      <div
+        style={{
+          filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+        }}
+        className={`Navbar bg-white md:bg-transparent fixed md:absolute top-0 left-0 w-full flex items-center justify-between px-10 md:px-20 py-6 ${white &&
+          "bg-white z-30"}`}
+      >
+        <img
+          src={logo}
+          alt="logo_img"
+          className="h-[50px] object-contain cursor-pointer md:z-50"
+          onClick={() => {}}
+        />
 
-				<img
-					src={menu}
-					alt="logo_img"
-					className="w-[40px] h-[40px] cursor-pointer hover:opacity-80"
-					onClick={() => setShowMenu(true)}
-				/>
-			</div>
+        <img
+          src={menu}
+          alt="logo_img"
+          className="bg-black md:bg-transparent w-[40px] h-[40px] cursor-pointer hover:opacity-80"
+          onClick={() => setShowMenu(true)}
+        />
+      </div>
 
-			{/* Backdrop */}
-			<Components.Backdrop className={showMenu ? "block" : "hidden"} />
+      {/* Backdrop */}
+      <Components.Backdrop className={showMenu ? "block" : "hidden"} />
 
-			{/* Sidebar */}
-			<div
-				className={`Menu 
+      {/* Sidebar */}
+      <div
+        className={`Menu 
 				fixed 
 				bg-[#C33B4C] 
 				z-40 
@@ -68,126 +66,126 @@ export default function Navbar({ white }) {
 				text-[22px]
 				font-bold
 				`}
-			>
-				<div className="ml-auto pr-20">
-					<img
-						src={close}
-						alt="logo_img"
-						className="w-[40px] h-[40px] cursor-pointer hover:opacity-80 z-50"
-						onClick={() => setShowMenu(false)}
-					/>
-				</div>
+      >
+        <div className="ml-auto pr-20">
+          <img
+            src={close}
+            alt="logo_img"
+            className="w-[40px] h-[40px] cursor-pointer hover:opacity-80 z-50"
+            onClick={() => setShowMenu(false)}
+          />
+        </div>
 
-				<h1
-					className="opacity-40 hover:opacity-100 cursor-pointer mb-3 mt-auto relative main"
-					onClick={() => navigate("/")}
-				>
-					Home
-					<img
-						src={right}
-						alt="navbar_right_img"
-						className="absolute hidden w-[50%] sm:w-[70%] md:w-[50%] lg:w-[70%] top-[50%] translate-y-[-2px] right-0 right"
-					/>
-				</h1>
+        <h1
+          className="opacity-40 hover:opacity-100 cursor-pointer mb-3 mt-auto relative main"
+          onClick={() => navigate("/")}
+        >
+          Home
+          <img
+            src={right}
+            alt="navbar_right_img"
+            className="absolute hidden w-[50%] sm:w-[70%] md:w-[50%] lg:w-[70%] top-[50%] translate-y-[-2px] right-0 right"
+          />
+        </h1>
 
-				<h1
-					className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
-					onClick={() => navigate("/about-us")}
-				>
-					About Us
-					<img
-						src={right}
-						alt="navbar_right_img"
-						className="absolute hidden w-[50%] sm:w-[70%] md:w-[50%] lg:w-[70%] top-[50%] translate-y-[-2px] right-0 right"
-					/>
-				</h1>
+        <h1
+          className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
+          onClick={() => navigate("/about-us")}
+        >
+          About Us
+          <img
+            src={right}
+            alt="navbar_right_img"
+            className="absolute hidden w-[50%] sm:w-[70%] md:w-[50%] lg:w-[70%] top-[50%] translate-y-[-2px] right-0 right"
+          />
+        </h1>
 
-				<h1
-					className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
-					onClick={() => navigate("/academics")}
-				>
-					Academics
-					<img
-						src={right}
-						alt="navbar_right_img"
-						className="absolute hidden w-[50%] sm:w-[70%] md:w-[50%] lg:w-[70%] top-[50%] translate-y-[-2px] right-0 right"
-					/>
-				</h1>
+        <h1
+          className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
+          onClick={() => navigate("/academics")}
+        >
+          Academics
+          <img
+            src={right}
+            alt="navbar_right_img"
+            className="absolute hidden w-[50%] sm:w-[70%] md:w-[50%] lg:w-[70%] top-[50%] translate-y-[-2px] right-0 right"
+          />
+        </h1>
 
-				<h1
-					className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
-					onClick={() => navigate("/facilities")}
-				>
-					Facilities
-					<img
-						src={right}
-						alt="navbar_right_img"
-						className="absolute hidden w-[50%] sm:w-[70%] md:w-[50%] lg:w-[70%] top-[50%] translate-y-[-2px] right-0 right"
-					/>
-				</h1>
+        <h1
+          className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
+          onClick={() => navigate("/facilities")}
+        >
+          Facilities
+          <img
+            src={right}
+            alt="navbar_right_img"
+            className="absolute hidden w-[50%] sm:w-[70%] md:w-[50%] lg:w-[70%] top-[50%] translate-y-[-2px] right-0 right"
+          />
+        </h1>
 
-				<h1
-					className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
-					onClick={() => navigate("/our-works")}
-				>
-					Our Works
-					<img
-						src={right}
-						alt="navbar_right_img"
-						className="absolute hidden w-[50%] sm:w-[70%] md:w-[50%] lg:w-[70%] top-[50%] translate-y-[-2px] right-0 right"
-					/>{" "}
-				</h1>
+        <h1
+          className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
+          onClick={() => navigate("/our-works")}
+        >
+          Our Works
+          <img
+            src={right}
+            alt="navbar_right_img"
+            className="absolute hidden w-[50%] sm:w-[70%] md:w-[50%] lg:w-[70%] top-[50%] translate-y-[-2px] right-0 right"
+          />{" "}
+        </h1>
 
-				<h1
-					className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
-					onClick={() => navigate("/student-life")}
-				>
-					Student Life
-					<img
-						src={right}
-						alt="navbar_right_img"
-						className="absolute hidden w-[40%] sm:w-[70%] md:w-[50%] lg:w-[65%] top-[50%] translate-y-[-2px] right-0 right"
-					/>{" "}
-				</h1>
+        <h1
+          className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
+          onClick={() => navigate("/student-life")}
+        >
+          Student Life
+          <img
+            src={right}
+            alt="navbar_right_img"
+            className="absolute hidden w-[40%] sm:w-[70%] md:w-[50%] lg:w-[65%] top-[50%] translate-y-[-2px] right-0 right"
+          />{" "}
+        </h1>
 
-				<h1
-					className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
-					onClick={() => navigate("/admission-and-aid")}
-				>
-					Admission and Aid
-					<img
-						src={right}
-						alt="navbar_right_img"
-						className="absolute hidden w-[20%] sm:w-[50%] md:w-[30%] lg:w-[50%] top-[50%] translate-y-[-2px] right-0 right"
-					/>{" "}
-				</h1>
+        <h1
+          className="opacity-40 hover:opacity-100 cursor-pointer mb-3 relative main"
+          onClick={() => navigate("/admission-and-aid")}
+        >
+          Admission and Aid
+          <img
+            src={right}
+            alt="navbar_right_img"
+            className="absolute hidden w-[20%] sm:w-[50%] md:w-[30%] lg:w-[50%] top-[50%] translate-y-[-2px] right-0 right"
+          />{" "}
+        </h1>
 
-				<div className="flex items-center justify-between mt-auto pr-20">
-					{/* contact */}
-					<p className="underline font-light text-[16px] cursor-pointer hover:opacity-80">
-						+ 1(770) 234 0987
-					</p>
+        <div className="flex items-center justify-between mt-auto pr-20">
+          {/* contact */}
+          <p className="underline font-light text-[16px] cursor-pointer hover:opacity-80">
+            + 1(770) 234 0987
+          </p>
 
-					{/* icons */}
-					<div className="flex">
-						<img
-							src={li}
-							alt="linkedIn_Img"
-							className="h-7 cursor-pointer hover:opacity-80"
-						/>
-						<img
-							src={insta}
-							alt="insta_Img"
-							className="h-7 mx-2 cursor-pointer hover:opacity-80"
-						/>
-						<img
-							src={fb}
-							alt="fb_Img"
-							className="h-7 cursor-pointer hover:opacity-80"
-						/>
-					</div>
-				</div>
-			</div>
-		</>
-	);
+          {/* icons */}
+          <div className="flex">
+            <img
+              src={li}
+              alt="linkedIn_Img"
+              className="h-7 cursor-pointer hover:opacity-80"
+            />
+            <img
+              src={insta}
+              alt="insta_Img"
+              className="h-7 mx-2 cursor-pointer hover:opacity-80"
+            />
+            <img
+              src={fb}
+              alt="fb_Img"
+              className="h-7 cursor-pointer hover:opacity-80"
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
