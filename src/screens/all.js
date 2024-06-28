@@ -61,7 +61,8 @@ import ViewChapter from "./Dashboard/ViewChapter.js";
 import ViewDashboardCourses from "./Dashboard/Students/ViewDashboardCourses.js";
 import Analytics from "./Dashboard/Analytics.js";
 import UnifiedInvoiceTable from "./Dashboard/UnifiedInvoiceTable.js";
-
+import AssignStudentCourse from "./Dashboard/Admin/AssignStudentCourse.js";
+  
 export {
   AboutScreen,
   AcademicsScreen,
@@ -113,4 +114,5 @@ export {
   Analytics,
   UnifiedInvoiceTable,
   DeleteCourse,
+  AssignStudentCourse,
 };

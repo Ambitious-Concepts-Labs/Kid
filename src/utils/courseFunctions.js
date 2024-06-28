@@ -347,6 +347,56 @@ const assignCourse = async (props) => {
   }
 };
 
+const assignStudentToCourse = async ({
+  currentUser,
+  course,
+  student,
+  setLoading,
+  setIsAssigningStudent,
+  setAreCoursesLoaded,
+  setAssignedCourse,
+}) => {
+  const confirm = window.confirm(
+    `Assign ${student.username} to ${course.course_name}?`
+  );
+
+  if (confirm) {
+    setLoading(true);
+
+    try {
+      // Update student's assigned courses
+      const updatedCourses = [...student.courses, course.id];
+      await updateDoc(doc(db, "students", student.id), {
+        courses: updatedCourses,
+      });
+
+      // Update course to include student
+      const updatedStudents = [...course.students, student.id];
+      await updateDoc(doc(db, "courses", course.id), {
+        students: updatedStudents,
+      });
+
+      setLoading(false);
+      setIsAssigningStudent(false);
+      setAreCoursesLoaded(false);
+      setAssignedCourse({});
+      window.alert(
+        `Successfully assigned ${student.username} to ${course.course_name}.`
+      );
+    } catch (error) {
+      console.error("Error assigning student to course:", error);
+      window.alert(
+        "Failed to assign student to course. Please try again later."
+      );
+      setLoading(false);
+      setIsAssigningStudent(false);
+    }
+  } else {
+    setLoading(false);
+    setIsAssigningStudent(false);
+  }
+};
+
 export {
   createCourse,
   updateCourse,
@@ -358,4 +408,5 @@ export {
   deny,
   selectCourse,
   assignCourse,
+  assignStudentToCourse,
 };

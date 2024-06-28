@@ -10,32 +10,45 @@ export default function CourseLayout({
   currentUser,
   courseId,
 }) {
-  if (!course) return <h1>Loading...</h1>;
+  const [progressCount, setProgressCount] = React.useState(0);
 
   const getProgress = () => {
-    if (course.chapters) {
-      try {
-        const publishedChapters = course.chapters.filter(
-          (chapter) => chapter.isPublished
-        );
-        const publishedChapterIds = publishedChapters.map(
-          (chapter) => chapter.id
-        );
-        const validCompletedChapters = course.chapters.filter(
-          (chapter) => chapter.isCompleted
-        );
-        const progressPercentage =
-          (validCompletedChapters / publishedChapters.length) * 100;
-  
-        return progressPercentage;
-      } catch (error) {
-        console.error("[GET_PROGRESS]", error);
-        return 0;
-      }
+    if (currentUser.courses.find((id) => id.course === courseId)) {
+      const progress = currentUser.courses.find((id) => id.course === courseId)
+        .progress;
+      return progress;
+    } else {
+      return 0;
     }
+    // if (course.chapters) {
+    //   try {
+    //     const publishedChapters = course.chapters.filter(
+    //       (chapter) => chapter.isPublished
+    //     );
+    //     const publishedChapterIds = publishedChapters.map(
+    //       (chapter) => chapter.id
+    //     );
+    //     const validCompletedChapters = course.chapters.filter(
+    //       (chapter) => chapter.isCompleted
+    //     );
+    //     const progressPercentage =
+    //       (validCompletedChapters / publishedChapters.length) * 100;
+
+    //     return progressPercentage;
+    //   } catch (error) {
+    //     console.error("[GET_PROGRESS]", error);
+    //     return 0;
+    //   }
+    // }
   };
 
-  const progressCount = getProgress();
+  React.useEffect(() => {
+    if (!currentUser) return;
+    const progress = getProgress();
+    setProgressCount(progress);
+  }, [currentUser]);
+
+  if (!course || !currentUser) return <h1>Loading...</h1>;
 
   return (
     <div className="h-full">

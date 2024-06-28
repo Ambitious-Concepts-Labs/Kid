@@ -304,6 +304,17 @@ function App() {
           />
           <Route
             exact
+            path="/dashboard/admin/student/course/assign"
+            element={
+              <Screens.AssignStudentCourse
+                {...states}
+                user={user}
+                authValue={authValue}
+              />
+            }
+          />
+          <Route
+            exact
             path="/dashboard/admin/course/:id"
             element={
               <Screens.UpdateCourse

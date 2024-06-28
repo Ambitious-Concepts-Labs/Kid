@@ -135,7 +135,6 @@ const AssignCourse = (props) => {
   };
 
   useEffect(() => {
-    let unmounted = false;
     if (loading) {
       const getData = async () => {
         if (!areCoursesLoaded) {
@@ -177,9 +176,6 @@ const AssignCourse = (props) => {
       };
       getData();
     }
-    return function() {
-      unmounted = true;
-    };
   }, [loading, areCoursesLoaded, areUsersLoaded]);
 
   useEffect(() => {
