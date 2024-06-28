@@ -41,8 +41,8 @@ export default function Sidebar({ page, setPage }) {
     { name: "Browse Courses", icon: <GiArchiveResearch page="my courses" />, path: `/dashboard/courses/browse` },
     { name: "Order History", icon: <BiSolidPurchaseTagAlt page="orderhistory" />, path: `/dashboard/transactions` },
     { name: "Products", icon: <TbShoppingCart page="products" />, path: `/dashboard/products` },
-    { name: "Profile", icon: <Profile page="profile" />, path: "/dashboard/profile" },
-    { name: "Assesments", icon: <Assessments page="assessments" />, path: "/dashboard/assesment" },
+    { name: "My Profile", icon: <RiPassPendingFill page="profile" />, path: "/dashboard/profile" },
+    { name: "Assesments", icon: <Assessments page="Pre and Post assesment" />, path: "/dashboard/assesment" },
     { name: "Suggestions", icon: <VscFeedback page="suggestions" />, path: "/dashboard/suggestions" },
     { name: "Zoom Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
     { name: "Thank You", icon: <GiHeartBeats page="thankyou" />, path: "/dashboard/thankyou" },
@@ -77,7 +77,8 @@ export default function Sidebar({ page, setPage }) {
 
   const handleOnClick = (route) => {
     console.log('route', route, page)
-    setPage(route.name.toLowerCase());
+    const routeName = route.name.charAt(0).toUpperCase() + route.name.slice(1);
+    setPage(routeName);
     navigate(route.path);
   };
 

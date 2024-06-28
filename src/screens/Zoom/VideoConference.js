@@ -23,6 +23,7 @@ import * as Components from "../../components/all";
 // import useToast from "../hooks/useToast";
 import { meetingsRef } from "../../firebase";
 import { generateMeetingID } from "./generateMeetingId";
+import Layout from "../../components/Dashboard/Layout";
 // import { FieldErrorType, UserType } from "./types";
 
 export default function VideoConference() {
@@ -33,15 +34,10 @@ export default function VideoConference() {
   const navigate = useNavigate();
 
   const [meetingName, setMeetingName] = useState("");
-  const [selectedUser, setSelectedUser] = useState<Array<UserType>>([]);
+  const [selectedUser, setSelectedUser] = useState([]);
   const [startDate, setStartDate] = useState(moment());
   const [size, setSize] = useState(1);
-  const [showErrors, setShowErrors] = useState<{
-    meetingName,
-    meetingUsers
-    // meetingName: FieldErrorType;
-    // meetingUsers: FieldErrorType;
-  }>({
+  const [showErrors, setShowErrors] = useState({
     meetingName: {
       show: false,
       message: [],
@@ -109,15 +105,7 @@ export default function VideoConference() {
   };
 
   return (
-         <div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-        {/* Sidebar */}
-        <Components.Sidebar page={"zoom"} />
-
-        {/* Right */}
-        <div className="flex-1 flex flex-col items-stretch overflow-hidden">
-          {/* Navbar */}
-          <Components.AdminNavbar page={"Zoom Session"} />
-          {/* Page */}
+    <Layout>
           <div className="p-4 flex-1 h-full overflow-auto text-start">
             {/* heading */}
             <Components.Paragraph className="font-bold mt-5">
@@ -174,7 +162,6 @@ export default function VideoConference() {
         </EuiFlexGroup>
       </div>
       </div>
-    </div>
-  </div>
+    </Layout>
   );
 }

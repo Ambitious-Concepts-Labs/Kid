@@ -4,18 +4,11 @@ import img1 from "../../assets/person1.png";
 import img2 from "../../assets/person2.png";
 import img3 from "../../assets/person3.png";
 import img4 from "../../assets/person4.png";
+import Layout from "../../components/Dashboard/Layout";
 
 export default function AdminZoom() {
 	return (
-		<div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-			{/* Sidebar */}
-			<Components.Sidebar page={"zoom"} />
-
-			{/* Right */}
-			<div className="flex-1 flex flex-col items-stretch overflow-hidden">
-				{/* Navbar */}
-				<Components.AdminNavbar page={"Zoom Session"} />
-				{/* Page */}
+		<Layout>
 				<div className="p-4 flex-1 h-full overflow-auto text-start">
 					{/* heading */}
 					<Components.Paragraph className="font-bold mt-5">
@@ -354,7 +347,6 @@ export default function AdminZoom() {
 						</svg>
 					</div>
 				</div>
-			</div>
-		</div>
+		</Layout>
 	);
 }

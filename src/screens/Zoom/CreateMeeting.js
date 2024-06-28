@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import meeting1 from "./assets/meeting1.png";
 import meeting2 from "./assets/meeting2.png";
 import * as Components from "../../components/all";
+import Layout from "../../components/Dashboard/Layout";
 
 // import Header from "../components/Header";
 // import useAuth from "../hooks/useAuth";
@@ -15,15 +16,7 @@ export default function CreateMeeting() {
 
   return (
     <>
-      <div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-        {/* Sidebar */}
-        <Components.Sidebar page={"zoom"} />
-
-        {/* Right */}
-        <div className="flex-1 flex flex-col items-stretch overflow-hidden">
-          {/* Navbar */}
-          <Components.AdminNavbar page={"Zoom Session"} />
-          {/* Page */}
+      <Layout>
           <div className="p-4 flex-1 h-full overflow-auto text-start">
             {/* heading */}
             <Components.Paragraph className="font-bold mt-5">
@@ -32,7 +25,6 @@ export default function CreateMeeting() {
 
 
           </div>
-        </div>
       <div
         style={{
           display: "flex",
@@ -66,7 +58,7 @@ export default function CreateMeeting() {
           </EuiFlexItem>
         </EuiFlexGroup>
       </div>
-      </div>
+      </Layout>
     </>
   );
 }

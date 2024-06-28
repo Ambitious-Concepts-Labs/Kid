@@ -17,6 +17,7 @@ import { meetingsRef } from "../../firebase";
 import { generateMeetingID } from "./generateMeetingId";
 // import { FieldErrorType, UserType } from "./types";
 import * as Components from "../../components/all";
+import Layout from "../../components/Dashboard/Layout";
 
 export default function OneOnOneMeeting() {
   // useAuth();
@@ -26,14 +27,9 @@ export default function OneOnOneMeeting() {
   const navigate = useNavigate();
 
   const [meetingName, setMeetingName] = useState("");
-  const [selectedUser, setSelectedUser] = useState<Array<UserType>>([]);
+  const [selectedUser, setSelectedUser] = useState([]);
   const [startDate, setStartDate] = useState(moment());
-  const [showErrors, setShowErrors] = useState<{
-    meetingName,
-    meetingUser
-    // meetingName: FieldErrorType;
-    // meetingUser: FieldErrorType;
-  }>({
+  const [showErrors, setShowErrors] = useState({
     meetingName: {
       show: false,
       message: [],
@@ -95,15 +91,7 @@ export default function OneOnOneMeeting() {
   };
 
   return (
-      <div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-        {/* Sidebar */}
-        <Components.Sidebar page={"zoom"} />
-
-        {/* Right */}
-        <div className="flex-1 flex flex-col items-stretch overflow-hidden">
-          {/* Navbar */}
-          <Components.AdminNavbar page={"Zoom Session"} />
-          {/* Page */}
+    <Layout>
           <div className="p-4 flex-1 h-full overflow-auto text-start">
             {/* heading */}
             <Components.Paragraph className="font-bold mt-5">
@@ -147,7 +135,6 @@ export default function OneOnOneMeeting() {
           </EuiFlexGroup>
         </div>
         </div>
-      </div>
-    </div>
+    </Layout>
   );
 }

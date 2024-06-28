@@ -1,17 +1,9 @@
 import React from "react";
-import * as Components from "../../components/all";
+import Layout from "../../components/Dashboard/Layout";
 
 export default function AdminPurchase() {
 	return (
-		<div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-			{/* Sidebar */}
-			<Components.Sidebar page={"purchase"} />
-
-			{/* Right */}
-			<div className="flex-1 flex flex-col items-stretch overflow-hidden">
-				{/* Navbar */}
-				<Components.AdminNavbar page={"Purchase"} />
-				{/* Page */}
+		<Layout>
 				<div className="p-4 flex-1 h-full overflow-auto text-start">
 					{/* heading */}
 					<p className="font-bold mt-4">Purchase</p>
@@ -243,7 +235,6 @@ export default function AdminPurchase() {
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+		</Layout>
 	);
 }

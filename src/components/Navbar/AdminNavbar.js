@@ -6,7 +6,7 @@ import { logout } from "../../lib/firebase";
 import Select from "react-select";
 import useUserData from "../../hooks/useUserData";
 
-export default function AdminNavbar({ page, setPage }) {
+export default function AdminNavbar({ page }) {
   const navigate = useNavigate();
   const { currentUser, loading, error } = useUserData();
   const [avatar, setAvatar] = useState("");
@@ -36,7 +36,9 @@ export default function AdminNavbar({ page, setPage }) {
     }
   }, [currentUser]);
 
-  console.log({page})
+  useEffect(() => {
+    
+  }, [page]);
 
   useEffect(() => {
     if (loading) return;

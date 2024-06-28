@@ -19,6 +19,7 @@ import {
 	BarElement,
 } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
+import Layout from "../../components/Dashboard/Layout";
 
 ChartJS.register(
 	CategoryScale,
@@ -207,15 +208,7 @@ export default function AdminProfile(props) {
 
 	if (isEditable) { return (
 		<>
-			<div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-				{/* Sidebar */}
-				<Components.Sidebar page={"profile"} />
-
-				{/* Right */}
-				<div className="flex-1 flex flex-col items-stretch overflow-hidden">
-					{/* Navbar */}
-					<Components.AdminNavbar page={"Profile"} />
-					{/* Page */}
+			<Layout>
 					<div className="p-4 flex-1 h-full overflow-auto">
 						{/* banner */}
 						<div className="h-28 flex bg-white rounded-md shadow overflow-hidden">
@@ -394,23 +387,14 @@ export default function AdminProfile(props) {
 						<button
 						onClick={handleEditComplete}
 						>Sumbit</button>
-					</div>
-				</div>
-			</div>		
+					</div>	
+			</Layout>
 		</>
 		)
 	}
 	
 	return (
-		<div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-			{/* Sidebar */}
-			<Components.Sidebar page={"profile"} />
-
-			{/* Right */}
-			<div className="flex-1 flex flex-col items-stretch overflow-hidden">
-				{/* Navbar */}
-				<Components.AdminNavbar page={"Profile"} />
-				{/* Page */}
+		<Layout>
 				<div className="p-4 flex-1 h-full overflow-auto">
 					{/* banner */}
 					<div className="h-28 flex bg-white rounded-md shadow overflow-hidden">
@@ -606,7 +590,6 @@ export default function AdminProfile(props) {
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+		</Layout>
 	);
 }
