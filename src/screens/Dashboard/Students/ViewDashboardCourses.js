@@ -10,29 +10,28 @@ const Dashboard = ({ currentUser }) => {
   const [userCourses, setUserCourses] = React.useState([]);
   const [completedCourses, setCompletedCourses] = React.useState([]);
   const [coursesInProgress, setCoursesInProgress] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
   const courses = useGetAllCourses();
+
   React.useEffect(() => {
-    if (currentUser) {
+    if (currentUser && courses) {
       setCompletedCourses(currentUser.completedCourses);
       setCoursesInProgress(currentUser.courses);
       const allCourses = [];
       if (courses) {
-        courses.forEach((course) => {
-          const userCourse = currentUser.courses.find((c) => c.id === course.id);
-          const userProgressCourse = currentUser.completedCourses.find(
-            (c) => c.id === course.id
-          );
-          if (userProgressCourse) {
-            allCourses.push(course);
-          } 
-          if (userCourse) {
-            allCourses.push(course);
-          }
+        currentUser.courses.forEach((c) => {
+          courses.forEach((course) => {
+            if (c.course === course.courseId) {
+              course.progress = c.progress;
+              allCourses.push(course);
+            }
+          });
         });
         setUserCourses(allCourses);
       }
+      setLoading(false);
     }
-  }, [currentUser, userCourses]);
+  }, [currentUser, courses]);
 
   if (!currentUser) {
     return <Layout>Loading this page.</Layout>;
@@ -55,7 +54,7 @@ const Dashboard = ({ currentUser }) => {
           />
         </div>
         {
-          userCourses.length === 0 ? (
+          loading ? (
             <h2>Loading...</h2>
           ) : (
             <CoursesList items={userCourses} />
