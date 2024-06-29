@@ -5,16 +5,15 @@ import CourseEnrollButton from "./CourseEnrollButton";
 import Preview from "../Preview";
 import Banner from "../Banner";
 import useGetCourseAttachments from "../../hooks/useGetCourseAttachments";
+import { FaFileDownload } from "react-icons/fa";
 
-const ChapterId = ({ courseId, chapterId, course }) => {
+const ChapterId = ({ courseId, chapterId, course, currentUser }) => {
   const [chapter, setChapter] = useState(chapterId);
   const [muxData, setMuxData] = useState(null);
   const attachments = useGetCourseAttachments(courseId);
   const [nextChapter, setNextChapter] = useState(null);
-  const [userProgress, setUserProgress] = useState(null);
-  const [purchase, setPurchase] = useState(null);
-  const [userId, setUserId] = useState(null); // Replace with your method to get user ID
-  const [isLoading, setIsLoading] = useState(true);
+  const [userProgress, setUserProgress] = useState(0);
+  const [purchase, setPurchase] = useState(false);
 
   useEffect(() => {
     if (course.chapters) {
@@ -27,30 +26,21 @@ const ChapterId = ({ courseId, chapterId, course }) => {
       }
     }
   }, [course, chapterId]);
-    
-    console.log({nextChapter})
 
   useEffect(() => {
-    const fetchData = async () => {
-      const {
-        muxData,
-        userProgress,
-        purchase,
-      } = await getChapter({ userId, chapterId, courseId });
-      setMuxData(muxData);
-      setUserProgress(userProgress);
-      setPurchase(purchase);
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [userId, chapterId, courseId]);
+    if (currentUser) {
+      const userCourse = currentUser.courses.find(
+        (course) => course.course === courseId
+      );
+      if (userCourse) {
+        setPurchase(true);
+        setUserProgress(userCourse.progress)
+      }
+      
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-    
+    }
+  }, [currentUser, courseId]);
 
-    console.log({ chapter, course, chapterId });
 
   if (!chapter || !course) {
     return <div>Chapter or course not found.</div>;
@@ -114,7 +104,7 @@ const ChapterId = ({ courseId, chapterId, course }) => {
                     className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
                     rel="noreferrer"
                   >
-                    <File />
+                    <FaFileDownload />
                     <p className="line-clamp-1">{attachment.name}</p>
                   </a>
                 ))}
@@ -125,26 +115,6 @@ const ChapterId = ({ courseId, chapterId, course }) => {
       </div>
     </div>
   );
-};
-
-const File = () => <span>File Icon</span>;
-
-// Mock function to replace the getChapter action
-const getChapter = async ({ userId, chapterId, courseId }) => {
-  // Mock data fetching
-  return {
-    chapter: {
-      title: "Chapter Title",
-      isFree: true,
-      description: "Chapter Description",
-    },
-    course: { price: 100 },
-    muxData: { playbackId: "playback-id" },
-    attachments: [{ id: 1, url: "#", name: "Attachment 1" }],
-    nextChapter: { id: "next-chapter-id" },
-    userProgress: { isCompleted: false },
-    purchase: { id: "purchase-id" },
-  };
 };
 
 export default ChapterId;

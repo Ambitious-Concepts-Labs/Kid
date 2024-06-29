@@ -212,3 +212,21 @@ export const mockSidebarCourse = {
 };
 
 export const mockPurchase = { courseId: mockSidebarCourse.id };
+
+// Mock function to replace the getChapter action
+export const getChapter = async ({ userId, chapterId, courseId }) => {
+  // Mock data fetching
+  return {
+    chapter: {
+      title: "Chapter Title",
+      isFree: true,
+      description: "Chapter Description",
+    },
+    course: { price: 100 },
+    muxData: { playbackId: "playback-id" },
+    attachments: [{ id: 1, url: "#", name: "Attachment 1" }],
+    nextChapter: { id: "next-chapter-id" },
+    userProgress: { isCompleted: false },
+    purchase: { id: "purchase-id" },
+  };
+};

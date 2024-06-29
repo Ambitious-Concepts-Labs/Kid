@@ -15,7 +15,6 @@ export default function ViewCourse(props) {
       setChapterId(course.chapters[0]);
     }
   }, [course]);
-  console.log('ViewCourse', { course, chapterId, id});
   return (
     <Layout>
       <CourseLayout courseId={id} currentUser={currentUser} course={course} setChapterId={setChapterId}>
