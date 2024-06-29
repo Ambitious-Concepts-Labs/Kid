@@ -16,6 +16,7 @@ import {
 	BarElement,
 } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
+import Layout from "../../components/Dashboard/Layout";
 
 ChartJS.register(
 	CategoryScale,
@@ -62,15 +63,7 @@ export default function AdminSuggestions() {
 	};
 
 	return (
-		<div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-			{/* Sidebar */}
-			<Components.Sidebar page={"suggestions"} />
-
-			{/* Right */}
-			<div className="flex-1 flex flex-col items-stretch overflow-hidden">
-				{/* Navbar */}
-				<Components.AdminNavbar page={"Teacher Suggestions"} />
-				{/* Page */}
+		<Layout>
 				<div className="p-4 flex-1 h-full overflow-auto">
 					{/* details row */}
 					<div className="bg-white rounded-md shadow overflow-hidden mt-4 p-6 ">
@@ -252,7 +245,6 @@ export default function AdminSuggestions() {
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+		</Layout>
 	);
 }

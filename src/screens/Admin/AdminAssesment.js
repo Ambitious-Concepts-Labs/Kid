@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import * as Components from "../../components/all";
 import charImage from "../../assets/character.png";
-// chart
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -15,8 +14,9 @@ import {
 	ArcElement,
 	BarElement,
 } from "chart.js";
-import { Bar, Doughnut, Line } from "react-chartjs-2";
+import { Doughnut, Line } from "react-chartjs-2";
 import { QuizComponent } from 'ai-quiz';
+import Layout from "../../components/Dashboard/Layout";
 
 ChartJS.register(
 	CategoryScale,
@@ -130,15 +130,7 @@ export default function AdminAssesment() {
 	const quizApp = QuizComponent("AWS Lambda", "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")
 
 	return (
-		<div className="AdminAssesment bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-			{/* Sidebar */}
-			<Components.Sidebar page={"assesment"} />
-
-			{/* Right */}
-			<div className="flex-1 flex flex-col items-stretch overflow-hidden">
-				{/* Navbar */}
-				<Components.AdminNavbar page={"Pre and Post assesment"} />
-				{/* Page */}
+		<Layout>
 				<div className="p-4 flex-1 h-full overflow-auto">
 					{ openQuiz ? 
 						<div className="flex justify-center items-center">
@@ -700,7 +692,6 @@ export default function AdminAssesment() {
 						</>
 					}
 				</div>
-			</div>
-		</div>
+		</Layout>
 	);
 }

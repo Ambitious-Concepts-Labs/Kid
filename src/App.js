@@ -1,197 +1,151 @@
-import React, { useContext, useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import "./App.css";
 import * as Screens from "./screens/all";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import ProtectedRoute from "./ProtectedRoute2"
-import { AuthContext }from './firebaseAuthContext';
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "./firebase";
-import { getDoc, doc } from "firebase/firestore";
+import useUserData from "./hooks/useUserData";
+import PrivateRoute from "./utils/PrivateRouter";
 
 function App() {
-	const authValue = useContext(AuthContext)
-	const [user, loading, error] = useAuthState(auth);
-    const [isLoggedin, setIsLoggedin] = useState(false);
-	const [checkUser, setCheckUser] = useState(false);
-	const [currentUser, setCurrentUser] = useState({ cart: [] });
-	const [mobile, setMobile] = useState(false);
-	const [windowDimensions, setWindowDimensions] = useState([
-		window.innerWidth,
-		window.innerHeight,
-	]);
+  const [isLoggedin, setIsLoggedin] = useState(false);
+  const { currentUser, user, loading } = useUserData();
+  const [cart, setCart] = useState({
+    items: [],
+    total_price: 0,
+    total_quantity: 0,
+  });
+  const [mobile, setMobile] = useState(false);
+  const [windowDimensions, setWindowDimensions] = useState([
+    window.innerWidth,
+    window.innerHeight,
+  ]);
 
-	const fetchUser = async () => {
-		try {
-			// console.log(props.user.uid)
-			// const docRef = await getDoc(doc(db, "users", props.user.uid));
-			const docRef = await getDoc(doc(db, "users", "5oZ5ta0mgbZSEqCNXftJ"));
-			if (docRef) {
-				console.log("Document data:", docRef);
-				console.log("Document data:", docRef.data());
-				setCurrentUser(docRef.data())
-			} else {
-				// docSnap.data() will be undefined in this case
-				console.log("No such document!");
-			}
-		} catch (err) {
-		console.error(err);
-		alert("An error occured while fetching user data");
-		}
-	};
+  const states = {
+    isLoggedin,
+    setIsLoggedin,
+    currentUser,
+    windowDimensions,
+    mobile,
+    setMobile,
+    loading,
+    cart,
+    setCart,
+  };
 
-	useEffect(() => {
-		// if (!props.user) return navigate("/login");
-		// if (props.user)	
-		fetchUser();
-	}, []);
+  function useWindowSize() {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener("resize", updateSize);
+      updateSize();
+      return () => window.removeEventListener("resize", updateSize);
+    }, []);
+    return size;
+  }
 
-	const states = {
-		isLoggedin,
-		setIsLoggedin,
-		currentUser,
-		setCurrentUser,
-		windowDimensions,
-		checkUser,
-		setCheckUser,
-		mobile,
-		setMobile,
-		fetchUser
-	};
+  const [width, height] = useWindowSize();
 
-	function useWindowSize() {
-		const [size, setSize] = useState([0, 0]);
-		useLayoutEffect(() => {
-			function updateSize() {
-				setSize([window.innerWidth, window.innerHeight]);
-			}
-			window.addEventListener("resize", updateSize);
-			updateSize();
-			return () => window.removeEventListener("resize", updateSize);
-		}, []);
-		return size;
-	}
+  useEffect(() => {
+    if (!mobile) {
+      if (parseInt(windowDimensions[0]) <= 1400) {
+        setMobile(true);
+      }
+    } else if (mobile) {
+      if (parseInt(windowDimensions[0]) > 1400) {
+        setMobile(false);
+      }
+    }
+  }, [windowDimensions, mobile]);
 
-	const [width, height] = useWindowSize();
+  useEffect(() => {
+    setWindowDimensions([width, height]);
+  }, [width, height]);
 
-	useEffect(() => {
-		if (!mobile) {
-			if (parseInt(windowDimensions[0]) <= 1400) {
-				setMobile(true);
-			}
-		} else if (mobile) {
-			if (parseInt(windowDimensions[0]) > 1400) {
-				setMobile(false);
-			}
-		}
-	}, [windowDimensions, mobile]);
+  return (
+    <div className="App relative overflow-x-hidden">
+      <BrowserRouter>
+        <Routes>
+          {/* Auth Routes */}
+          <Route exact path="/forgot" element={<Screens.ForgotPasswordScreen />} />
+          <Route exact path="/login" element={<Screens.LoginScreen />} />
+          <Route exact path="/reset" element={<Screens.ResetPasswordScreen />} />
+          <Route exact path="/signup" element={<Screens.SignUpScreen />} />
+          {/* Auth Routes */}
 
-	useEffect(() => {
-		setWindowDimensions([width, height]);
-	}, [width, height]);
+          {/* Root Routes */}
+          <Route exact path="/" element={<Screens.HomeScreen />} />
+          <Route exact path="/academics" element={<Screens.AcademicsScreen />} />
+          <Route exact path="/admission-and-aid" element={<Screens.AdmissionScreen />} />
+          <Route exact path="/about-us" element={<Screens.AboutScreen />} />
+          <Route exact path="/facilities" element={<Screens.FacilitiesScreen />} />
+          <Route exact path="/our-works" element={<Screens.WorksScreen />} />
+          <Route exact path="/student-life" element={<Screens.StudentScreen />} />
+          {/* Root Routes */}
 
-	console.log(user, authValue)
-	return (
-		<div className="App relative overflow-x-hidden">
-			<BrowserRouter>
-				<Routes>
-					{/* Login/Signup */}
+          {/* Dashboard General Routes */}
+          {/* <Route path="/dashboard" element={<PrivateRoute type="login" element={<Screens.AdminDashboard {...states} user={user} />} user={user} currentUser={currentUser} />} /> */}
+          <Route exact path="/dashboard" element={<Screens.AdminDashboard {...states} user={user} />} />
+          <Route exact path="/dashboard/assesment" element={<Screens.AdminAssesment />} />
+          <Route exact path="/dashboard/products" element={<Screens.Products {...states} user={user} />}/>
+          <Route exact path="/dashboard/profile" element={<Screens.AdminProfile user={user} />} />
+          <Route exact path="/dashboard/purchase" element={<Screens.AdminPurchase />} />
+          <Route exact path="/dashboard/rewards" element={<Screens.AdminRewards />} />
+          <Route exact path="/dashboard/suggestions" element={<Screens.AdminSuggestions />} />
+          <Route exact path="/dashboard/thankyou" element={<Screens.AdminThankyou />} />
+          {/* Dashboard General Routes */}
 
-					<Route path="/login" element={<Screens.LoginScreen />} />
+          {/* Dashboard Teacher Routes */}
+          <Route exact path="/dashboard/teacher/course/:id/students" element={<Screens.ViewStudents {...states} user={user} />} />
+          <Route exact path="/dashboard/courses/teacher/:username/all" element={<Screens.TeachersCourses {...states} user={user} />} />
+          {/* DashboardTeacher Routes */}
 
-					<Route path="/signup" element={<Screens.SignUpScreen />} />
+          {/* Dashboard Student Routes */}
+          <Route exact path="/dashboard/cart" element={<Screens.Cart {...states} user={user} />} />
+          <Route exact path="/dashboard/courses/student/:username/all" element={<Screens.ViewDashboardCourses {...states} user={user} />} />
+          <Route exact path="/dashboard/courses/browse" element={<Screens.Search {...states} user={user} />} />
+          <Route exact path="/dashboard/courses/:id" element={<Screens.ViewCourse {...states} user={user} />} />
+          <Route exact path="/dashboard/courses/:id/chapters/:id" element={<Screens.ViewChapter {...states} user={user} />} />
+          <Route exact path="/dashboard/course/:id/students/:studentusername" element={<Screens.ViewStudent {...states} user={user} />} />
+          <Route exact path="/dashboard/transactions" element={<Screens.Transactions {...states} user={user} />} />
+          <Route exact path="/dashboard/transaction/:id" element={<Screens.Transaction {...states} user={user} />} />
+          <Route exact path="/dashboard/transaction/:id/invoice" element={<Screens.Invoice {...states} user={user} />} />
+          {/* Dashbaord Student Routes */}
 
-					<Route path="/forgot" element={<Screens.ForgotPasswordScreen />} />
+          {/* Dashboard Admin Routes */}
+          {/* <PrivateRoute type={"admin"} user={user} currentUser={currentUser} exact path="/dashboard/admin/course/assign" element={<Screens.AssignCourse {...states} user={user} />} /> */}
+          <Route exact path="/dashboard/admin/analytics" element={<Screens.Analytics {...states} user={user} />} />
+          <Route exact path="/dashboard/admin/course/assign" element={<Screens.AssignCourse {...states} user={user} />} />
+          <Route exact path="/dashboard/admin/student/course/assign" element={<Screens.AssignStudentCourse {...states} user={user} />} />
+          <Route exact path="/dashboard/admin/course/:id" element={<Screens.UpdateCourse {...states} user={user} />} />
+          {/* issue rendering */}
+          <Route exact path="/dashboard/admin/course/:id/chapters/:id" element={<Screens.UpdateChapter {...states} user={user} />} />
+          {/* issue rendering */}
+          <Route exact path="/dashboard/admin/course/new" element={<Screens.NewCourse {...states} user={user} />} />
+          <Route exact path="/dashboard/admin/courses/delete" element={<Screens.DeleteCourse {...states} user={user} />} />
+          <Route exact path="/dashboard/admin/courses/pending" element={<Screens.PendingCourses {...states} user={user} />} />
+          <Route exact path="/dashboard/admin/invoice/new" element={<Screens.NewInvoice {...states} user={user} />} />
+          <Route exact path="/dashboard/admin/invoices/all" element={<Screens.UnifiedInvoiceTable {...states} user={user} />} />
+          <Route exact path="/admin/user/:userid/pendingcourse/:courseid" element={<Screens.PendingCourse {...states} user={user} />} />
+          {/* Dashboard Admin Routes */}
 
-					<Route path="/reset" element={<Screens.ResetPasswordScreen />} />
+          {/* 404 Route */}
+          <Route path="*" element={<Screens.NotFound />} />
+          {/* 404 Route */}
 
-					{/* Home/About */}
-
-					<Route path="/" element={<Screens.HomeScreen  authValue={authValue}/>} />
-
-					<Route path="/about-us" element={<Screens.AboutScreen />} />
-
-					<Route path="/academics" element={<Screens.AcademicsScreen />} />
-
-					<Route path="/facilities" element={<Screens.FacilitiesScreen />} />
-
-					<Route path="/our-works" element={<Screens.WorksScreen />} />
-
-					<Route path="/student-life" element={<Screens.StudentScreen />} />
-
-					<Route
-						path="/admission-and-aid"
-						element={<Screens.AdmissionScreen />}
-						/>
-
-					{/* Dashboard */}
-
-					{/* <ProtectedRoute redirectTo="/login" path="/dashboard"  
-					element={<Screens.AdminDashboard />} />
-				*/}
-
-				{/* <ProtectedRoute redirectTo="/login" path="/dashboard">
-					
-					<Screens.AdminDashboard user={user} authValue={authValue} />
-					
-				</ProtectedRoute> */}
-				
-					<Route path="/dashboard" element={<Screens.AdminDashboard {...states} user={user} authValue={authValue} />} /> 	
-					<Route path="/dash" element={<Screens.Dash user={user} authValue={authValue} />} /> 	
-					<Route path="/course/student/:username/all" element={<Screens.StudentCourses {...states} user={user} authValue={authValue} />} /> 	
-					<Route path="/course/teacher/:username/all" element={<Screens.TeacherCourses {...states} user={user} authValue={authValue} />} /> 	
-					<Route path="/course/all" element={<Screens.Courses {...states} user={user} authValue={authValue} />} /> 	
-					<Route path="/course/new" element={<Screens.NewCourse {...states} user={user} authValue={authValue} />} /> 	
-					<Route path="/course/:id" element={<Screens.Course {...states} user={user} authValue={authValue} />} /> 	
-					<Route path="/course/:id/students" element={<Screens.ViewStudents {...states} user={user} authValue={authValue} />} /> 	
-					<Route path="/course/:id/students/:studentusername" element={<Screens.ViewStudent {...states} user={user} authValue={authValue} />} /> 	
-					<Route exact path="/transactions" element={<Screens.Transactions {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/transaction/:id" element={<Screens.Transaction {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/transaction/:id/invoice" element={<Screens.Invoice {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/products" element={<Screens.Products {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/cart" element={<Screens.Cart {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/admin/newinvoice" element={<Screens.NewInvoice {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/admin/assigncourse" element={<Screens.AssignCourse {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/admin/user/:userid/pendingcourse/:courseid" element={<Screens.PendingCourse {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/admin/pendingcourses" element={<Screens.PendingCourses {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/admin/pendingitems" element={<Screens.PendingItems {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/admin/forpayment" element={<Screens.ForPayment {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/admin/completeditems" element={<Screens.CompletedItems {...states} user={user} authValue={authValue} />} />
-					{/* <Route exact path="/cart" element={<Screens.Cart {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/cart" element={<Screens.Cart {...states} user={user} authValue={authValue} />} />
-					<Route exact path="/cart" element={<Screens.Cart {...states} user={user} authValue={authValue} />} /> */}
-						
-					<Route path='*' exact={true} component={<>Test</>} />
-					{/* <Route path="/dashboard" element={<Screens.AdminDashboard user={user} authValue={authValue} />} /> */}
-
-					<Route path="/profile" element={<Screens.AdminProfile user={user} />} />
-
-					<Route path="/assesment" element={<Screens.AdminAssesment />} />
-
-					<Route path="/suggestions" element={<Screens.AdminSuggestions />} />
-
-					{/* <Route path="/zoom" element={<Screens.AdminZoom />} /> */}
-
-					<Route path="/rewards" element={<Screens.AdminRewards />} />
-
-					<Route path="/purchase" element={<Screens.AdminPurchase />} />
-
-					<Route path="/thankyou" element={<Screens.AdminThankyou />} />
-
-					{/* <Route path="/create" element={<Screens.CreateMeeting />} />
+          {/* Dashboard Zoom Routes */}
+          {/* <Route path="/zoom" element={<Screens.AdminZoom />} /> */}
+          {/* <Route path="/create" element={<Screens.CreateMeeting />} />
 					<Route path="/create1on1" element={<Screens.OneOnOneMeeting />} />
 					<Route path="/videoconference" element={<Screens.VideoConference />} />
 					<Route path="/mymeetings" element={<Screens.MyMeetings />} />
 					<Route path="/join/:id" element={<Screens.JoinMeeting />} />
 					<Route path="/meetings" element={<Screens.Meeting />} />
-			<Route path="/zoom" element={<Screens.Dashboard />} /> */}
-				</Routes>
-			</BrowserRouter>
-		</div>
-	);
+			    <Route path="/zoom" element={<Screens.Dashboard />} /> */}
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;
-
-//RESPONSIVE
-// Home
-// Footer

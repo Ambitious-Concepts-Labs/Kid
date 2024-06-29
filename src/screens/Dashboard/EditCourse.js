@@ -1,8 +1,7 @@
 import React from "react";
 import imgPlaceholder from "./image-placeholder.png";
-import { db } from "../../firebase";
-import { v4 as uuidv4 } from "uuid";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { db } from "../../lib/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 const EditCourse = (props) => {
 	const {
@@ -14,6 +13,7 @@ const EditCourse = (props) => {
 		setUpdatedCourse,
 		setEdit,
 		setLoading,
+		user
 	} = props;
 
 	const handleUpdate = (properties) => {
@@ -22,7 +22,7 @@ const EditCourse = (props) => {
 		setUpdatedCourse(async () => {
 			if (key !== "instructor") {
 				course[key] = e.target.value;
-				await setDoc(doc(db, "users", "5oZ5ta0mgbZSEqCNXftJ"), 
+				await setDoc(doc(db, "users", user.uid), 
 					{ course: [...course] }, { merge: true })
 				if (e.target.value.length) {
 					return {

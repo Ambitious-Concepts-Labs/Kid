@@ -14,16 +14,15 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // import { useAppSelector } from "../app/hooks";
 // import Header from "../components/Header";
-// import useAuth from "../hooks/useAuth";
 import * as Components from "../../components/all";
 
 import { meetingsRef } from "../../firebase";
+import Layout from "../../components/Dashboard/Layout";
 // import { MeetingType } from "./types";
 
 export default function Meeting() {
-  // useAuth();
   // const userInfo = useAppSelector((zoom) => zoom.auth.userInfo);
-  const [meetings, setMeetings] = useState<Array<MeetingType>>([]);
+  const [meetings, setMeetings] = useState([]);
 
   useEffect(() => {
     const getMyMeetings = async () => {
@@ -123,15 +122,7 @@ export default function Meeting() {
   ];
 
   return (
-      <div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-        {/* Sidebar */}
-        <Components.Sidebar page={"zoom"} />
-
-        {/* Right */}
-        <div className="flex-1 flex flex-col items-stretch overflow-hidden">
-          {/* Navbar */}
-          <Components.AdminNavbar page={"Zoom Session"} />
-          {/* Page */}
+    <Layout>
           <div className="p-4 flex-1 h-full overflow-auto text-start">
             {/* heading */}
             <Components.Paragraph className="font-bold mt-5">
@@ -156,7 +147,6 @@ export default function Meeting() {
               </EuiFlexGroup>
             </div>
           </div>
-        </div>
-      </div>
+    </Layout>
   );
 }

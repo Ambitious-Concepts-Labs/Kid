@@ -6,21 +6,14 @@ import dashboard2 from "./assets/dashboard2.png";
 import dashboard3 from "./assets/dashboard3.png";
 // import Header from "./Header";
 import * as Components from "../../components/all";
+import Layout from "../../components/Dashboard/Layout";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   return (
     <>
-      <div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-        {/* Sidebar */}
-        <Components.Sidebar page={"zoom"} />
-
-        {/* Right */}
-        <div className="flex-1 flex flex-col items-stretch overflow-hidden">
-          {/* Navbar */}
-          <Components.AdminNavbar page={"Zoom Session"} />
-          {/* Page */}
+      <Layout>
           <div className="p-4 flex-1 h-full overflow-auto text-start">
             {/* heading */}
             <Components.Paragraph className="font-bold mt-5">
@@ -71,8 +64,7 @@ function Dashboard() {
             </div>
 
           </div>
-        </div>
-      </div>
+      </Layout>
     </>
   );
 }
