@@ -13,7 +13,7 @@ import BiggerParagraph from "./Text/BiggerParagraph";
 import Carousel from "./Carousel";
 //
 import AdminNavbar from "./Navbar/AdminNavbar";
-import Sidebar from "./Sidebar";
+import Sidebar from "./Dashboard/Sidebar";
 import IconBadge from "./IconBadge";
 
 export {

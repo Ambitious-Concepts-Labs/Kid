@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import logo from "../assets/logo1.png";
+import logo from "../../assets/logo1.png";
 import { useNavigate } from "react-router-dom";
-import useUserData from "../hooks/useUserData";
-import Dashboard from "../components/Icons/Dashboard";
-import Profile from "../components/Icons/Profile";
-import Assessments from "../components/Icons/Assessments";
-import { GiClassicalKnowledge, GiHeartBeats } from "react-icons/gi";
+import useUserData from "../../hooks/useUserData";
+import Dashboard from "../Icons/Dashboard";
+import Profile from "../Icons/Profile";
+import Assessments from "../Icons/Assessments";
+import { GiHeartBeats } from "react-icons/gi";
 import { BiSolidPurchaseTagAlt, BiLogoZoom } from "react-icons/bi";
 import { TbShoppingCart } from "react-icons/tb";
 import { VscFeedback } from "react-icons/vsc";
 import { GiArchiveResearch } from "react-icons/gi";
 import { FaLayerGroup } from "react-icons/fa";
-import Suggestions from "../components/Icons/Suggestions";
-import Zoom from "../components/Icons/Zoom";
-import ThankYou from "../components/Icons/ThankYou";
 import { IoIosCreate } from "react-icons/io";
 import { MdAssignmentAdd } from "react-icons/md";
 import { RiPassPendingFill } from "react-icons/ri";
@@ -39,13 +36,13 @@ export default function Sidebar({ page, setPage }) {
     { name: "Dashboard", icon: <Dashboard page="dashboard" />, path: "/dashboard" },
     { name: "My Courses", icon: <FaLayerGroup page="my courses" />, path:`/dashboard/courses/student/${currentUser?.username}/all` },
     { name: "Browse Courses", icon: <GiArchiveResearch page="my courses" />, path: `/dashboard/courses/browse` },
-    { name: "Order History", icon: <BiSolidPurchaseTagAlt page="orderhistory" />, path: `/dashboard/transactions` },
-    { name: "Products", icon: <TbShoppingCart page="products" />, path: `/dashboard/products` },
+    // { name: "Order History", icon: <BiSolidPurchaseTagAlt page="orderhistory" />, path: `/dashboard/transactions` },
+    // { name: "Products", icon: <TbShoppingCart page="products" />, path: `/dashboard/products` },
     { name: "My Profile", icon: <RiPassPendingFill page="profile" />, path: "/dashboard/profile" },
-    { name: "Assesments", icon: <Assessments page="Pre and Post assesment" />, path: "/dashboard/assesment" },
-    { name: "Suggestions", icon: <VscFeedback page="suggestions" />, path: "/dashboard/suggestions" },
-    { name: "Zoom Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
-    { name: "Thank You", icon: <GiHeartBeats page="thankyou" />, path: "/dashboard/thankyou" },
+    // { name: "Assesments", icon: <Assessments page="Pre and Post assesment" />, path: "/dashboard/assesment" },
+    // { name: "Suggestions", icon: <VscFeedback page="suggestions" />, path: "/dashboard/suggestions" },
+    // { name: "Zoom Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
+    // { name: "Thank You", icon: <GiHeartBeats page="thankyou" />, path: "/dashboard/thankyou" },
   ];
 
   const adminRoutes = [

@@ -18,7 +18,6 @@ import MeetingUserField from "./FormComponents/MeetingUserField";
 import * as Components from "../../components/all";
 
 // import Header from "../components/Header";
-// import useAuth from "../hooks/useAuth";
 // import useFetchUsers from "../hooks/useFetchUsers";
 // import useToast from "../hooks/useToast";
 import { meetingsRef } from "../../firebase";
@@ -27,7 +26,6 @@ import Layout from "../../components/Dashboard/Layout";
 // import { FieldErrorType, UserType } from "./types";
 
 export default function VideoConference() {
-  // useAuth();
   // const [users] = useFetchUsers();
   // const [createToast] = useToast();
   // const uid = useAppSelector((zoomApp) => zoomApp.auth.userInfo?.uid);

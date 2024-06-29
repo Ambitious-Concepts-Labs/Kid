@@ -14,14 +14,12 @@ import { Link } from "react-router-dom";
 // import { useAppSelector } from "../app/hooks";
 import EditFlyout from "./EditFlyout";
 // import Header from "../components/Header";
-// import useAuth from "../hooks/useAuth";
 import { meetingsRef } from "../../firebase";
 // import { MeetingType } from "./types";
 import * as Components from "../../components/all";
 import Layout from "../../components/Dashboard/Layout";
 
 export default function MyMeetings() {
-  // useAuth();
   // const userInfo = useAppSelector((zoom) => zoom.auth.userInfo);
   const [meetings, setMeetings] = useState([]);
   const [showEditFlyout, setShowEditFlyout] = useState(false);

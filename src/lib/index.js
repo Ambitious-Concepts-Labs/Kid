@@ -7,7 +7,6 @@ export const AuthContext = createContext({ userPresent:false, user:null })
 export default function FirebaseAuthContext(props){
     console.log({props})
    	const [user, loading, error] = useAuthState(auth);
-    const [isLoggedin, setIsLoggedin] = useState(false);
     const [checkUser, setCheckUser] = useState(false);
 
     useEffect(() => {

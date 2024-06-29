@@ -14,7 +14,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // import { useAppSelector } from "../app/hooks";
 // import Header from "../components/Header";
-// import useAuth from "../hooks/useAuth";
 import * as Components from "../../components/all";
 
 import { meetingsRef } from "../../firebase";
@@ -22,7 +21,6 @@ import Layout from "../../components/Dashboard/Layout";
 // import { MeetingType } from "./types";
 
 export default function Meeting() {
-  // useAuth();
   // const userInfo = useAppSelector((zoom) => zoom.auth.userInfo);
   const [meetings, setMeetings] = useState([]);
 

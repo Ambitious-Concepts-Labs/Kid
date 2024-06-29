@@ -8,10 +8,8 @@ import * as Components from "../../components/all";
 import Layout from "../../components/Dashboard/Layout";
 
 // import Header from "../components/Header";
-// import useAuth from "../hooks/useAuth";
 
 export default function CreateMeeting() {
-  // useAuth();
   const navigate = useNavigate();
 
   return (

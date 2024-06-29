@@ -2,17 +2,18 @@ import React from "react";
 import "./NotFound.css";
 import { useNavigate } from "react-router-dom";
 
-const NotFound = () => {
-    const navigate = useNavigate();
+const NotFound = ({ code, msg, link }) => {
+  const navigate = useNavigate();
+  const message = msg ? msg : "Oops, looks line this page has lost it´s way! ";
   React.useEffect(() => {
     document.body.onload = function() {
       changeText();
     };
 
-    var header = document.querySelector("h1");
-    var update = setInterval(changeText, 1);
-    var number = 1;
-    var max = 405;
+    let header = document.querySelector("h1");
+    const update = setInterval(changeText, 1);
+    let number = 1;
+    const max = code ? code : 405;
 
     function changeText() {
       header.innerHTML = number;
@@ -30,11 +31,11 @@ const NotFound = () => {
           <div class="body">
             <h1 id="error">0</h1>
 
-            <h2>Oops, looks line this page has lost it´s way! </h2>
+            <h2>{message}</h2>
             <button
               onMouseEnter={(e) => (e.target.style.color = "#0056b3")}
               onMouseLeave={(e) => (e.target.style.color = "#007bff")}
-              onClick={() => navigate(-1)}
+              onClick={() => navigate(link ? link : -1)}
             >
               Back to Previous Screen
             </button>

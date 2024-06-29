@@ -10,7 +10,6 @@ import MeetingNameField from "./FormComponents/MeetingNameFIeld";
 import MeetingUserField from "./FormComponents/MeetingUserField";
 
 // import Header from "../components/Header";
-// import useAuth from "../hooks/useAuth";
 // import useFetchUsers from "../hooks/useFetchUsers";
 // import useToast from "../hooks/useToast";
 import { meetingsRef } from "../../firebase";
@@ -20,7 +19,6 @@ import * as Components from "../../components/all";
 import Layout from "../../components/Dashboard/Layout";
 
 export default function OneOnOneMeeting() {
-  // useAuth();
   // const [users] = useFetchUsers();
   // const [createToast] = useToast();
   // const uid = useAppSelector((zoomApp) => zoomApp.auth.userInfo?.uid);

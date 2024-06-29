@@ -24,20 +24,27 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
     await addDoc(collection(db, "users"), {
+      phone: "555-5555",
+      name,
+      email,
+      authProvider: "local",
       uid: user.uid,
-      username: "",
-      phone: "",
+      avatar:
+        "https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg",
+      username: generateUsername(),
       isAdmin: false,
       isTeacher: false,
       isStudent: true,
       pendingCourses: [],
-      completedCourses: [],
       cart: {},
       courses: [],
       transactions: [],
-      name,
-      authProvider: "local",
-      email,
+      pendingTransactions: [],
+      announcements: {},
+      tutoringSessions: [],
+      completedCourses: [],
+      forPaymentCourses: [],
+      deniedCourses: [],
     });
   } catch (err) {
     console.error(err);
@@ -88,11 +95,16 @@ const signInWithGoogle = async () => {
         isAdmin: false,
         isTeacher: false,
         isStudent: true,
+        announcements: {},
         pendingCourses: [],
         cart: {},
         courses: [],
         transactions: [],
-        announcements: [],
+        pendingTransactions: [],
+        tutoringSessions: [],
+        completedCourses: [],
+        forPaymentCourses: [],
+        deniedCourses: [],
       });
     }
   } catch (err) {
