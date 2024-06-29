@@ -28,7 +28,7 @@ const TeachersCourses = ({ currentUser }) => {
         setUserCourses([...allCourses]);
       }
     }
-  }, [currentUser]);
+  }, [currentUser, courses]);
 
   if (!currentUser) {
     return <Layout>Loading this page.</Layout>;
