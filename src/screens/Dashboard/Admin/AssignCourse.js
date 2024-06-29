@@ -147,8 +147,6 @@ const AssignCourse = (props) => {
             });
             setCourses(dataArr);
             setAreCoursesLoaded(true);
-
-            console.log(dataArr);
           };
 
           getAllCourses();
@@ -162,7 +160,6 @@ const AssignCourse = (props) => {
               querySnapshot.forEach((doc) => {
                 const obj = { ...doc.data(), documentId: doc.id };
                 dataArr.push(obj);
-                console.log(doc.id, " => ", doc.data());
               });
               setUsers(dataArr);
               setAreUsersLoaded(true);
@@ -185,14 +182,6 @@ const AssignCourse = (props) => {
       setShowUserResults(false);
     }
   }, [focused]);
-
-  console.log({
-    courses,
-    users,
-    showUserResults,
-    isCourseFound,
-    isAssignedCourseLoading,
-  });
 
   if (!currentUser) return <h1>Loading...</h1>;
   if (!currentUser.isAdmin) history("/dashboard");

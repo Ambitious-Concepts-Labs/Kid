@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getDocs, collection, doc, updateDoc } from "firebase/firestore";
+import { getDocs, collection } from "firebase/firestore";
 import imgPlaceholder from "../image-placeholder.png";
 import { assignStudentToCourse, selectCourse } from "../../../utils/courseFunctions";
 import { db } from "../../../lib/firebase";
@@ -137,8 +137,6 @@ const AssignStudentCourse = (props) => {
     }
   }, [loading, areCoursesLoaded, areStudentsLoaded]);
     
-    console.log({ students, filteredStudents });
-
   useEffect(() => {
     if (focused && focused !== "assigned-course-name") {
       setShowCourseResults(false);
@@ -149,13 +147,6 @@ const AssignStudentCourse = (props) => {
 
   if (!currentUser) return <h1>Loading...</h1>;
   if (!currentUser.isAdmin) history("/dashboard");
-  
-    console.log(
-        students.filter((s) => {
-          console.log(s.username);
-      }
-      )
-    );
 
   return (
     <Layout>
@@ -289,6 +280,7 @@ const AssignStudentCourse = (props) => {
                         student: selectedStudent,
                         setLoading,
                         setIsAssigningStudent,
+                        isAssigningStudent,
                         setAreCoursesLoaded,
                         setAssignedCourse,
                       });
