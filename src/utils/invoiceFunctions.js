@@ -268,6 +268,7 @@ const sendInvoice = async (props) => {
 					manualDateAdded: newInvoice.manualDateAdded,
 					createdAt: serverTimestamp(),
 					_id: uuidv4(),
+					user: selectedStudent ? selectedStudent.id : currentUser.uid,
 				}
 				const transactionId = uuidv4()
 				updatedTransactions.push(transactionId);

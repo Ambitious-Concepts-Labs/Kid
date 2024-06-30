@@ -4,7 +4,7 @@ import Layout from "../../components/Dashboard/Layout";
 import SearchBar from "./SearchBar";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { removeDuplicates } from "../../utils/helperfunctions";
+import useGetAllTransactions from "../../hooks/useGetAllTransactions";
 
 const UnifiedInvoiceTable = ({ currentUser }) => {
   const [invoiceType, setInvoiceType] = useState("all");
@@ -13,8 +13,9 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
   const [searchedItems, setSearchedItems] = useState([]);
   const [searched, setSearched] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [transactions, setTransactions] = useState([]);
+  const [allTransactions, setTransactions] = useState([]);
   const [itemsPerPage] = useState(10);
+  const transactions = useGetAllTransactions();
 
   useEffect(() => {
     const getTransactions = async () => {
@@ -24,16 +25,12 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
           id: doc.id,
           ...doc.data(),
         }));
-        const transactionSnapshot = await getDocs(
-          collection(db, "transactions")
-        );
-        transactionSnapshot.forEach(async (transaction) => {
+        transactions.forEach(async (transaction) => {
           usersData.forEach((user) => {
             const username = user.username
-            const transactionData = transaction.data()
-            if (user.id === transactionData.user) {
-              transactionData.username = username ? username : "Anonymous";
-              setTransactions((prev) => [...prev, transactionData]);
+            if (user.id === transaction.user) {
+              transaction.username = username ? username : "Anonymous";
+              setTransactions((prev) => [...prev, transaction]);
             }
           });
         });
@@ -47,7 +44,7 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
 
   useEffect(() => {
     const uniqueTransactions = [
-     ...new Map(transactions.map((item) => [item.id, item])).values(),
+     ...new Map(allTransactions.map((item) => [item.id, item])).values(),
     ];
 
     let filtered = [];
