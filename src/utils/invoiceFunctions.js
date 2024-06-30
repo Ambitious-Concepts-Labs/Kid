@@ -249,7 +249,8 @@ const sendInvoice = async (props) => {
 		history,
 		newInvoice = { user: "" },
 		isNewInvoice = false,
-		currentInvoice
+		currentInvoice, 
+		selectedStudent
 	} = props;
 
 	if (isNewInvoice) {
@@ -270,9 +271,13 @@ const sendInvoice = async (props) => {
 				}
 				const transactionId = uuidv4()
 				updatedTransactions.push(transactionId);
-				await setDoc(doc(db, "transactions", transactionId), { ...newTransaction }, { merge: true })				
-				await setDoc(doc(db, "users", currentUser.id), { transactions: updatedTransactions }, { merge: true })
-				history("/dashboard/invoices/all")
+				await setDoc(doc(db, "transactions", transactionId), { ...newTransaction }, { merge: true })	
+				if (selectedStudent) {
+					await setDoc(doc(db, "users", selectedStudent.id), { transactions: updatedTransactions }, { merge: true })
+				} else {
+					await setDoc(doc(db, "users", currentUser.id), { transactions: updatedTransactions }, { merge: true })
+				}
+				history("/dashboard/admin/invoices/all")
 			}
 		} else {
 			window.alert("Please fill in the required fields");
@@ -283,7 +288,7 @@ const sendInvoice = async (props) => {
 		if (confirm) {
 			currentInvoice.status = "pendnig";
 			await setDoc(doc(db, "transactions", transactionId), { ...currentInvoice }, { merge: true })				
-			history("/dashboard/invoices/all")
+			history("/dashboard/admin/invoices/all");
 		}
 	}
 };

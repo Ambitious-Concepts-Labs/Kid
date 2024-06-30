@@ -4,6 +4,8 @@ import imgPlaceholder from "./image-placeholder.png";
 import { addItem, removeItem, sendInvoice } from "../../utils/invoiceFunctions";
 import * as Papa from "papaparse";
 import Layout from "../../components/Dashboard/Layout";
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "../../lib/firebase";
 
 const NewInvoice = (props) => {
   const { currentUser } = props;
@@ -12,6 +14,17 @@ const NewInvoice = (props) => {
   const [newItem, setNewItem] = useState({});
   const [selectedInput, setSelectedInput] = useState("");
   const [inputFilter, setInputFilter] = useState("");
+  const [showStudentResults, setShowStudentResults] = useState(false);
+  const [focused, setFocused] = useState({});
+  const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState({});
+  const [isStudentFound, setIsStudentFound] = useState(false);
+  const [areStudentsLoaded, setAreStudentsLoaded] = useState(false);
+
+  const [assignedCourse, setAssignedCourse] = useState({
+    student: { username: "" },
+  });
+  const [filteredStudents, setFilteredStudents] = useState([]);
   const [productIds, setProductIds] = useState([]);
   const [newInvoice, setNewInvoice] = useState({
     _id: "",
@@ -93,6 +106,66 @@ const NewInvoice = (props) => {
     }
   }, [selectedInput]);
 
+  const handleSelectedStudent = (student) => {
+    setShowStudentResults(false);
+    if (student.username !== assignedCourse.student.username) {
+      setSelectedStudent(student);
+      setIsStudentFound(true);
+      setAssignedCourse({ student });
+      document.getElementById("assigned-student").value = student.username;
+    }
+  };
+
+  const handleAssignedStudent = (e) => {
+    setShowStudentResults(true);
+    setIsStudentFound(false);
+    setFilteredStudents(
+      students.filter((s) =>
+        s.username.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+    );
+    setAssignedCourse({
+      ...assignedCourse,
+      student: { username: e.target.value },
+    });
+  };
+
+    useEffect(() => {
+      if (loading) {
+        const getData = async () => {
+          if (!areStudentsLoaded) {
+            const getStudents = async () => {
+              const studentsData = [];
+              try {
+                const querySnapshot = await getDocs(collection(db, "users"));
+                querySnapshot.forEach((doc) => {
+                  if (doc.data().isStudent) {
+                    const student = { ...doc.data(), id: doc.id };
+                    studentsData.push(student);
+                  }
+                });
+                setStudents(studentsData);
+                setAreStudentsLoaded(true);
+                setLoading(false);
+              } catch (error) {
+                console.error("Error fetching students: ", error);
+              }
+            };
+            getStudents();
+          }
+        };
+        getData();
+      }
+    }, [loading, areStudentsLoaded]);
+
+    useEffect(() => {
+      if (focused && focused !== "assigned-student") {
+        setShowStudentResults(false);
+      }
+    }, [focused]);
+
+
+  console.log("New filteredStudents", filteredStudents, selectedStudent);
   if (!currentUser) return <h1>Loading...</h1>;
   if (!currentUser.isAdmin) history("/dashboard");
   if (!loading) {
@@ -256,6 +329,56 @@ const NewInvoice = (props) => {
                       </span>
                     </td>
                   </tr>
+                  {currentUser.isAdmin && (
+                    <tr>
+                      <th>
+                        <span className="block text-sm">Student</span>
+                      </th>
+                      <td>
+                        <span className="block">
+                          {newInvoice.cart.total_price
+                            ? `$${newInvoice.cart.total_price}`
+                            : ""}
+                        </span>
+                        <div className="form-group mb-4">
+                          <input
+                            type="text"
+                            className="form-control block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            id="assigned-student"
+                            onClick={(e) => {
+                              setShowStudentResults(true);
+                              setFocused(e.target.id);
+                              if (!e.target.value.length) {
+                                setFilteredStudents(students);
+                              }
+                            }}
+                            onChange={(e) => {
+                              handleAssignedStudent(e);
+                            }}
+                          />
+                          {showStudentResults && (
+                            <div
+                              id="results-container"
+                              className="mt-2 space-y-2"
+                            >
+                              {filteredStudents.slice(0, 10).map((student) => (
+                                <button
+                                  key={student.id}
+                                  type="button"
+                                  className="form-control block w-full text-left border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                  onClick={() => {
+                                    handleSelectedStudent(student);
+                                  }}
+                                >
+                                  {student.username}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
 
@@ -394,7 +517,9 @@ const NewInvoice = (props) => {
                     </td>
                     <td>
                       <span className="block">
-                        {!newItem.price || !newItem.qty ? "" : newItem.price * newItem.qty}
+                        {!newItem.price || !newItem.qty
+                          ? ""
+                          : newItem.price * newItem.qty}
                       </span>
                     </td>
                     <td style={{ border: "none" }}>
@@ -477,6 +602,7 @@ const NewInvoice = (props) => {
                       setLoading,
                       newInvoice,
                       isNewInvoice: true,
+                      selectedStudent
                     });
                   }}
                 >
