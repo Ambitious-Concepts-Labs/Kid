@@ -20,20 +20,16 @@ const Transactions = (props) => {
   }, [currentPage]);
 
   const getTransactions = async () => {
-    if (currentUser.isAdmin) {
-      setAllTransactions(transactions);
-    } else {
-      currentUser.transactions.map(async (userTransaction) => {
-        transactions.map((transaction) => {
-          if (
-            userTransaction === transaction.transactionsId &&
-            currentUser.uid === transaction.user
-          ) {
-            setAllTransactions((prev) => [...prev, transaction]);
-          }
-        });
+    currentUser.transactions.map(async (userTransaction) => {
+      transactions.map((transaction) => {
+        if (
+          userTransaction === transaction.transactionsId &&
+          currentUser.uid === transaction.user
+        ) {
+          setAllTransactions((prev) => [...prev, transaction]);
+        }
       });
-    }
+    });
   };
 
   const sortTransactions = () => {
@@ -122,7 +118,7 @@ const Transactions = (props) => {
                             <td className="px-4 py-2">
                               <Link
                                 className="text-blue-500 hover:text-blue-700"
-                                to={`/transaction/${transaction._id}`}
+                                to={`/dashboard/transaction/${transaction._id}`}
                                 onClick={() => {
                                   setCheckUser(false);
                                 }}

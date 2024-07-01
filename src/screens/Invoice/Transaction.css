@@ -1,0 +1,33 @@
+#transaction-img {
+	width: 100px;
+}
+
+#transaction .panel-heading {
+	text-align: center;
+}
+
+#transaction .img-container p,
+.img-container img {
+	display: inline;
+}
+
+#transaction .summary {
+	float: left;
+	border: none;
+}
+#transaction .summary td {
+	border: none !important;
+}
+
+#transaction .transaction-btn {
+	width: 100px;
+	margin-right: auto;
+	margin-left: 12%;
+}
+
+@media screen and (max-width: 1400px) {
+	#transaction .img-container p,
+	.img-container img {
+		display: block;
+	}
+}
