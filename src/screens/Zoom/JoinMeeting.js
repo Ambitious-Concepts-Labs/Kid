@@ -14,7 +14,7 @@ export default function JoinMeeting() {
   const navigate = useNavigate();
   // const [createToast] = useToast();
   const [isAllowed, setIsAllowed] = useState(false);
-  const [user, setUser] = useState<any>(undefined);
+  const [user, setUser] = useState(undefined);
   const [userLoaded, setUserLoaded] = useState(false);
 
   onAuthStateChanged(auth, (currentUser) => {

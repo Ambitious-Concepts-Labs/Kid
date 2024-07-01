@@ -109,10 +109,16 @@ function App() {
           <Route exact path="/dashboard/courses/:id" element={<Screens.ViewCourse {...states} user={user} />} />
           <Route exact path="/dashboard/courses/:id/chapters/:id" element={<Screens.ViewChapter {...states} user={user} />} />
           <Route exact path="/dashboard/course/:id/students/:studentusername" element={<Screens.ViewStudent {...states} user={user} />} />
-          <Route exact path="/dashboard/transactions" element={<Screens.Transactions {...states} user={user} />} />
-          <Route exact path="/dashboard/transaction/:id" element={<Screens.Transaction {...states} user={user} />} />
-          <Route exact path="/dashboard/transaction/:id/invoice" element={<Screens.Invoice {...states} user={user} />} />
           {/* Dashbaord Student Routes */}
+
+          {/* Invoice Routes */}
+          <Route exact path="/dashboard/admin/invoice/new" element={<Screens.NewInvoice {...states} user={user} />} />
+          <Route exact path="/dashboard/admin/invoices/all" element={<Screens.UnifiedInvoiceTable {...states} user={user} />} />
+          <Route exact path="/dashboard/transaction/:id" element={<Screens.Transaction {...states} user={user} />} />
+          <Route exact path="/dashboard/transactions" element={<Screens.Transactions {...states} user={user} />} />
+          <Route exact path="/dashboard/transaction/:id/invoice" element={<Screens.Invoice {...states} user={user} />} />
+          <Route exact path="/dashboard/transaction/:id/invoice2" element={<Screens.Invoice2 {...states} user={user} />} />
+          {/* Invoice Routes */}
 
           {/* Dashboard Admin Routes */}
           {/* <PrivateRoute type={"admin"} user={user} currentUser={currentUser} exact path="/dashboard/admin/course/assign" element={<Screens.AssignCourse {...states} user={user} />} /> */}
@@ -126,8 +132,7 @@ function App() {
           <Route exact path="/dashboard/admin/course/new" element={<Screens.NewCourse {...states} user={user} />} />
           <Route exact path="/dashboard/admin/courses/delete" element={<Screens.DeleteCourse {...states} user={user} />} />
           <Route exact path="/dashboard/admin/courses/pending" element={<Screens.PendingCourses {...states} user={user} />} />
-          <Route exact path="/dashboard/admin/invoice/new" element={<Screens.NewInvoice {...states} user={user} />} />
-          <Route exact path="/dashboard/admin/invoices/all" element={<Screens.UnifiedInvoiceTable {...states} user={user} />} />
+          <Route exact path="/dashboard/admin/invoice/new2" element={<Screens.NewInvoice2 {...states} user={user} />} />
           <Route exact path="/admin/user/:userid/pendingcourse/:courseid" element={<Screens.PendingCourse {...states} user={user} />} />
           {/* Dashboard Admin Routes */}
 
@@ -136,14 +141,16 @@ function App() {
           {/* 404 Route */}
 
           {/* Dashboard Zoom Routes */}
-          {/* <Route path="/zoom" element={<Screens.AdminZoom />} /> */}
-          {/* <Route path="/create" element={<Screens.CreateMeeting />} />
-					<Route path="/create1on1" element={<Screens.OneOnOneMeeting />} />
-					<Route path="/videoconference" element={<Screens.VideoConference />} />
-					<Route path="/mymeetings" element={<Screens.MyMeetings />} />
-					<Route path="/join/:id" element={<Screens.JoinMeeting />} />
-					<Route path="/meetings" element={<Screens.Meeting />} />
-			    <Route path="/zoom" element={<Screens.Dashboard />} /> */}
+          <Route path="/dashboard/zoom/meet" element={<Screens.AdminZoom />} />
+          <Route path="/dashboard/zoom/create" element={<Screens.CreateMeeting />} />
+					<Route path="/dashboard/zoom/create/1on1" element={<Screens.OneOnOneMeeting />} />
+					<Route path="/dashboard/zoom/create/video-conference" element={<Screens.VideoConference />} />
+          {/* <Route path="/join/:id" element={<Screens.JoinMeeting />} /> */}
+          {/* Duplicates */}
+					<Route path="/dashboard/zoom/mymeetings" element={<Screens.MyMeetings />} />
+					<Route path="/dashboard/zoom/meetings" element={<Screens.Meeting />} />
+          {/* Duplicates */}
+			    <Route path="/dashboard/zoom" element={<Screens.Dashboard />} />
         </Routes>
       </BrowserRouter>
     </div>

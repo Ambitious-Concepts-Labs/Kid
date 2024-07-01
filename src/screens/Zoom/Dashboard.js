@@ -1,9 +1,8 @@
 import React from "react";
-import { EuiCard, EuiFlexGroup, EuiFlexItem, EuiImage } from "@elastic/eui";
 import { useNavigate } from "react-router-dom";
-import dashboard1 from "./assets/dashboard1.png";
-import dashboard2 from "./assets/dashboard2.png";
-import dashboard3 from "./assets/dashboard3.png";
+import dashboard1 from "../../assets/dashboard1.png";
+import dashboard2 from "../../assets/dashboard2.png";
+import dashboard3 from "../../assets/dashboard3.png";
 // import Header from "./Header";
 import * as Components from "../../components/all";
 import Layout from "../../components/Dashboard/Layout";
@@ -14,56 +13,48 @@ function Dashboard() {
   return (
     <>
       <Layout>
-          <div className="p-4 flex-1 h-full overflow-auto text-start">
-            {/* heading */}
-            <Components.Paragraph className="font-bold mt-5">
-              BreadCrumbs (6)
-            </Components.Paragraph>
+        <div className="p-4 flex-1 h-full overflow-auto text-start">
+          {/* heading */}
+          <Components.Paragraph className="font-bold mt-5">
+            BreadCrumbs (6)
+          </Components.Paragraph>
 
-            <div
-              style={{
-                display: "flex",
-                height: "100vh",
-                flexDirection: "column",
-              }}
-            >
-              {/* <Header /> */}
-              <EuiFlexGroup
-                justifyContent="center"
-                alignItems="center"
-                style={{ margin: "5vh 10vw" }}
-              >
-                <EuiFlexItem>
-                  <EuiCard
-                    icon={<EuiImage src={dashboard1} alt="icon" size="5rem" />}
-                    title={`Create Meeting`}
-                    description="Create a new meeting and invite people."
-                    onClick={() => navigate("/create")}
-                    paddingSize="xl"
-                  />
-                </EuiFlexItem>
-                <EuiFlexItem>
-                  <EuiCard
-                    icon={<EuiImage src={dashboard2} alt="icon" size="100%" />}
-                    title={`My Meetings`}
-                    description="View your created meetings."
-                    onClick={() => navigate("/mymeetings")}
-                    paddingSize="xl"
-                  />
-                </EuiFlexItem>
-                <EuiFlexItem>
-                  <EuiCard
-                    icon={<EuiImage src={dashboard3} alt="icon" size="5rem" />}
-                    title={`Meetings`}
-                    description="View the meetings that you are invited to."
-                    onClick={() => navigate("/meetings")}
-                    paddingSize="xl"
-                  />
-                </EuiFlexItem>
-              </EuiFlexGroup>
+          <div className="flex flex-col h-full" style={{ minHeight: "100vh" }}>
+            {/* <Header /> */}
+            <div className="flex justify-center items-center my-20 mx-40">
+              <div className="flex space-x-8">
+                <div
+                  className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center cursor-pointer"
+                  onClick={() => navigate("/dashboard/zoom/create")}
+                >
+                  <img src={dashboard1} alt="icon" className="w-20 mb-4" />
+                  <h2 className="text-xl font-bold mb-2">Create Meeting</h2>
+                  <p className="text-gray-700">
+                    Create a new meeting and invite people.
+                  </p>
+                </div>
+                <div
+                  className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center cursor-pointer"
+                  onClick={() => navigate("/dashboard/zoom/mymeetings")}
+                >
+                  <img src={dashboard2} alt="icon" className="w-full mb-4" />
+                  <h2 className="text-xl font-bold mb-2">My Meetings</h2>
+                  <p className="text-gray-700">View your created meetings.</p>
+                </div>
+                <div
+                  className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center cursor-pointer"
+                  onClick={() => navigate("/dashboard/zoom/meetings")}
+                >
+                  <img src={dashboard3} alt="icon" className="w-20 mb-4" />
+                  <h2 className="text-xl font-bold mb-2">Meetings</h2>
+                  <p className="text-gray-700">
+                    View the meetings that you are invited to.
+                  </p>
+                </div>
+              </div>
             </div>
-
           </div>
+        </div>
       </Layout>
     </>
   );

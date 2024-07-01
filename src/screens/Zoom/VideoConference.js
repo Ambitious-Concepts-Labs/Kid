@@ -1,39 +1,22 @@
-import {
-  EuiFlexGroup,
-  EuiForm,
-  EuiFormRow,
-  EuiSpacer,
-  EuiSwitch,
-} from "@elastic/eui";
 import { addDoc } from "firebase/firestore";
-import moment from "moment";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useAppSelector } from "../app/hooks";
-import CreateMeetingButtons from "./FormComponents/CreateMeetingButtons";
-import MeetingDateField from "./FormComponents/MeetingDateField";
-import MeetingMaximumUsersField from "./FormComponents/MeetingMaximumUsersField";
-import MeetingNameField from "./FormComponents/MeetingNameFIeld";
-import MeetingUserField from "./FormComponents/MeetingUserField";
+import CreateMeetingButtons from "../../components/Form/Zoom/CreateMeetingButtons";
+import MeetingDateField from "../../components/Form/Zoom/MeetingDateField";
+import MeetingMaximumUsersField from "../../components/Form/Zoom/MeetingMaximumUsersField";
+import MeetingNameField from "../../components/Form/Zoom/MeetingNameFIeld";
+import MeetingUserField from "../../components/Form/Zoom/MeetingUserField";
 import * as Components from "../../components/all";
-
-// import Header from "../components/Header";
-// import useFetchUsers from "../hooks/useFetchUsers";
-// import useToast from "../hooks/useToast";
-import { meetingsRef } from "../../firebase";
+import { meetingsRef } from "../../lib/firebase";
 import { generateMeetingID } from "./generateMeetingId";
 import Layout from "../../components/Dashboard/Layout";
-// import { FieldErrorType, UserType } from "./types";
 
 export default function VideoConference() {
-  // const [users] = useFetchUsers();
-  // const [createToast] = useToast();
-  // const uid = useAppSelector((zoomApp) => zoomApp.auth.userInfo?.uid);
   const navigate = useNavigate();
 
   const [meetingName, setMeetingName] = useState("");
   const [selectedUser, setSelectedUser] = useState([]);
-  const [startDate, setStartDate] = useState(moment());
+  const [startDate, setStartDate] = useState();
   const [size, setSize] = useState(1);
   const [showErrors, setShowErrors] = useState({
     meetingName: {
@@ -47,7 +30,6 @@ export default function VideoConference() {
   });
   const [anyoneCanJoin, setAnyoneCanJoin] = useState(false);
 
-  // const onUserChange = (selectedOptions: Array<UserType>) => {
   const onUserChange = (selectedOptions) => {
     setSelectedUser(selectedOptions);
   };
@@ -80,54 +62,37 @@ export default function VideoConference() {
       const meetingId = generateMeetingID();
       await addDoc(meetingsRef, {
         createdBy: "uid",
-        // createdBy: uid,
         meetingId,
         meetingName,
         meetingType: anyoneCanJoin ? "anyone-can-join" : "video-conference",
-        invitedUsers: anyoneCanJoin
-          ? []
-          // : selectedUser.map((user: UserType) => user.uid),
-          : selectedUser.map((user) => user.uid),
+        invitedUsers: anyoneCanJoin ? [] : selectedUser.map((user) => user.uid),
         meetingDate: startDate.format("L"),
         maxUsers: anyoneCanJoin ? 100 : size,
         status: true,
       });
-      // createToast({
-      //   title: anyoneCanJoin
-      //     ? "Anyone can join meeting created successfully"
-      //     : "Video Conference created successfully.",
-      //   type: "success",
-      // });
       navigate("/");
     }
   };
 
   return (
     <Layout>
-          <div className="p-4 flex-1 h-full overflow-auto text-start">
-            {/* heading */}
-            <Components.Paragraph className="font-bold mt-5">
-              BreadCrumbs (6)
-            </Components.Paragraph>
-      <div
-        style={{
-          display: "flex",
-          height: "100vh",
-          flexDirection: "column",
-        }}
-        >
-        {/* <Header /> */}
-        <EuiFlexGroup justifyContent="center" alignItems="center">
-          <EuiForm>
-            <EuiFormRow display="columnCompressedSwitch" label="Anyone can Join">
-              <EuiSwitch
-                showLabel={false}
-                label="Anyone Can Join"
+      <div className="p-4 flex-1 h-full overflow-auto text-start">
+        {/* heading */}
+        <Components.Paragraph className="font-bold mt-5">
+          BreadCrumbs (6)
+        </Components.Paragraph>
+
+        <div className="flex flex-col h-full justify-center items-center">
+          <form className="w-full max-w-lg">
+            <div className="flex items-center mb-4">
+              <label className="flex-grow text-gray-700">Anyone can Join</label>
+              <input
+                type="checkbox"
                 checked={anyoneCanJoin}
                 onChange={(e) => setAnyoneCanJoin(e.target.checked)}
-                compressed
-                />
-            </EuiFormRow>
+                className="ml-2"
+              />
+            </div>
 
             <MeetingNameField
               label="Meeting name"
@@ -136,29 +101,32 @@ export default function VideoConference() {
               placeholder="Meeting name"
               value={meetingName}
               setMeetingName={setMeetingName}
-              />
+            />
 
             {anyoneCanJoin ? (
               <MeetingMaximumUsersField value={size} setSize={setSize} />
-              ) : (
-                <MeetingUserField
+            ) : (
+              <MeetingUserField
                 label="Invite Users"
                 isInvalid={showErrors.meetingUsers.show}
                 error={showErrors.meetingUsers.message}
-                // options={users}
-                options={{}}
+                options={[]}
                 onChange={onUserChange}
                 selectedOptions={selectedUser}
                 isClearable={false}
-                placeholder="Select a Users"
-                />
-                )}
-            <MeetingDateField selected={startDate} setStartDate={setStartDate} />
-            <EuiSpacer />
-            <CreateMeetingButtons createMeeting={createMeeting} />
-          </EuiForm>
-        </EuiFlexGroup>
-      </div>
+                placeholder="Select Users"
+              />
+            )}
+
+            <MeetingDateField
+              selected={startDate}
+              setStartDate={setStartDate}
+            />
+            <div className="my-4">
+              <CreateMeetingButtons createMeeting={createMeeting} />
+            </div>
+          </form>
+        </div>
       </div>
     </Layout>
   );
