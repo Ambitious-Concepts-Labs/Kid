@@ -188,6 +188,7 @@ const InvoiceTransaction = (props) => {
                           userId: transaction.user._id,
                           history,
                           currentInvoice: transaction,
+                          status: currentUser.isAdmin ? "completed" : "pending",
                         });
                       }}
                     >

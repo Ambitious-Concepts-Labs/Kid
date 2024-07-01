@@ -85,7 +85,7 @@ const ChapterId = ({ courseId, chapterId, course, currentUser }) => {
                 isCompleted={!!userProgress?.isCompleted}
               />
             ) : (
-              <CourseEnrollButton courseId={courseId} price={course.price} />
+              <CourseEnrollButton currentUser={currentUser} courseId={courseId} price={course.price} />
             )}
           </div>
           <div className="separator" />

@@ -57,7 +57,6 @@ export default function Sidebar({ page, setPage }) {
     { name: "Pending Courses", icon: <RiPassPendingFill />, path: "/dashboard/admin/courses/pending" },
     { name: "Delete Courses", icon: <RiPassPendingFill />, path: "/dashboard/admin/courses/delete" },
     { name: "Create Invoice", icon: <RiPassPendingFill />, path: "/dashboard/admin/invoice/new" },
-    { name: "All Invoices", icon: <BiSolidPurchaseTagAlt page="orderhistory" />, path: `/dashboard/transactions` },
     { name: "View Invoices", icon: <RiPassPendingFill />, path: "/dashboard/admin/invoices/all" },
     { name: "User Profile", icon: <RiPassPendingFill />, path: "/dashboard/profile" },
     { name: "Create Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
