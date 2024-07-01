@@ -96,13 +96,13 @@ const Transaction = (props) => {
                       </table>
                     </div>
                     <div className="mt-4">
-                      {currentUser.isAdmin && transaction.status === "pending" && (
+                      {currentUser.isAdmin && transaction.status !== "completed" && (
                         <Link
                           className="btn btn-primary"
                           onClick={() => setIsTransactionLoaded(false)}
-                          to={`/transaction/${transaction._id}/invoice`}
+                          to={`/dashboard/transaction/${transaction._id}/invoice`}
                         >
-                          Invoice
+                          View Invoice
                         </Link>
                       )}
                       {transaction.status === "pending" && (
