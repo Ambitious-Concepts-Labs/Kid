@@ -44,14 +44,11 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
     setAllTransactions(transactions)
     if (transactions.length > 0) {
       getTransactions();
-      const uniqueTransactions = [
-       ...new Map(allTransactions.map((item) => [item.id, item])).values(),
-      ];
       let filtered = [];
       if (invoiceType === "all") {
-        filtered = uniqueTransactions;
+        filtered = transactions;
       } else {
-        filtered = uniqueTransactions.filter(
+        filtered = transactions.filter(
           (item) => item.status === invoiceType
         );
       }
@@ -100,6 +97,7 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = searchedItems.slice(indexOfFirstItem, indexOfLastItem);
 
+  console.log(transactions);
   return (
     <Layout>
       <div className="container mx-auto py-6">
