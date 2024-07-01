@@ -1,64 +1,63 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Dashboard/Layout";
-import SearchBar from "./SearchBar";
+import SearchBar from "../../components/SearchBar";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import useGetAllTransactions from "../../hooks/useGetAllTransactions";
 
 const UnifiedInvoiceTable = ({ currentUser }) => {
+  const transactions = useGetAllTransactions();
   const [invoiceType, setInvoiceType] = useState("all");
   const [invoices, setInvoices] = useState([]);
   const [filteredInvoices, setFilteredInvoices] = useState([]);
   const [searchedItems, setSearchedItems] = useState([]);
+  const [allTransactions, setAllTransactions] = useState([]);
   const [searched, setSearched] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [allTransactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [itemsPerPage] = useState(10);
-  const transactions = useGetAllTransactions();
 
-  useEffect(() => {
-    const getTransactions = async () => {
-      try {
-        const usersSnapshot = await getDocs(collection(db, "users"));
-        const usersData = usersSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        transactions.forEach(async (transaction) => {
-          usersData.forEach((user) => {
-            const username = user.username
-            if (user.id === transaction.user) {
-              transaction.username = username ? username : "Anonymous";
-              setTransactions((prev) => [...prev, transaction]);
-            }
-          });
+  const getTransactions = async () => {
+    try {
+      const usersSnapshot = await getDocs(collection(db, "users"));
+      const usersData = usersSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      transactions.forEach(async (transaction) => {
+        usersData.forEach((user) => {
+          const username = user.username
+          if (user.id === transaction.user) {
+            transaction.username = username ? username : "Anonymous";
+            setAllTransactions((prev) => [...prev, transaction]);
+          }
         });
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-        return [];
-      }
-    };
-    getTransactions();
-  }, [currentUser]);
+      });
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      return [];
+    }
+  };
 
   useEffect(() => {
-    const uniqueTransactions = [
-     ...new Map(allTransactions.map((item) => [item.id, item])).values(),
-    ];
-
-    let filtered = [];
-    if (invoiceType === "all") {
-      filtered = uniqueTransactions;
-    } else {
-      filtered = uniqueTransactions.filter(
-        (item) => item.status === invoiceType
-      );
+    setAllTransactions(transactions)
+    if (transactions.length > 0) {
+      getTransactions();
+      let filtered = [];
+      if (invoiceType === "all") {
+        filtered = transactions;
+      } else {
+        filtered = transactions.filter(
+          (item) => item.status === invoiceType
+        );
+      }
+      setInvoices(filtered);
+      setFilteredInvoices(filtered);
+      setSearchedItems(filtered);
+      setLoading(false);
     }
-    setInvoices(filtered);
-    setFilteredInvoices(filtered);
-    setSearchedItems(filtered);
-  }, [transactions, invoiceType]);
+  }, [currentUser, transactions, invoiceType, loading]);
 
   if (!currentUser) return <h1>Loading...</h1>
 
@@ -98,6 +97,7 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = searchedItems.slice(indexOfFirstItem, indexOfLastItem);
 
+  console.log(transactions);
   return (
     <Layout>
       <div className="container mx-auto py-6">

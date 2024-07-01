@@ -1,0 +1,259 @@
+/* heading */
+
+#invoice h1 {
+	font: bold 100% sans-serif;
+	letter-spacing: 0.5em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+/* table */
+
+#invoice table {
+	font-size: 75%;
+	table-layout: fixed;
+	width: 100%;
+}
+#invoice table {
+	border-collapse: separate;
+	border-spacing: 2px;
+}
+#invoice th,
+#invoice td {
+	border-width: 1px;
+	padding: 0.5em;
+	position: relative;
+	text-align: left;
+}
+#invoice th,
+#invoice td {
+	border-radius: 0.25em;
+	border-style: solid;
+}
+#invoice th {
+	background: #eee;
+	border-color: #bbb;
+}
+#invoice #invoice td {
+	border-color: #ddd;
+}
+
+/* header */
+
+#invoice header {
+	margin: 0 0 3em;
+}
+#invoice header:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+
+#invoice header h1 {
+	background: #019ce4;
+	border-radius: 0.25em;
+	color: #fff;
+	margin: 0 0 1em;
+	padding: 0.5em 0;
+}
+#invoice header address {
+	float: left;
+	font-size: 95%;
+	font-style: normal;
+	line-height: 1.25;
+	margin: 0 1em 1em 0;
+}
+#invoice article address.norm h4 {
+	font-size: 125%;
+	font-weight: bold;
+}
+#invoice article address.norm {
+	float: left;
+	font-size: 95%;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1.25;
+	margin: 0 1em 1em 0;
+}
+#invoice header address p {
+	margin: 0 0 0.25em;
+}
+#invoice header span,
+#invoice header img {
+	display: block;
+	float: right;
+}
+#invoice header span {
+	margin: 0 0 1em 1em;
+	max-height: 25%;
+	max-width: 60%;
+	position: relative;
+}
+#invoice header img {
+	max-height: 100%;
+
+	max-width: 100%;
+	width: 100px;
+	height: auto;
+}
+#invoice header input {
+	cursor: pointer;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	height: 100%;
+	left: 0;
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+/* article */
+
+#invoice article,
+#invoice article address,
+#invoice table.meta,
+#invoice table.inventory {
+	margin: 0 0 3em;
+}
+#invoice article:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+#invoice article h1 {
+	clip: rect(0 0 0 0);
+	position: absolute;
+}
+
+#invoice article address {
+	float: left;
+	font-size: 125%;
+	font-weight: bold;
+}
+
+/* table meta & balance */
+
+#invoice table.meta,
+#invoice table.balance {
+	float: right;
+	width: 36%;
+}
+#invoice table.meta:after,
+#invoice table.balance:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+
+/* table meta */
+
+#invoice table.meta th {
+	width: 40%;
+}
+#invoice table.meta td {
+	width: 60%;
+}
+
+/* table items */
+
+#invoice table.inventory {
+	clear: both;
+	width: 100%;
+}
+#invoice table.inventory th:first-child {
+	width: 50px;
+}
+#invoice table.inventory th:nth-child(2) {
+	width: 200px;
+}
+#invoice table.inventory th:nth-child(3) {
+	width: 1000px;
+}
+#invoice table.inventory th {
+	font-weight: bold;
+	text-align: center;
+}
+
+#invoice table.inventory td:nth-child(1) {
+	width: 26%;
+}
+#invoice table.inventory td:nth-child(2) {
+	width: 38%;
+}
+#invoice table.inventory td:nth-child(3) {
+	text-align: left;
+	width: 12%;
+}
+#invoice table.inventory td:nth-child(4) {
+	text-align: right;
+	width: 12%;
+}
+#invoice table.inventory td:nth-child(5) {
+	text-align: right;
+	width: 12%;
+}
+
+/* table balance */
+
+#invoice table.balance th,
+#invoice table.balance td {
+	width: 50%;
+}
+#invoice table.balance td {
+	text-align: right;
+}
+
+/* aside */
+
+#invoice aside h1 {
+	border: none;
+	border-width: 0 0 1px;
+	margin: 0 0 1em;
+}
+#invoice aside h1 {
+	border-color: #999;
+	border-bottom-style: solid;
+}
+
+#invoice table.sign {
+	float: left;
+	width: 220px;
+}
+#invoice table.sign img {
+	width: 100%;
+}
+#invoice table.sign tr td {
+	border-color: transparent;
+}
+
+#invoice button {
+	width: 150px;
+}
+#invoice button:first-of-type {
+	margin-bottom: 5px;
+}
+@media print {
+	#invoice > * {
+		-webkit-print-color-adjust: exact;
+	}
+	#invoice html {
+		background: none;
+		padding: 0;
+	}
+	#invoice body {
+		box-shadow: none;
+		margin: 0;
+	}
+	#invoice span:empty {
+		display: none;
+	}
+	#invoice .add,
+	#invoice .cut {
+		display: none;
+	}
+}
+
+@page {
+	margin: 0;
+}
+/*  */

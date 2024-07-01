@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { searchCourse } from "../../../utils/courseFunctions";
-import SearchBar from "../SearchBar";
+import SearchBar from "../../../components/SearchBar";
 import Layout from "../../../components/Dashboard/Layout";
 import useGetAllUsers from "../../../hooks/useGetAllUsers";
 import { db } from "../../../lib/firebase";

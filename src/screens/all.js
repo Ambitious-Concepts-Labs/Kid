@@ -7,6 +7,8 @@ import HomeScreen from "./Static/HomeScreen";
 import NotFound from "./Static/NotFound.js";
 import StudentScreen from "./Static/StudentScreen";
 import WorksScreen from "./Static/WorksScreen";
+import Terms from "./Static/Terms";
+import Privacy from "./Static/Privacy";
 // Static Screens
 
 // Auth Screens
@@ -115,4 +117,6 @@ export {
   UnifiedInvoiceTable,
   DeleteCourse,
   AssignStudentCourse,
+  Terms,
+  Privacy,
 };

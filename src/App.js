@@ -81,6 +81,8 @@ function App() {
           <Route exact path="/facilities" element={<Screens.FacilitiesScreen />} />
           <Route exact path="/our-works" element={<Screens.WorksScreen />} />
           <Route exact path="/student-life" element={<Screens.StudentScreen />} />
+          <Route exact path="/terms" element={<Screens.Terms />} />
+          <Route exact path="/privacy" element={<Screens.Privacy />} />
           {/* Root Routes */}
 
           {/* Dashboard General Routes */}

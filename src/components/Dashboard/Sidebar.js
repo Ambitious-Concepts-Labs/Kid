@@ -24,41 +24,45 @@ export default function Sidebar({ page, setPage }) {
 
   const teacherRoutes = [
     { name: "Dashboard", icon: <Dashboard page="dashboard" />, path: "/dashboard" },
+    { name: "Create Course", icon: <Dashboard page="createcourse" />, path: "/dashboard/admin/course/new" },
+    { name: "View Courses", icon: <Dashboard page="viewcourses" />, path: `/dashboard/courses/teacher/${currentUser?.username}/all` },
     { name: "Profile", icon: <Profile page="profile" />, path: "/dashboard/profile" },
     { name: "Assesments", icon: <Assessments page="assesment" />, path: "/dashboard/assesment" },
     { name: "Suggestions", icon: <VscFeedback page="suggestions" />, path: "/dashboard/suggestions" },
-    { name: "View Courses", icon: <Dashboard page="viewcourses" />, path: `/dashboard/courses/teacher/${currentUser?.username}/all` },
-    { name: "Create Course", icon: <Dashboard page="createcourse" />, path: "/dashboard/admin/course/new" },
-    { name: "Zoom Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
+    { name: "Create Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
+    { name: "My Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom/mymeetings" },
   ];
 
   const studentRoutes = [
     { name: "Dashboard", icon: <Dashboard page="dashboard" />, path: "/dashboard" },
     { name: "My Courses", icon: <FaLayerGroup page="my courses" />, path:`/dashboard/courses/student/${currentUser?.username}/all` },
     { name: "Browse Courses", icon: <GiArchiveResearch page="my courses" />, path: `/dashboard/courses/browse` },
-    // { name: "Order History", icon: <BiSolidPurchaseTagAlt page="orderhistory" />, path: `/dashboard/transactions` },
+    { name: "Order History", icon: <BiSolidPurchaseTagAlt page="orderhistory" />, path: `/dashboard/transactions` },
     // { name: "Products", icon: <TbShoppingCart page="products" />, path: `/dashboard/products` },
     { name: "My Profile", icon: <RiPassPendingFill page="profile" />, path: "/dashboard/profile" },
     // { name: "Assesments", icon: <Assessments page="Pre and Post assesment" />, path: "/dashboard/assesment" },
     // { name: "Suggestions", icon: <VscFeedback page="suggestions" />, path: "/dashboard/suggestions" },
-    // { name: "Zoom Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
+    { name: "Create Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
+    { name: "My Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom/mymeetings" },
     // { name: "Thank You", icon: <GiHeartBeats page="thankyou" />, path: "/dashboard/thankyou" },
   ];
-
+  
   const adminRoutes = [
-  { name: "Dashboard", icon: <RiPassPendingFill />, path: "/dashboard" },
-  { name: "All Courses", icon: <RiPassPendingFill />, path: "/dashboard/courses/browse" },
-  { name: "Teacher Courses", icon: <RiPassPendingFill />, path: "/dashboard/teacher/courses" },
-  { name: "Create Course", icon: <IoIosCreate />, path: "/dashboard/admin/course/new" },
-  { name: "Assign Teacher", icon: <MdAssignmentAdd page="assigncourse" />, path: "/dashboard/admin/course/assign" },
-  { name: "Assign Student", icon: <MdAssignmentAdd page="assigncourse" />, path: "/dashboard/admin/student/course/assign" },
-  { name: "Pending Courses", icon: <RiPassPendingFill />, path: "/dashboard/admin/courses/pending" },
-  { name: "Delete Courses", icon: <RiPassPendingFill />, path: "/dashboard/admin/courses/delete" },
-  { name: "Create Invoice", icon: <RiPassPendingFill />, path: "/dashboard/admin/invoice/new" },
-  { name: "View Invoices", icon: <RiPassPendingFill />, path: "/dashboard/admin/invoices/all" },
-  { name: "User Profile", icon: <RiPassPendingFill />, path: "/dashboard/profile" },
-  { name: "Assesments", icon: <Assessments page="assessments" />, path: "/dashboard/assesment" },
-  { name: "Suggestions", icon: <RiPassPendingFill />, path: "/dashboard/suggestions" },
+    { name: "Dashboard", icon: <RiPassPendingFill />, path: "/dashboard" },
+    { name: "All Courses", icon: <RiPassPendingFill />, path: "/dashboard/courses/browse" },
+    { name: "Teacher Courses", icon: <RiPassPendingFill />, path: "/dashboard/teacher/courses" },
+    { name: "Create Course", icon: <IoIosCreate />, path: "/dashboard/admin/course/new" },
+    { name: "Assign Teacher", icon: <MdAssignmentAdd page="assigncourse" />, path: "/dashboard/admin/course/assign" },
+    { name: "Assign Student", icon: <MdAssignmentAdd page="assigncourse" />, path: "/dashboard/admin/student/course/assign" },
+    { name: "Pending Courses", icon: <RiPassPendingFill />, path: "/dashboard/admin/courses/pending" },
+    { name: "Delete Courses", icon: <RiPassPendingFill />, path: "/dashboard/admin/courses/delete" },
+    { name: "Create Invoice", icon: <RiPassPendingFill />, path: "/dashboard/admin/invoice/new" },
+    { name: "View Invoices", icon: <RiPassPendingFill />, path: "/dashboard/admin/invoices/all" },
+    { name: "User Profile", icon: <RiPassPendingFill />, path: "/dashboard/profile" },
+    { name: "Create Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
+    { name: "My Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom/mymeetings" },
+    { name: "Assesments", icon: <Assessments page="assessments" />, path: "/dashboard/assesment" },
+    { name: "Suggestions", icon: <RiPassPendingFill />, path: "/dashboard/suggestions" },
 ];
 
 

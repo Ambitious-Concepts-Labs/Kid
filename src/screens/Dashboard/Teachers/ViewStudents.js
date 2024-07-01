@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { searchStudent } from "../../../utils/courseFunctions";
-import SearchBar from "../SearchBar";
+import SearchBar from "../../../components/SearchBar";
 import Layout from "../../../components/Dashboard/Layout";
 import { db } from "../../../lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
