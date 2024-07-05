@@ -3,10 +3,10 @@ on:
   push:
     branches:
       - '*'
-      - '!main'
+      - '!master'
 
 jobs:
-  test:
+  Unit-Test:
     runs-on: ubuntu-latest
 
     steps:
