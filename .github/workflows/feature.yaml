@@ -26,12 +26,11 @@ jobs:
   EOT:
     needs: ["Unit-Test"]
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
       - name: Install dependencies and run tests
-        continue-on-error: true
         run: |
           npm install --legacy-peer-deps
           npm run test:CI -- --coverage  
