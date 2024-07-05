@@ -35,8 +35,8 @@ jobs:
     - name: Install dependencies
       run: npm install --legacy-peer-deps
 
-    # - name: Run tests
-    #   run: npm run jest-test
+    - name: Run tests
+      run: npm run jest-test
   EOT:
     needs: ["Unit-Test"]
     environment:
@@ -46,7 +46,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - run: npm run citest
+      # - run: npm run citest
+      - run: npm run test:CI -- --coverage    
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Upload artifact
