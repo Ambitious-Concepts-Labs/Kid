@@ -16,7 +16,9 @@ function MeetingUserField({
       e.target.selectedOptions,
       (option) => option.value
     );
-    onChange(singleSelection ? value[0] : value);
+    const regex = /\b(Student|Admin|Teacher)\b/gi;
+    const updatedValue = value[0].replace(regex, "").trim();
+    onChange(singleSelection ? updatedValue : value);
   };
 
   return (
@@ -25,8 +27,8 @@ function MeetingUserField({
         {label}
       </label>
       <select
-        multiple={!singleSelection}
-        value={selectedOptions.map((option) => option.value)}
+        // multiple={!singleSelection}
+        value={selectedOptions}
         onChange={handleChange}
         className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring ${
           isInvalid ? "border-red-500" : "border-gray-300"
@@ -35,8 +37,10 @@ function MeetingUserField({
       >
         {isClearable && <option value="">{placeholder}</option>}
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
+          <option key={option.value} value={option.email}>
+            {option.isAdmin ? "Admin" : option.isTeacher ? "Teacher" : "Student"}
+            &nbsp;
+            {option.username ? option.username ? option.email : option.email : "Invalid User"}
           </option>
         ))}
       </select>

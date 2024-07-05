@@ -12,13 +12,13 @@ function Dashboard() {
 
   return (
     <>
-      <Layout>
+      <Layout
+        crumbs={[
+          { label: "Home", link: "/dashboard" },
+          { label: "Zoom" },
+        ]}
+      >
         <div className="p-4 flex-1 h-full overflow-auto text-start">
-          {/* heading */}
-          <Components.Paragraph className="font-bold mt-5">
-            BreadCrumbs (6)
-          </Components.Paragraph>
-
           <div className="flex flex-col h-full" style={{ minHeight: "100vh" }}>
             {/* <Header /> */}
             <div className="flex justify-center items-center my-20 mx-40">

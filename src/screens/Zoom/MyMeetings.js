@@ -1,12 +1,11 @@
-import { getDocs, query, where } from "firebase/firestore";
+import { getDocs, query } from "firebase/firestore";
 import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import EditFlyout from "./EditFlyout";
 import { meetingsRef } from "../../lib/firebase";
-import * as Components from "../../components/all";
 import Layout from "../../components/Dashboard/Layout";
 
-export default function MyMeetings() {
+export default function MyMeetings({ currentUser }) {
   const [meetings, setMeetings] = useState([]);
   const [showEditFlyout, setShowEditFlyout] = useState(false);
   const [editMeeting, setEditMeeting] = useState(null);
@@ -19,7 +18,15 @@ export default function MyMeetings() {
         docId: meeting.id,
         ...meeting.data(),
       }));
-      setMeetings(myMeetings);
+      console.log(currentUser)
+      myMeetings.forEach((meeting) => {
+        console.log(meeting.invitedUsers)
+      })  
+      const userMeetings = myMeetings.filter(
+        (meeting) => meeting.invitedUsers.includes(currentUser.email) || meeting.invitedUsers.includes(currentUser.username)
+      );
+
+      setMeetings(userMeetings);
     }
   }, []);
 
@@ -52,7 +59,7 @@ export default function MyMeetings() {
       );
     } else if (isSameDay(meetingDate, currentDate)) {
       return (
-        <Link to={`/join/${meeting.meetingId}`}>
+        <Link to={`/dashboard/zoom/join/${meeting.meetingId}`}>
           <span className="px-2 py-1 bg-green-500 text-white rounded">
             Join Now
           </span>
@@ -129,11 +136,14 @@ export default function MyMeetings() {
   ];
 
   return (
-    <Layout>
+    <Layout
+      crumbs={[
+        { label: "Home", link: "/dashboard" },
+        { label: "Zoom", link: "/dashboard/zoom" },
+        { label: "My Meetings" },
+      ]}
+    >
       <div className="p-4 flex-1 h-full overflow-auto text-start">
-        <Components.Paragraph className="font-bold mt-5">
-          BreadCrumbs (6)
-        </Components.Paragraph>
         <div className="flex flex-col h-full justify-center items-center">
           <div className="w-full max-w-4xl">
             <div className="bg-white shadow-md rounded my-6">

@@ -5,14 +5,23 @@ import CreateMeetingButtons from "../../components/Form/Zoom/CreateMeetingButton
 import MeetingDateField from "../../components/Form/Zoom/MeetingDateField";
 import MeetingNameField from "../../components/Form/Zoom/MeetingNameFIeld";
 import MeetingUserField from "../../components/Form/Zoom/MeetingUserField";
-import * as Components from "../../components/all";
 import Layout from "../../components/Dashboard/Layout";
 import { meetingsRef } from "../../lib/firebase";
-import { generateMeetingID } from "./generateMeetingId";
+import useGetAllUsers from "../../hooks/useGetAllUsers";
+import { createCall } from "../../utils/zoomFunctions";
 
-export default function OneOnOneMeeting() {
+export default function OneOnOneMeeting(props) {
+  const {
+    pc,
+    currentUser,
+    callInputRef,
+    hangupButtonRef,
+    setCallId,
+    callButtonRef,
+    webcamButtonRef,
+  } = props;
   const navigate = useNavigate();
-
+  const users = useGetAllUsers();
   const [meetingName, setMeetingName] = useState("");
   const [selectedUser, setSelectedUser] = useState([]);
   const [startDate, setStartDate] = useState();
@@ -28,7 +37,7 @@ export default function OneOnOneMeeting() {
   });
 
   const onUserChange = (selectedOptions) => {
-    setSelectedUser(selectedOptions);
+    setSelectedUser([selectedOptions]);
   };
 
   const validateForm = () => {
@@ -55,32 +64,37 @@ export default function OneOnOneMeeting() {
   };
 
   const createMeeting = async () => {
+    console.log(validateForm());
     if (!validateForm()) {
-      const meetingId = generateMeetingID();
-      await addDoc(meetingsRef, {
-        createdBy: "uid",
-        meetingId,
-        meetingName,
-        meetingType: "1-on-1",
-        invitedUsers: [selectedUser[0].uid],
-        meetingDate: startDate.format("L"),
-        maxUsers: 1,
-        status: true,
-      });
-      navigate("/");
+      try {
+        await addDoc(meetingsRef, {
+          createdBy: currentUser.uid,
+          meetingId: callInputRef.current.value,
+          meetingName,
+          meetingType: "1-on-1",
+          invitedUsers: [selectedUser[0]],
+          meetingDate: startDate,
+          maxUsers: 1,
+          status: true,
+        });
+        navigate("/dashboard/zoom/mymeetings");
+      } catch (error) {
+        console.error("Error adding document: ", error);
+      }
     }
   };
-
   return (
-    <Layout>
+    <Layout
+      crumbs={[
+        { label: "Home", link: "/dashboard" },
+        { label: "Zoom", link: "/dashboard/zoom" },
+        { label: "Create Meeting", link: "/dashboard/zoom/create" },
+        { label: "Create 1 on 1 Meeting" },
+      ]}
+    >
       <div className="p-4 flex-1 h-full overflow-auto text-start">
-        {/* heading */}
-        <Components.Paragraph className="font-bold mt-5">
-          BreadCrumbs (6)
-        </Components.Paragraph>
-
         <div className="flex flex-col h-full justify-center items-center">
-          <form className="w-full max-w-lg">
+          <div className="w-full max-w-lg">
             <MeetingNameField
               label="Meeting name"
               isInvalid={showErrors.meetingName.show}
@@ -93,7 +107,7 @@ export default function OneOnOneMeeting() {
               label="Invite User"
               isInvalid={showErrors.meetingUser.show}
               error={showErrors.meetingUser.message}
-              options={[]}
+              options={users}
               onChange={onUserChange}
               selectedOptions={selectedUser}
               singleSelection={{ asPlainText: true }}
@@ -104,10 +118,24 @@ export default function OneOnOneMeeting() {
               selected={startDate}
               setStartDate={setStartDate}
             />
+            <p>Answer the call from a different browser window or device</p>
+            <input
+              ref={callInputRef}
+              className="border border-gray-300 p-2 rounded w-full mt-2"
+            />
             <div className="my-4">
-              <CreateMeetingButtons createMeeting={createMeeting} />
+              <CreateMeetingButtons
+                callButtonRef={callButtonRef}
+                webcamButtonRef={webcamButtonRef}
+                callInputRef={callInputRef}
+                hangupButtonRef={hangupButtonRef}
+                setCallId={setCallId}
+                pc={pc}
+                createCall={createCall}
+                createMeeting={createMeeting}
+              />
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </Layout>

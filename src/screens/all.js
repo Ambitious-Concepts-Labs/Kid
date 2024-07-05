@@ -33,9 +33,10 @@ import CreateMeeting from "./Zoom/CreateMeeting";
 import OneOnOneMeeting from "./Zoom/OneOnOneMeeting";
 import VideoConference from "./Zoom/VideoConference";
 import MyMeetings from "./Zoom/MyMeetings";
-// import JoinMeeting from "./Zoom/JoinMeeting";
+import JoinMeeting from "./Zoom/JoinMeeting";
 import Meeting from "./Zoom/Meeting";
 import Dashboard from "./Zoom/Dashboard";
+import WebRTCDemo from "./Zoom/WebRTCDemo2.js";
 // Zoom Screens
 
 import UpdateCourse from "./Dashboard/UpdateCourse";
@@ -95,7 +96,7 @@ export {
   OneOnOneMeeting,
   VideoConference,
   MyMeetings,
-  // JoinMeeting,
+  JoinMeeting,
   Meeting,
   Dashboard,
   TeacherCourses,
@@ -125,5 +126,6 @@ export {
   AssignStudentCourse,
   Terms,
   Privacy,
-  Invoice2
+  Invoice2,
+  WebRTCDemo
 };

@@ -1,23 +1,43 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import "./App.css";
 import * as Screens from "./screens/all";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useUserData from "./hooks/useUserData";
 import PrivateRoute from "./utils/PrivateRouter";
 
+const servers = {
+  iceServers: [
+    {
+      urls: ["stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302"],
+    },
+  ],
+  iceCandidatePoolSize: 10,
+};
+
 function App() {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const { currentUser, user, loading } = useUserData();
+  const [pc, setPc] = useState(new RTCPeerConnection(servers));
+  const [localStream, setLocalStream] = useState(null);
+  const [remoteStream, setRemoteStream] = useState(new MediaStream());
   const [cart, setCart] = useState({
     items: [],
     total_price: 0,
     total_quantity: 0,
   });
+  const [callId, setCallId] = useState(null)
   const [mobile, setMobile] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState([
     window.innerWidth,
     window.innerHeight,
   ]);
+  const webcamVideoRef = useRef(null);
+  const remoteVideoRef = useRef(null);
+  const callInputRef = useRef(null);
+  const callButtonRef = useRef(null);
+  const answerButtonRef = useRef(null);
+  const webcamButtonRef = useRef(null);
+  const hangupButtonRef = useRef(null);
 
   const states = {
     isLoggedin,
@@ -29,6 +49,20 @@ function App() {
     loading,
     cart,
     setCart,
+    pc,
+    webcamButtonRef,
+    webcamVideoRef,
+    remoteVideoRef, 
+    callButtonRef,
+    callInputRef,
+    answerButtonRef, 
+    hangupButtonRef,
+    callId,
+    setCallId,
+    localStream,
+    remoteStream,
+    setLocalStream,
+    setPc
   };
 
   function useWindowSize() {
@@ -141,16 +175,17 @@ function App() {
           {/* 404 Route */}
 
           {/* Dashboard Zoom Routes */}
-          <Route path="/dashboard/zoom/meet" element={<Screens.AdminZoom />} />
-          <Route path="/dashboard/zoom/create" element={<Screens.CreateMeeting />} />
-					<Route path="/dashboard/zoom/create/1on1" element={<Screens.OneOnOneMeeting />} />
-					<Route path="/dashboard/zoom/create/video-conference" element={<Screens.VideoConference />} />
-          {/* <Route path="/join/:id" element={<Screens.JoinMeeting />} /> */}
+          <Route path="/dashboard/zoom/create" element={<Screens.CreateMeeting  {...states} user={user}/>} />
+					<Route path="/dashboard/zoom/create/1on1" element={<Screens.OneOnOneMeeting  {...states} user={user} />} />
+					<Route path="/dashboard/zoom/create/video-conference" element={<Screens.VideoConference  {...states} user={user} />} />
+          <Route path="/dashboard/zoom/meet" element={<Screens.AdminZoom {...states} user={user} />} />
+          <Route path="/dashboard/zoom/webrtc" element={<Screens.WebRTCDemo {...states} user={user}/>} />
+          <Route path="/dashboard/zoom/join/:id" element={<Screens.JoinMeeting {...states} user={user}/>} />
           {/* Duplicates */}
-					<Route path="/dashboard/zoom/mymeetings" element={<Screens.MyMeetings />} />
-					<Route path="/dashboard/zoom/meetings" element={<Screens.Meeting />} />
+					<Route path="/dashboard/zoom/meetings" element={<Screens.Meeting  {...states} user={user} />} />
+					<Route path="/dashboard/zoom/mymeetings" element={<Screens.MyMeetings  {...states} user={user} />} />
           {/* Duplicates */}
-			    <Route path="/dashboard/zoom" element={<Screens.Dashboard />} />
+			    <Route path="/dashboard/zoom" element={<Screens.Dashboard  {...states} user={user}/>} />
         </Routes>
       </BrowserRouter>
     </div>

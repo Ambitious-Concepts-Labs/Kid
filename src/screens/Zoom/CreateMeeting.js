@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import meeting1 from "../../assets/meeting1.png";
 import meeting2 from "../../assets/meeting2.png";
-import * as Components from "../../components/all";
 import Layout from "../../components/Dashboard/Layout";
 
 export default function CreateMeeting() {
@@ -10,12 +9,13 @@ export default function CreateMeeting() {
 
   return (
     <>
-      <Layout>
-        <div className="p-4 flex-1 h-full overflow-auto text-start">
-          <Components.Paragraph className="font-bold mt-5">
-            BreadCrumbs (6)
-          </Components.Paragraph>
-        </div>
+      <Layout
+        crumbs={[
+          { label: "Home", link: "/dashboard" },
+          { label: "Zoom", link: "/dashboard/zoom" },
+          { label: "Create Meeting" },
+        ]}
+      >
         <div className="flex flex-col h-full" style={{ minHeight: "100vh" }}>
           <div className="flex justify-center items-center my-20 mx-40">
             <div className="flex space-x-8">
@@ -33,7 +33,9 @@ export default function CreateMeeting() {
               </div>
               <div
                 className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center cursor-pointer"
-                onClick={() => navigate("/dashboard/zoom/create/video-conference")}
+                onClick={() =>
+                  navigate("/dashboard/zoom/create/video-conference")
+                }
               >
                 <img src={meeting2} alt="icon" className="w-full mb-4" />
                 <h2 className="text-xl font-bold mb-2">

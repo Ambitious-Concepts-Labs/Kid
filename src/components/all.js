@@ -1,5 +1,6 @@
 import ArrowLeft from "./ArrowLeft";
 import ArrowRight from "./ArrowRight";
+import Breadcrumb from "./Breadcrumb";
 import Footer from "./Footer";
 import Navbar from "./Navbar/Navbar";
 import Button from "./Button";
@@ -20,6 +21,7 @@ export {
   Navbar,
   ArrowLeft,
   ArrowRight,
+  Breadcrumb,
   Footer,
   Button,
   Input,
