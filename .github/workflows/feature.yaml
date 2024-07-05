@@ -23,3 +23,19 @@ jobs:
 
     - name: Run tests
       run: npm run jest-test
+  EOT:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies and run tests
+        run: |
+          npm install --legacy-peer-deps
+          npm run test:CI -- --coverage  
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./coverage/lcov-report
+
