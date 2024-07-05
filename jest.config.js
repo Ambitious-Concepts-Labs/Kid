@@ -15,7 +15,5 @@ module.exports = {
         openReport: true,
       },
     ],
-    "jest-github-actions-reporter",
   ],
-  testLocationInResults: true,
 };

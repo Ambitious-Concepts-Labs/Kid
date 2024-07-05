@@ -35,8 +35,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "jest-test": "jest",
-    "test:CI": "set CI=true &&react-scripts test --env=jsdom --testResultsProcessor=./node_modules/jest-html-reporter",
-    "citest": "CI=true jest --reporters=default --reporters=jest-github-actions-reporter",
+    "test:CI": "set CI=true && react-scripts test --env=jsdom --testResultsProcessor=./node_modules/jest-html-reporter",
+    "citest": "set CI=true jest --reporters=default --reporters=jest-github-actions-reporter",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
