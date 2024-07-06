@@ -1,10 +1,17 @@
-import React, { useEffect, useState, useRef } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import React, { useEffect, useState } from "react";
 import { getDocs, query, where } from "firebase/firestore";
 import { useNavigate, useParams } from "react-router-dom";
-import { auth, meetingsRef } from "../../lib/firebase";
+import { db, meetingsRef } from "../../lib/firebase";
 import Layout from "../../components/Dashboard/Layout";
 import { answerCall } from "../../utils/zoomFunctions";
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  onSnapshot,
+  addDoc,
+} from "firebase/firestore";
 
 const servers = {
   iceServers: [
@@ -179,6 +186,63 @@ export default function JoinMeeting(props) {
       });
     };
   };
+  
+  const createCall = async () => {
+    try {
+      const callDoc = doc(collection(db, "calls"));
+      const offerCandidates = collection(callDoc, "offerCandidates");
+      const answerCandidates = collection(callDoc, "answerCandidates");
+
+      setCallId(params.id);
+
+      pc.onicecandidate = async (event) => {
+        if (event.candidate) {
+          await addDoc(offerCandidates, event.candidate.toJSON());
+        }
+      };
+
+      const offerDescription = await pc.createOffer();
+      await pc.setLocalDescription(offerDescription);
+
+      const offer = {
+        sdp: offerDescription.sdp,
+        type: offerDescription.type,
+      };
+
+      await setDoc(callDoc, { offer });
+
+      onSnapshot(callDoc, (snapshot) => {
+        const data = snapshot.data();
+        if (data?.answer && !pc.currentRemoteDescription) {
+          try {
+            const answerDescription = new RTCSessionDescription(data.answer);
+            pc.setRemoteDescription(answerDescription);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      });
+
+      onSnapshot(answerCandidates, (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === "added") {
+            const candidate = new RTCIceCandidate(change.doc.data());
+            pc.addIceCandidate(candidate);
+          }
+        });
+      });
+
+      hangupButtonRef.current.disabled = false;
+      return callDoc.id;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const stageCall = async () => {
+    await createCall();
+    await answerCall(pc, params.id);
+  };
 
   return (
     <Layout
@@ -226,7 +290,7 @@ export default function JoinMeeting(props) {
           </button>
         </div>
         <button
-          onClick={() => answerCall(pc, params.id)}
+          onClick={() => stageCall()}
           ref={answerButtonRef}
           className="bg-purple-500 text-white py-2 px-4 rounded mt-2"
           disabled={!callButtonRef}
