@@ -1,56 +1,39 @@
-import {
-  EuiBadge,
-  EuiBasicTable,
-  EuiButtonIcon,
-  EuiCopy,
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiPanel,
-} from "@elastic/eui";
-import { getDocs, query, where } from "firebase/firestore";
-import moment from "moment";
+import { getDocs, query } from "firebase/firestore";
 import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-// import { useAppSelector } from "../app/hooks";
 import EditFlyout from "./EditFlyout";
-// import Header from "../components/Header";
-import { meetingsRef } from "../../firebase";
-// import { MeetingType } from "./types";
-import * as Components from "../../components/all";
+import { meetingsRef } from "../../lib/firebase";
 import Layout from "../../components/Dashboard/Layout";
 
-export default function MyMeetings() {
-  // const userInfo = useAppSelector((zoom) => zoom.auth.userInfo);
+export default function MyMeetings({ currentUser }) {
   const [meetings, setMeetings] = useState([]);
   const [showEditFlyout, setShowEditFlyout] = useState(false);
-  // const [editMeeting, setEditMeeting] = useState<MeetingType>();
-  const [editMeeting, setEditMeeting] = useState();
+  const [editMeeting, setEditMeeting] = useState(null);
+
   const getMyMeetings = useCallback(async () => {
-    const firestoreQuery = query(
-      meetingsRef,
-      // where("createdBy", "==", userInfo?.uid)
-    );
+    const firestoreQuery = query(meetingsRef);
     const fetchedMeetings = await getDocs(firestoreQuery);
     if (fetchedMeetings.docs.length) {
-      // const myMeetings: Array<MeetingType> = [];
-      const myMeetings = [];
-      fetchedMeetings.forEach((meeting) => {
-        myMeetings.push({
-          docId: meeting.id,
-          // ...(meeting.data() as MeetingType),
-          ...(meeting.data()),
-        });
-      });
-      setMeetings(myMeetings);
+      const myMeetings = fetchedMeetings.docs.map((meeting) => ({
+        docId: meeting.id,
+        ...meeting.data(),
+      }));
+      console.log(currentUser)
+      myMeetings.forEach((meeting) => {
+        console.log(meeting.invitedUsers)
+      })  
+      const userMeetings = myMeetings.filter(
+        (meeting) => meeting.invitedUsers.includes(currentUser.email) || meeting.invitedUsers.includes(currentUser.username)
+      );
+
+      setMeetings(userMeetings);
     }
-  // }, [userInfo?.uid]);
   }, []);
+
   useEffect(() => {
-  //   if (userInfo) getMyMeetings();
-  // }, [userInfo, getMyMeetings]);
+    getMyMeetings();
   }, [getMyMeetings]);
 
-  // const openEditFlyout = (meeting: MeetingType) => {
   const openEditFlyout = (meeting) => {
     setShowEditFlyout(true);
     setEditMeeting(meeting);
@@ -58,126 +41,149 @@ export default function MyMeetings() {
 
   const closeEditFlyout = (dataChanged = false) => {
     setShowEditFlyout(false);
-    setEditMeeting(undefined);
-    if (dataChanged) getMyMeetings();
+    setEditMeeting(null);
+    if (dataChanged) {
+      getMyMeetings();
+    }
+  };
+
+  const renderStatusBadge = (meeting) => {
+    const currentDate = new Date();
+    const meetingDate = new Date(meeting.meetingDate);
+
+    if (!meeting.status) {
+      return (
+        <span className="px-2 py-1 bg-red-500 text-white rounded">
+          Cancelled
+        </span>
+      );
+    } else if (isSameDay(meetingDate, currentDate)) {
+      return (
+        <Link to={`/dashboard/zoom/join/${meeting.meetingId}`}>
+          <span className="px-2 py-1 bg-green-500 text-white rounded">
+            Join Now
+          </span>
+        </Link>
+      );
+    } else if (isBeforeDay(meetingDate, currentDate)) {
+      return (
+        <span className="px-2 py-1 bg-gray-500 text-white rounded">Ended</span>
+      );
+    } else {
+      return (
+        <span className="px-2 py-1 bg-blue-500 text-white rounded">
+          Upcoming
+        </span>
+      );
+    }
+  };
+
+  const isSameDay = (date1, date2) => {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
+
+  const isBeforeDay = (date1, date2) => {
+    return date1 < date2;
+  };
+
+  const copyMeetingLink = (meetingId) => {
+    const meetingLink = `${process.env.REACT_APP_HOST}/join/${meetingId}`;
+    navigator.clipboard.writeText(meetingLink);
+    // Optionally provide user feedback here
   };
 
   const meetingColumns = [
+    { field: "meetingName", name: "Meeting Name" },
+    { field: "meetingType", name: "Meeting Type" },
+    { field: "meetingDate", name: "Meeting Date" },
     {
-      field: "meetingName",
-      name: "Meeting Name",
-    },
-    {
-      field: "meetingType",
-      name: "Meeting Type",
-    },
-    {
-      field: "meetingDate",
-      name: "Meeting Date",
-    },
-    {
-      field: "",
+      field: "status",
       name: "Status",
-      // render: (meeting: MeetingType) => {
-      render: (meeting) => {
-        if (meeting.status) {
-          if (meeting.meetingDate === moment().format("L")) {
-            return (
-              <EuiBadge color="success">
-                <Link
-                  to={`/join/${meeting.meetingId}`}
-                  style={{ color: "black" }}
-                >
-                  Join Now
-                </Link>
-              </EuiBadge>
-            );
-          } else if (
-            moment(meeting.meetingDate).isBefore(moment().format("L"))
-          ) {
-            return <EuiBadge color="default">Ended</EuiBadge>;
-          } else if (moment(meeting.meetingDate).isAfter()) {
-            return <EuiBadge color="primary">Upcoming</EuiBadge>;
-          }
-        } else return <EuiBadge color="danger">Cancelled</EuiBadge>;
-      },
+      render: (meeting) => renderStatusBadge(meeting),
     },
     {
-      field: "",
+      field: "edit",
       name: "Edit",
-      width: "5%",
-      // render: (meeting: MeetingType) => {
-      render: (meeting) => {
-        return (
-          <EuiButtonIcon
-            aria-label="meeting-edit"
-            iconType="indexEdit"
-            color="danger"
-            display="base"
-            isDisabled={
-              moment(meeting.meetingDate).isBefore(moment().format("L")) ||
-              !meeting.status
-            }
-            onClick={() => openEditFlyout(meeting)}
-          />
-        );
-      },
+      render: (meeting) => (
+        <button
+          className="bg-red-500 text-white px-2 py-1 rounded"
+          onClick={() => openEditFlyout(meeting)}
+          disabled={
+            isBeforeDay(new Date(meeting.meetingDate), new Date()) ||
+            !meeting.status
+          }
+        >
+          Edit
+        </button>
+      ),
     },
     {
-      field: "meetingId",
+      field: "copyLink",
       name: "Copy Link",
-      width: "5%",
-      // render: (meetingId: string) => {
-      render: (meetingId) => {
-        return (
-          <EuiCopy
-            textToCopy={`${process.env.REACT_APP_HOST}/join/${meetingId}`}
-          >
-            {/* {(copy: any) => ( */}
-            {(copy) => (
-              <EuiButtonIcon
-                iconType="copy"
-                onClick={copy}
-                display="base"
-                aria-label="meeting-copy"
-              />
-            )}
-          </EuiCopy>
-        );
-      },
+      render: (meetingId) => (
+        <button
+          className="bg-blue-500 text-white px-2 py-1 rounded"
+          onClick={() => copyMeetingLink(meetingId)}
+        >
+          Copy
+        </button>
+      ),
     },
   ];
 
   return (
-    <Layout>
-          <div className="p-4 flex-1 h-full overflow-auto text-start">
-            {/* heading */}
-            <Components.Paragraph className="font-bold mt-5">
-              BreadCrumbs (6)
-            </Components.Paragraph>
-
-
-        <div
-          style={{
-            display: "flex",
-            height: "100vh",
-            flexDirection: "column",
-          }}
-          >
-          {/* <Header /> */}
-          <EuiFlexGroup justifyContent="center" style={{ margin: "1rem" }}>
-            <EuiFlexItem>
-              <EuiPanel>
-                <EuiBasicTable items={meetings} columns={meetingColumns} />
-              </EuiPanel>
-            </EuiFlexItem>
-          </EuiFlexGroup>
+    <Layout
+      crumbs={[
+        { label: "Home", link: "/dashboard" },
+        { label: "Zoom", link: "/dashboard/zoom" },
+        { label: "My Meetings" },
+      ]}
+    >
+      <div className="p-4 flex-1 h-full overflow-auto text-start">
+        <div className="flex flex-col h-full justify-center items-center">
+          <div className="w-full max-w-4xl">
+            <div className="bg-white shadow-md rounded my-6">
+              <table className="min-w-max w-full table-auto">
+                <thead>
+                  <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                    {meetingColumns.map((col) => (
+                      <th key={col.field} className="py-3 px-6 text-left">
+                        {col.name}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="text-gray-600 text-sm font-light">
+                  {meetings.map((meeting) => (
+                    <tr
+                      key={meeting.docId}
+                      className="border-b border-gray-200 hover:bg-gray-100"
+                    >
+                      {meetingColumns.map((col) => (
+                        <td
+                          key={`${meeting.docId}-${col.field}`}
+                          className="py-3 px-6 text-left whitespace-nowrap"
+                        >
+                          {col.render
+                            ? col.render(meeting)
+                            : meeting[col.field]}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
           {showEditFlyout && (
-            // <EditFlyout closeFlyout={closeEditFlyout} meeting={editMeeting!} />
-            <EditFlyout closeFlyout={closeEditFlyout} meeting={"editMeeting!"} />
-            )}
+            <EditFlyout closeFlyout={closeEditFlyout} meeting={editMeeting} />
+          )}
         </div>
-        </div>
+      </div>
     </Layout>
   );
 }

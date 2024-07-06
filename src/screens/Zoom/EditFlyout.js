@@ -1,63 +1,27 @@
-import {
-  EuiFlyout,
-  EuiFlyoutBody,
-  EuiFlyoutHeader,
-  EuiForm,
-  EuiFormRow,
-  EuiSpacer,
-  EuiSwitch,
-  EuiTitle,
-} from "@elastic/eui";
 import { doc, updateDoc } from "firebase/firestore";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
-// import useFetchUsers from "../hooks/useFetchUsers";
-// import useToast from "../hooks/useToast";
-import { db } from "../../firebase";
-// import { FieldErrorType, MeetingType, UserType } from "./types";
-import CreateMeetingButtons from "./FormComponents/CreateMeetingButtons";
-import MeetingDateField from "./FormComponents/MeetingDateField";
-import MeetingMaximumUsersField from "./FormComponents/MeetingMaximumUsersField";
-import MeetingNameField from "./FormComponents/MeetingNameFIeld";
-import MeetingUserField from "./FormComponents/MeetingUserField";
+import { db } from "../../lib/firebase";
+import CreateMeetingButtons from "../../components/Form/Zoom/CreateMeetingButtons";
+import MeetingDateField from "../../components/Form/Zoom/MeetingDateField";
+import MeetingMaximumUsersField from "../../components/Form/Zoom/MeetingMaximumUsersField";
+import MeetingNameField from "../../components/Form/Zoom/MeetingNameFIeld";
+import MeetingUserField from "../../components/Form/Zoom/MeetingUserField";
 
-export default function EditFlyout({
-  closeFlyout,
-  meeting,
-}) {
-  // const [users] = useFetchUsers();
-  // const [createToast] = useToast();
+export default function EditFlyout({ closeFlyout, meeting }) {
   const [meetingName, setMeetingName] = useState(meeting.meetingName);
   const [meetingType] = useState(meeting.meetingType);
-  // const [selectedUser, setSelectedUser] = useState<Array<UserType>>([]);
-  const [startDate, setStartDate] = useState(moment(meeting.meetingDate));
+  const [selectedUser, setSelectedUser] = useState([]);
+  const [startDate, setStartDate] = useState(new Date(meeting.meetingDate));
   const [size, setSize] = useState(1);
   const [status, setStatus] = useState(false);
-  // const onUserChange = (selectedOptions: Array<UserType>) => {
-  const onUserChange = (selectedOptions) => {
-    setSelectedUser(selectedOptions);
-  };
 
   useEffect(() => {
-  //   if (users) {
-  //     const foundUsers: Array<UserType> = [];
-  //     meeting.invitedUsers.forEach((user: string) => {
-  //       const findUser = users.find(
-  //         (tempUser: UserType) => tempUser.uid === user
-  //       );
-  //       if (findUser) foundUsers.push(findUser);
-  //     });
-  //     setSelectedUser(foundUsers);
-  //   }
-  // }, [users, meeting]);
+    // Fetch users if needed
+    // Example:
+    // setSelectedUser(meeting.invitedUsers.map(userId => ({ uid: userId, name: 'Dummy User' })));
   }, []);
 
-  const [showErrors] = useState<{
-    meetingName,
-    // meetingUsers
-    // meetingName: FieldErrorType;
-    // meetingUsers: FieldErrorType;
-  }>({
+  const [showErrors] = useState({
     meetingName: {
       show: false,
       message: [],
@@ -74,71 +38,107 @@ export default function EditFlyout({
       meetingName,
       meetingType,
       invitedUsers: selectedUser.map((user) => user.uid),
-      // invitedUsers: selectedUser.map((user: UserType) => user.uid),
       maxUsers: size,
-      meetingDate: startDate.format("L"),
+      meetingDate: startDate.toISOString().split("T")[0], // Format as YYYY-MM-DD
       status: !status,
     };
     delete editedMeeting.docId;
-    // const docRef = doc(db, "meetings", meeting.docId!);
-    const docRef = doc(db, "meetings", "meeting.docId!");
+    const docRef = doc(db, "meetings", meeting.docId);
     await updateDoc(docRef, editedMeeting);
-    // createToast({ title: "Meeting updated successfully.", type: "success" });
     closeFlyout(true);
   };
 
+  const handleUserChange = (selectedOptions) => {
+    setSelectedUser(selectedOptions);
+  };
+
   return (
-    <EuiFlyout ownFocus onClose={() => closeFlyout()}>
-      <EuiFlyoutHeader hasBorder>
-        <EuiTitle size="m">
-          <h2>{meeting.meetingName}</h2>
-        </EuiTitle>
-      </EuiFlyoutHeader>
-      <EuiFlyoutBody>
-        <EuiForm>
-          <MeetingNameField
-            label="Meeting name"
-            isInvalid={showErrors.meetingName.show}
-            error={showErrors.meetingName.message}
-            placeholder="Meeting name"
-            value={meetingName}
-            setMeetingName={setMeetingName}
-          />
-          {meetingType === "anyone-can-join" ? (
-            <MeetingMaximumUsersField value={size} setSize={setSize} />
-          ) : (
-            <MeetingUserField
-              label="Invite Users"
-              isInvalid={showErrors.meetingUsers.show}
-              error={showErrors.meetingUsers.message}
-              options={{}}
-              // options={users}
-              onChange={onUserChange}
-              selectedOptions={selectedUser}
-              singleSelection={
-                meetingType === "1-on-1" ? { asPlainText: true } : false
-              }
-              isClearable={false}
-              placeholder="Select a Users"
+    <div className="fixed inset-0 overflow-y-auto">
+      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+        <span
+          className="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+        >
+          &#8203;
+        </span>
+        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div className="sm:flex sm:items-start">
+              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
+                  {meeting.meetingName}
+                </h3>
+                <div className="mb-4">
+                  <MeetingNameField
+                    label="Meeting name"
+                    isInvalid={showErrors.meetingName.show}
+                    error={showErrors.meetingName.message}
+                    placeholder="Meeting name"
+                    value={meetingName}
+                    setMeetingName={setMeetingName}
+                  />
+                </div>
+                {meetingType === "anyone-can-join" ? (
+                  <div className="mb-4">
+                    <MeetingMaximumUsersField value={size} setSize={setSize} />
+                  </div>
+                ) : (
+                  <div className="mb-4">
+                    <MeetingUserField
+                      label="Invite Users"
+                      isInvalid={showErrors.meetingUsers.show}
+                      error={showErrors.meetingUsers.message}
+                      options={[]}
+                      onChange={handleUserChange}
+                      selectedOptions={selectedUser}
+                      singleSelection={
+                        meetingType === "1-on-1" ? { asPlainText: true } : false
+                      }
+                      isClearable={false}
+                      placeholder="Select a Users"
+                    />
+                  </div>
+                )}
+                <div className="mb-4">
+                  <MeetingDateField
+                    selected={startDate}
+                    setStartDate={setStartDate}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="cancelMeeting" className="flex items-center">
+                    <span className="mr-2">Cancel Meeting</span>
+                    <input
+                      id="cancelMeeting"
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-indigo-600 transition duration-150 ease-in-out"
+                      checked={status}
+                      onChange={(e) => setStatus(e.target.checked)}
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <CreateMeetingButtons
+              createMeeting={editMeeting}
+              isEdit
+              closeFlyout={closeFlyout}
             />
-          )}
-          <MeetingDateField selected={startDate} setStartDate={setStartDate} />
-          <EuiFormRow display="columnCompressedSwitch" label="Cancel Meeting">
-            <EuiSwitch
-              showLabel={false}
-              label="Cancel Meeting"
-              checked={status}
-              onChange={(e) => setStatus(e.target.checked)}
-            />
-          </EuiFormRow>
-          <EuiSpacer />
-          <CreateMeetingButtons
-            createMeeting={editMeeting}
-            isEdit
-            closeFlyout={closeFlyout}
-          />
-        </EuiForm>
-      </EuiFlyoutBody>
-    </EuiFlyout>
+            <button
+              onClick={() => closeFlyout()}
+              type="button"
+              className="mr-2 inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

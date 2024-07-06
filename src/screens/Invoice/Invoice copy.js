@@ -1,96 +1,81 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import EditInvoice from "./EditInvoice";
-import { sendInvoice } from "../../../utils/invoiceFunctions";
-import imgPlaceholder from "../image-placeholder.png";
+import { sendInvoice } from "../../utils/invoiceFunctions";
+import imgPlaceholder from "./image-placeholder.png";
 // import Axios from "axios";
 import "./Invoice.css";
-
-import { db } from "../../../lib/firebase";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
-import Layout from "../../../components/Dashboard/Layout";
+import Layout from "../../components/Dashboard/Layout";
+import useGetAllTransactions from "../../hooks/useGetAllTransactions";
 
 const InvoiceTransaction = (props) => {
-	const { id } = useParams();
-	const history = useNavigate();
-	const { currentUser } = props;
-	const [transaction, setTransaction] = useState([]);
-	const [isTransactionLoaded, setIsTransactionLoaded] = useState(false);
-	const [edit, setEdit] = useState(false);
-	const [cancelEdit, setCancelEdit] = useState(false);
-	const [editedInvoice, setEditedInvoice] = useState({});
-	const [loading, setLoading] = useState(true);
-	const textAlignCenter = { textAlign: "center" };
+  const { id } = useParams();
+  const history = useNavigate();
+  const { currentUser } = props;
+  const [transaction, setTransaction] = useState([]);
+  const [isTransactionLoaded, setIsTransactionLoaded] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [cancelEdit, setCancelEdit] = useState(false);
+  const [editedInvoice, setEditedInvoice] = useState({});
+  const [loading, setLoading] = useState(true);
+  const textAlignCenter = { textAlign: "center" };
+  const transactions = useGetAllTransactions();
 
-	React.useEffect(() => {
+  console.log({ transactions, id });
+  useEffect(() => {
     const getTransaction = async () => {
-      const dataArr = [];
-      const querySnapshot = await getDocs(collection(db, "transactions"));
-      querySnapshot.forEach((transaction) => {
-        if (transaction.data()._id == id) {
-          const obj = { ...transaction.data() };
-          dataArr.push(obj);
+      transactions.map((transaction) => {
+        console.log({ transaction, id });
+        if (transaction._id === id) {
+          setTransaction(transaction);
+          setIsTransactionLoaded(true);
+          setEditedInvoice(transaction);
         }
       });
-      //   const transactionRef = doc(db, "transactions", id);
-      //   const transactionDoc = getDoc(transactionRef);
-      //   console.log({transactionDoc});
-      //   const transactionData = transactionDoc.data();
-      setTransaction(dataArr);
     };
-    getTransaction();
-  }, [currentUser]);
-	useEffect(() => {
-		if (cancelEdit) {
-			setEditedInvoice(transaction);
-			setCancelEdit(false);
-		}
-	}, [cancelEdit, transaction]);
+    if (transactions.length > 0) getTransaction();
+  }, [currentUser, transactions]);
 
-	useEffect(() => {
-		// let source = Axios.CancelToken.source();
-		let unmounted = false;
-		if (!isTransactionLoaded && currentUser) {
-			// Axios.get(
-			// 	`/transaction/${id}`,
-			// 	{ params: { id: id } },
-			// 	{ cancelToken: source.token }
-			// )
-			// 	.then((res) => {
-			// 		if (!unmounted) {
-			// 			setTransaction(res.data.transaction);
-			// 			setIsTransactionLoaded(true);
-			// 			setEditedInvoice(res.data.transaction);
-			// 			setLoading(false);
-			// 		}
-			// 	})
-			// 	.catch((err) => {
-			// 		if (!unmounted) {
-			// 			// if (Axios.isCancel(err)) {
-			// 			// 	console.log(`request cancelled:${err.message}`);
-			// 			// } else {
-			// 			// 	console.log("another error happened:" + err.message);
-			// 			// }
-			// 		}
-			// 	});
-		}
-		return function () {
-			unmounted = true;
-		};
-	}, [
-		isTransactionLoaded,
-		currentUser,
-		id,
-		history,
-	]);
+  useEffect(() => {
+    if (cancelEdit) {
+      setEditedInvoice(transaction);
+      setCancelEdit(false);
+    }
+  }, [cancelEdit, transaction]);
 
-	if (transaction.length > 0 && currentUser) {
-		return (
+  useEffect(() => {
+    if (!isTransactionLoaded && currentUser) {
+      // Axios.get(
+      // 	`/transaction/${id}`,
+      // 	{ params: { id: id } },
+      // 	{ cancelToken: source.token }
+      // )
+      // 	.then((res) => {
+      // 		if (!unmounted) {
+      // 			setTransaction(res.data.transaction);
+      // 			setIsTransactionLoaded(true);
+      // 			setEditedInvoice(res.data.transaction);
+      // 			setLoading(false);
+      // 		}
+      // 	})
+      // 	.catch((err) => {
+      // 		if (!unmounted) {
+      // 			// if (Axios.isCancel(err)) {
+      // 			// 	console.log(`request cancelled:${err.message}`);
+      // 			// } else {
+      // 			// 	console.log("another error happened:" + err.message);
+      // 			// }
+      // 		}
+      // 	});
+    }
+  }, [isTransactionLoaded, currentUser, id, history]);
+
+  console.log({ transaction, currentUser });
+
+  if (transaction && currentUser) {
+    return (
       <Layout>
-        <div style={{overflow: "scroll"}} id="invoice">
+        <div style={{ overflow: "scroll" }} id="invoice">
           {!edit ? (
             <div id="invoice-ready">
               <header>
@@ -125,7 +110,7 @@ const InvoiceTransaction = (props) => {
                       </th>
                       <td>
                         <span style={{ wordWrap: "break-word" }}>
-                          {transaction._id}
+                          {transaction.id}
                         </span>
                       </td>
                     </tr>
@@ -146,7 +131,7 @@ const InvoiceTransaction = (props) => {
                       </th>
                       <td>
                         <span id="prefix">$</span>
-                        <span>{transaction[0].cart.total_price}</span>
+                        <span>{transaction.cart.total_price}</span>
                       </td>
                     </tr>
                   </tbody>
@@ -176,7 +161,7 @@ const InvoiceTransaction = (props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {transaction[0].cart.items.map((item, index) => {
+                    {transaction.cart.items.map((item, index) => {
                       return (
                         <tr key={item._id}>
                           <td>
@@ -232,7 +217,7 @@ const InvoiceTransaction = (props) => {
                       </th>
                       <td>
                         <span data-prefix>$</span>
-                        <span>{transaction[0].cart.total_price}</span>
+                        <span>{transaction.cart.total_price}</span>
                       </td>
                     </tr>
                   </tbody>
@@ -306,15 +291,15 @@ const InvoiceTransaction = (props) => {
         </div>
       </Layout>
     );
-	} else {
-		return (
-			<div className="spinner-border-container">
-				<div className="spinner-border" role="status">
-					<span className="visually-hidden">Loading...</span>
-				</div>
-			</div>
-		);
-	}
+  } else {
+    return (
+      <div className="spinner-border-container">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default InvoiceTransaction;

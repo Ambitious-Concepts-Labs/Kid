@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import Paypal from "../../components/Paypal3";
+import Paypal from "../../components/Paypal";
 import { cancelTransaction } from "../../utils/invoiceFunctions";
 import imgPlaceholder from "./image-placeholder.png";
 import Layout from "../../components/Dashboard/Layout";
@@ -96,13 +96,13 @@ const Transaction = (props) => {
                       </table>
                     </div>
                     <div className="mt-4">
-                      {currentUser.isAdmin && transaction.status === "pending" && (
+                      {currentUser.isAdmin && transaction.status !== "completed" && (
                         <Link
                           className="btn btn-primary"
                           onClick={() => setIsTransactionLoaded(false)}
-                          to={`/transaction/${transaction._id}/invoice`}
+                          to={`/dashboard/transaction/${transaction._id}/invoice`}
                         >
-                          Invoice
+                          View Invoice
                         </Link>
                       )}
                       {transaction.status === "pending" && (
