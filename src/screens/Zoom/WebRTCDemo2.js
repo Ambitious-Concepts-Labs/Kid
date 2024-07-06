@@ -5,17 +5,16 @@ import { createCall, answerCall } from "../../utils/zoomFunctions";
 const WebRTCDemo = (props) => {
   const {
     pc,
-    callInputRef,
-    webcamButtonRef,
-    webcamVideoRef,
-    remoteVideoRef,
-    hangupButtonRef,
-    setCallId,
-    callButtonRef,
     answerButtonRef,
+    callButtonRef,
+    callInputRef,
+    hangupButtonRef,
+    localStream,
     remoteStream,
+    remoteVideoRef,
+    setCallId,
     setLocalStream,
-    localStream
+    webcamVideoRef,
   } = props;
 
   const startWebcam = async () => {
@@ -37,7 +36,6 @@ const WebRTCDemo = (props) => {
 
     callButtonRef.current.disabled = false;
     answerButtonRef.current.disabled = false;
-    webcamButtonRef.current.disabled = true;
   };
 
   useEffect(() => {
@@ -51,7 +49,7 @@ const WebRTCDemo = (props) => {
       remoteVideoRef.current.srcObject = remoteStream;
     }
   }, [remoteStream]);
-
+  
   return (
     <Layout>
       <div className="p-4 space-y-4">
@@ -78,7 +76,6 @@ const WebRTCDemo = (props) => {
         </div>
         <button
           onClick={startWebcam}
-          ref={webcamButtonRef}
           className="bg-blue-500 text-white py-2 px-4 rounded mt-4"
         >
           Start webcam
@@ -90,7 +87,6 @@ const WebRTCDemo = (props) => {
           }
           ref={callButtonRef}
           className="bg-green-500 text-white py-2 px-4 rounded mt-2"
-          disabled={!webcamButtonRef}
         >
           Create Call (offer)
         </button>
@@ -101,7 +97,7 @@ const WebRTCDemo = (props) => {
           className="border border-gray-300 p-2 rounded w-full mt-2"
         />
         <button
-          onClick={() => answerCall(pc, callInputRef)}
+          onClick={() => answerCall(pc, callInputRef.current.value)}
           ref={answerButtonRef}
           className="bg-purple-500 text-white py-2 px-4 rounded mt-2"
           disabled={!callButtonRef}

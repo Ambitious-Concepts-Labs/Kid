@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from "react";
 import { addDoc } from "firebase/firestore";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateMeetingButtons from "../../components/Form/Zoom/CreateMeetingButtons";
 import MeetingDateField from "../../components/Form/Zoom/MeetingDateField";
@@ -19,6 +19,10 @@ export default function OneOnOneMeeting(props) {
     setCallId,
     callButtonRef,
     webcamButtonRef,
+    webcamVideoRef,
+    remoteVideoRef,
+    localStream,
+    remoteStream,
   } = props;
   const navigate = useNavigate();
   const users = useGetAllUsers();
@@ -83,6 +87,18 @@ export default function OneOnOneMeeting(props) {
       }
     }
   };
+
+  useEffect(() => {
+    if (webcamVideoRef.current) {
+      webcamVideoRef.current.srcObject = localStream;
+    }
+  }, [localStream]);
+
+  useEffect(() => {
+    if (remoteVideoRef.current) {
+      remoteVideoRef.current.srcObject = remoteStream;
+    }
+  }, [remoteStream]);
   return (
     <Layout
       crumbs={[
