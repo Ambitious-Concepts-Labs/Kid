@@ -1,0 +1,12 @@
+#products .title {
+	text-align: center;
+}
+
+#products .item {
+	padding: 5px 0;
+}
+
+#products .row .col-8,
+.col-2 {
+	margin-bottom: 0 !important;
+}

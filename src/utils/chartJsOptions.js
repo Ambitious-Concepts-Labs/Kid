@@ -86,17 +86,20 @@ export const studentLineOptions = {
 		},
 	};
 
-export const studentDoughnutData = {
-		labels: ["Class 1", "Class 2", "Class 3"],
+export function studentDoughnutData(coures) {
+	const userCoures = coures.map(course => course.course)
+	return {
+		labels: userCoures,
 		datasets: [
 			{
 				label: "# of Votes",
-				data: [1, 1, 1],
+				data: Array.from({ length: userCoures.length }, () => 1),
 				backgroundColor: ["#109CF1", "#F38315", "#C33B4C"],
 				borderWidth: 0,
 			},
 		],
-	};
+	}
+};
 
 export const doughnutOptions = {
 		cutout: 100,
@@ -146,25 +149,25 @@ export const barOptions = {
 	};
 
 export const studentBarData = {
-		labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+		labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
 		datasets: [
 			{
 				label: "Assements",
-				data: [10, 10, 8, 7, 6, 5, 7, 8],
+				data: [10, 10, 8, 7, 6, 5, 7, 8, 9, 10, 10, 10],
 				backgroundColor: "#C33B4C",
 				borderWidth: 0,
 				borderRadius: 10,
 			},
 			{
-				label: "Course Taken",
-				data: [10, 9, 7, 8, 8, 6, 6, 8],
+				label: "Courses Taken",
+				data: [10, 9, 7, 8, 8, 6, 6, 8, 9, 8, 10, 6],
 				backgroundColor: "#F38315",
 				borderWidth: 0,
 				borderRadius: 10,
 			},
 			{
 				label: "Tutoring Sessions",
-				data: [0, 1, 1, 3, 0, 2, 0, 2],
+				data: [0, 1, 1, 3, 0, 2, 0, 2, 1, 0, 2, 0],
 				backgroundColor: "#3D5EE1",
 				borderWidth: 0,
 				borderRadius: 10,
@@ -214,11 +217,11 @@ export const lineData = {
 	};
 
 export const doughnutData = {
-		labels: ["Total Female Students 45,000", "Total Male Students 45,000"],
+		labels: ["Total Female Students: 2", "Total Male Students: 1"],
 		datasets: [
 			{
 				label: "# of Votes",
-				data: [1, 1, 1],
+				data: [1.5, 0.5],
 				backgroundColor: ["#109CF1", "#F38315", "#C33B4C"],
 				borderWidth: 0,
 			},

@@ -1,5 +1,6 @@
 import ArrowLeft from "./ArrowLeft";
 import ArrowRight from "./ArrowRight";
+import Breadcrumb from "./Breadcrumb";
 import Footer from "./Footer";
 import Navbar from "./Navbar/Navbar";
 import Button from "./Button";
@@ -13,21 +14,25 @@ import BiggerParagraph from "./Text/BiggerParagraph";
 import Carousel from "./Carousel";
 //
 import AdminNavbar from "./Navbar/AdminNavbar";
-import Sidebar from "./Sidebar";
+import Sidebar from "./Dashboard/Sidebar";
+import IconBadge from "./IconBadge";
+
 export {
-	Navbar,
-	ArrowLeft,
-	ArrowRight,
-	Footer,
-	Button,
-	Input,
-	Backdrop,
-	Paragraph,
-	Heading,
-	SubHeading,
-	BigParagraph,
-	BiggerParagraph,
-	Carousel,
-	AdminNavbar,
-	Sidebar,
+  Navbar,
+  ArrowLeft,
+  ArrowRight,
+  Breadcrumb,
+  Footer,
+  Button,
+  Input,
+  Backdrop,
+  Paragraph,
+  Heading,
+  SubHeading,
+  BigParagraph,
+  BiggerParagraph,
+  Carousel,
+  AdminNavbar,
+  Sidebar,
+  IconBadge,
 };

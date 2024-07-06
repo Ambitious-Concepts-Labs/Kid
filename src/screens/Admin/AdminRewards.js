@@ -1,17 +1,9 @@
 import React from "react";
-import * as Components from "../../components/all";
+import Layout from "../../components/Dashboard/Layout";
 
 export default function AdminRewards() {
 	return (
-		<div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-			{/* Sidebar */}
-			<Components.Sidebar page={"rewards"} />
-
-			{/* Right */}
-			<div className="flex-1 flex flex-col items-stretch overflow-hidden">
-				{/* Navbar */}
-				<Components.AdminNavbar page={"Rewards"} />
-				{/* Page */}
+		<Layout>
 				<div className="p-4 flex-1 h-full overflow-auto text-start">
 					{/* bar */}
 					<div className="mx-10 mb-10">
@@ -155,7 +147,6 @@ export default function AdminRewards() {
 						</div>
 					))}
 				</div>
-			</div>
-		</div>
+		</Layout>
 	);
 }

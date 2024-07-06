@@ -1,0 +1,24 @@
+.media-body {
+	display: inline;
+	vertical-align: top;
+}
+.media-body p {
+	display: inline;
+}
+
+#cart .avail {
+	vertical-align: middle;
+}
+
+#cart .btn {
+	width: 100px;
+}
+
+@media screen and (max-width: 1400px) {
+	.media-body {
+		display: block;
+	}
+	.media-body p {
+		display: block;
+	}
+}

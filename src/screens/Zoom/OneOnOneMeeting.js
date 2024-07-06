@@ -1,39 +1,35 @@
-import { EuiFlexGroup, EuiForm, EuiSpacer } from "@elastic/eui";
+import React, { useState, useEffect } from "react";
 import { addDoc } from "firebase/firestore";
-import moment from "moment";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useAppSelector } from "../app/hooks";
-import CreateMeetingButtons from "./FormComponents/CreateMeetingButtons";
-import MeetingDateField from "./FormComponents/MeetingDateField";
-import MeetingNameField from "./FormComponents/MeetingNameFIeld";
-import MeetingUserField from "./FormComponents/MeetingUserField";
+import CreateMeetingButtons from "../../components/Form/Zoom/CreateMeetingButtons";
+import MeetingDateField from "../../components/Form/Zoom/MeetingDateField";
+import MeetingNameField from "../../components/Form/Zoom/MeetingNameFIeld";
+import MeetingUserField from "../../components/Form/Zoom/MeetingUserField";
+import Layout from "../../components/Dashboard/Layout";
+import { meetingsRef } from "../../lib/firebase";
+import useGetAllUsers from "../../hooks/useGetAllUsers";
+import { createCall } from "../../utils/zoomFunctions";
 
-// import Header from "../components/Header";
-// import useAuth from "../hooks/useAuth";
-// import useFetchUsers from "../hooks/useFetchUsers";
-// import useToast from "../hooks/useToast";
-import { meetingsRef } from "../../firebase";
-import { generateMeetingID } from "./generateMeetingId";
-// import { FieldErrorType, UserType } from "./types";
-import * as Components from "../../components/all";
-
-export default function OneOnOneMeeting() {
-  // useAuth();
-  // const [users] = useFetchUsers();
-  // const [createToast] = useToast();
-  // const uid = useAppSelector((zoomApp) => zoomApp.auth.userInfo?.uid);
+export default function OneOnOneMeeting(props) {
+  const {
+    pc,
+    currentUser,
+    callInputRef,
+    hangupButtonRef,
+    setCallId,
+    callButtonRef,
+    webcamButtonRef,
+    webcamVideoRef,
+    remoteVideoRef,
+    localStream,
+    remoteStream,
+  } = props;
   const navigate = useNavigate();
-
+  const users = useGetAllUsers();
   const [meetingName, setMeetingName] = useState("");
-  const [selectedUser, setSelectedUser] = useState<Array<UserType>>([]);
-  const [startDate, setStartDate] = useState(moment());
-  const [showErrors, setShowErrors] = useState<{
-    meetingName,
-    meetingUser
-    // meetingName: FieldErrorType;
-    // meetingUser: FieldErrorType;
-  }>({
+  const [selectedUser, setSelectedUser] = useState([]);
+  const [startDate, setStartDate] = useState();
+  const [showErrors, setShowErrors] = useState({
     meetingName: {
       show: false,
       message: [],
@@ -44,9 +40,8 @@ export default function OneOnOneMeeting() {
     },
   });
 
-  // const onUserChange = (selectedOptions: Array<UserType>) => {
   const onUserChange = (selectedOptions) => {
-    setSelectedUser(selectedOptions);
+    setSelectedUser([selectedOptions]);
   };
 
   const validateForm = () => {
@@ -73,81 +68,92 @@ export default function OneOnOneMeeting() {
   };
 
   const createMeeting = async () => {
+    console.log(validateForm());
     if (!validateForm()) {
-      const meetingId = generateMeetingID();
-      await addDoc(meetingsRef, {
-        // createdBy: uid,
-        createdBy: "uid",
-        meetingId,
-        meetingName,
-        meetingType: "1-on-1",
-        invitedUsers: [selectedUser[0].uid],
-        meetingDate: startDate.format("L"),
-        maxUsers: 1,
-        status: true,
-      });
-      // createToast({
-      //   title: "One on One Meeting Created Successfully",
-      //   type: "success",
-      // });
-      navigate("/");
+      try {
+        await addDoc(meetingsRef, {
+          createdBy: currentUser.uid,
+          meetingId: callInputRef.current.value,
+          meetingName,
+          meetingType: "1-on-1",
+          invitedUsers: [selectedUser[0]],
+          meetingDate: startDate,
+          maxUsers: 1,
+          status: true,
+        });
+        navigate("/dashboard/zoom/mymeetings");
+      } catch (error) {
+        console.error("Error adding document: ", error);
+      }
     }
   };
 
+  useEffect(() => {
+    if (webcamVideoRef.current) {
+      webcamVideoRef.current.srcObject = localStream;
+    }
+  }, [localStream]);
+
+  useEffect(() => {
+    if (remoteVideoRef.current) {
+      remoteVideoRef.current.srcObject = remoteStream;
+    }
+  }, [remoteStream]);
   return (
-      <div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
-        {/* Sidebar */}
-        <Components.Sidebar page={"zoom"} />
-
-        {/* Right */}
-        <div className="flex-1 flex flex-col items-stretch overflow-hidden">
-          {/* Navbar */}
-          <Components.AdminNavbar page={"Zoom Session"} />
-          {/* Page */}
-          <div className="p-4 flex-1 h-full overflow-auto text-start">
-            {/* heading */}
-            <Components.Paragraph className="font-bold mt-5">
-              BreadCrumbs (6)
-            </Components.Paragraph>
-
-        <div
-          style={{
-            display: "flex",
-            height: "100vh",
-            flexDirection: "column",
-          }}
-          >
-          {/* <Header /> */}
-          <EuiFlexGroup justifyContent="center" alignItems="center">
-            <EuiForm>
-              <MeetingNameField
-                label="Meeting name"
-                isInvalid={showErrors.meetingName.show}
-                error={showErrors.meetingName.message}
-                placeholder="Meeting name"
-                value={meetingName}
-                setMeetingName={setMeetingName}
-                />
-              <MeetingUserField
-                label="Invite User"
-                isInvalid={showErrors.meetingUser.show}
-                error={showErrors.meetingUser.message}
-                // options={users}
-                options={{}}
-                onChange={onUserChange}
-                selectedOptions={selectedUser}
-                singleSelection={{ asPlainText: true }}
-                isClearable={false}
-                placeholder="Select a User"
-                />
-              <MeetingDateField selected={startDate} setStartDate={setStartDate} />
-              <EuiSpacer />
-              <CreateMeetingButtons createMeeting={createMeeting} />
-            </EuiForm>
-          </EuiFlexGroup>
-        </div>
+    <Layout
+      crumbs={[
+        { label: "Home", link: "/dashboard" },
+        { label: "Zoom", link: "/dashboard/zoom" },
+        { label: "Create Meeting", link: "/dashboard/zoom/create" },
+        { label: "Create 1 on 1 Meeting" },
+      ]}
+    >
+      <div className="p-4 flex-1 h-full overflow-auto text-start">
+        <div className="flex flex-col h-full justify-center items-center">
+          <div className="w-full max-w-lg">
+            <MeetingNameField
+              label="Meeting name"
+              isInvalid={showErrors.meetingName.show}
+              error={showErrors.meetingName.message}
+              placeholder="Meeting name"
+              value={meetingName}
+              setMeetingName={setMeetingName}
+            />
+            <MeetingUserField
+              label="Invite User"
+              isInvalid={showErrors.meetingUser.show}
+              error={showErrors.meetingUser.message}
+              options={users}
+              onChange={onUserChange}
+              selectedOptions={selectedUser}
+              singleSelection={{ asPlainText: true }}
+              isClearable={false}
+              placeholder="Select a User"
+            />
+            <MeetingDateField
+              selected={startDate}
+              setStartDate={setStartDate}
+            />
+            <p>Answer the call from a different browser window or device</p>
+            <input
+              ref={callInputRef}
+              className="border border-gray-300 p-2 rounded w-full mt-2"
+            />
+            <div className="my-4">
+              <CreateMeetingButtons
+                callButtonRef={callButtonRef}
+                webcamButtonRef={webcamButtonRef}
+                callInputRef={callInputRef}
+                hangupButtonRef={hangupButtonRef}
+                setCallId={setCallId}
+                pc={pc}
+                createCall={createCall}
+                createMeeting={createMeeting}
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
