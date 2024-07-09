@@ -5,7 +5,6 @@
   "dependencies": {
     "@cloudinary/react": "^1.13.0",
     "@cloudinary/url-gen": "^1.19.0",
-    "@elastic/eui": "^82.1.0",
     "@hello-pangea/dnd": "^16.6.0",
     "@mux/mux-player-react": "^2.7.0",
     "@mux/mux-uploader-react": "^1.0.0-beta.18",
