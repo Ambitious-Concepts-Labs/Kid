@@ -27,10 +27,13 @@ jobs:
     - name: Serve project
       run: npm install -g serve && serve -s build &
 
+    - name: Install Puppeteer
+      run: npm install puppeteer
+
     - name: Run Lighthouse
       run: |
         npm install -g lighthouse
-        lighthouse http://localhost:5000 --output html --output-path ./lighthouse-report.html
+        lighthouse http://localhost:5000 --output html --output-path ./lighthouse-report.html --chrome-flags="--headless --no-sandbox --disable-gpu"
 
     - name: Upload report
       uses: actions/upload-artifact@v2
