@@ -4,10 +4,12 @@ import * as Screens from "./screens/all";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useUserData from "./hooks/useUserData";
 import PrivateRoute from "./utils/PrivateRouter";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
+  const queryClient = new QueryClient();
   const [isLoggedin, setIsLoggedin] = useState(false);
-  const { currentUser, user, loading } = useUserData();
+  const { currentUser, user, userIsLoading } = useUserData();
   const [cart, setCart] = useState({
     items: [],
     total_price: 0,
@@ -26,7 +28,7 @@ function App() {
     windowDimensions,
     mobile,
     setMobile,
-    loading,
+    loading: userIsLoading,
     cart,
     setCart,
   };
@@ -65,7 +67,8 @@ function App() {
   return (
     <div className="App relative overflow-x-hidden">
       <BrowserRouter>
-        <Routes>
+        <QueryClientProvider client={queryClient}>
+          <Routes>
           {/* Auth Routes */}
           <Route exact path="/forgot" element={<Screens.ForgotPasswordScreen />} />
           <Route exact path="/login" element={<Screens.LoginScreen />} />
@@ -144,7 +147,8 @@ function App() {
 					<Route path="/join/:id" element={<Screens.JoinMeeting />} />
 					<Route path="/meetings" element={<Screens.Meeting />} />
 			    <Route path="/zoom" element={<Screens.Dashboard />} /> */}
-        </Routes>
+          </Routes>
+        </QueryClientProvider>
       </BrowserRouter>
     </div>
   );
