@@ -30,6 +30,10 @@ jobs:
     - name: Install Puppeteer
       run: npm install puppeteer
 
+    - name: Wait for server to be up
+      run: |
+        timeout 30s bash -c "until curl -s http://localhost:5000 > /dev/null; do echo 'Waiting for server...'; sleep 2; done"
+
     - name: Run Lighthouse
       run: |
         npm install -g lighthouse
