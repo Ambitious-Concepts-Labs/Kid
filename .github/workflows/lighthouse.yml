@@ -5,11 +5,10 @@ on:
     branches:
       - '**'
       - '!master' 
-
+  
 jobs:
   lighthouse:
     runs-on: ubuntu-latest
-    needs: deploy
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -29,40 +28,41 @@ jobs:
           urls: http://localhost:3000
           uploadArtifacts: true # save results as an action artifacts
           temporaryPublicStorage: true # 
-  # lighthouse:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout repository
-  #     uses: actions/checkout@v2
+# jobs:
+#   lighthouse:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Checkout repository
+#       uses: actions/checkout@v2
 
-  #   - name: Install Node.js
-  #     uses: actions/setup-node@v2
-  #     with:
-  #       node-version: '18'
+#     - name: Install Node.js
+#       uses: actions/setup-node@v2
+#       with:
+#         node-version: '18'
 
-  #   - name: Install dependencies
-  #     run: npm install
+#     - name: Install dependencies
+#       run: npm install
 
-  #   - name: Build project
-  #     run: DISABLE_ESLINT_PLUGIN=true npm run build
+#     - name: Build project
+#       run: DISABLE_ESLINT_PLUGIN=true npm run build
 
-  #   - name: Serve project
-  #     run: npm install -g serve && serve -s build &
+#     - name: Serve project
+#       run: npm install -g serve && serve -s build &
 
-  #   - name: Install Puppeteer
-  #     run: npm install puppeteer
+#     - name: Install Puppeteer
+#       run: npm install puppeteer
 
-  #   - name: Wait for server to be up
-  #     run: |
-  #       timeout 30s bash -c "until curl -s http://localhost:5000 > /dev/null; do echo 'Waiting for server...'; sleep 2; done"
+#     - name: Wait for server to be up
+#       run: |
+#         timeout 30s bash -c "until curl -s http://localhost:5000 > /dev/null; do echo 'Waiting for server...'; sleep 2; done"
 
-  #   - name: Run Lighthouse
-  #     run: |
-  #       npm install -g lighthouse
-  #       lighthouse http://localhost:5000 --output html --output-path ./lighthouse-report.html --chrome-flags="--headless --no-sandbox --disable-gpu"
+#     - name: Run Lighthouse
+#       run: |
+#         npm install -g lighthouse
+#         lighthouse http://localhost:5000 --output html --output-path ./lighthouse-report.html --chrome-flags="--headless --no-sandbox --disable-gpu"
 
-  #   - name: Upload report
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: lighthouse-report
-  #       path: ./lighthouse-report.html
+#     - name: Upload report
+#       uses: actions/upload-artifact@v2
+#       with:
+#         name: lighthouse-report
+#         path: ./lighthouse-report.html
