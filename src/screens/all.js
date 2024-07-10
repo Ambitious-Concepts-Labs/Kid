@@ -19,7 +19,7 @@ import SignUpScreen from "./Auth/SignUpScreen";
 // Auth Screens
 
 
-import AdminDashboard from "./Admin/AdminDashboard";
+import Dashboard from "./Dashboard/index.js";
 import AdminProfile from "./Profile/AdminProfile";
 import AdminAssesment from "./Admin/AdminAssesment";
 import AdminSuggestions from "./Admin/AdminSuggestions";
@@ -35,7 +35,7 @@ import VideoConference from "./Zoom/VideoConference";
 import MyMeetings from "./Zoom/MyMeetings";
 import JoinMeeting from "./Zoom/JoinMeeting";
 import Meeting from "./Zoom/Meeting";
-import Dashboard from "./Zoom/Dashboard";
+import ZoomDashboard from "./Zoom/Dashboard";
 import WebRTCDemo from "./Zoom/WebRTCDemo2.js";
 // Zoom Screens
 
@@ -84,7 +84,7 @@ export {
   LoginScreen,
   ResetPasswordScreen,
   SignUpScreen,
-  AdminDashboard,
+  Dashboard,
   AdminProfile,
   AdminAssesment,
   AdminSuggestions,
@@ -98,7 +98,7 @@ export {
   MyMeetings,
   JoinMeeting,
   Meeting,
-  Dashboard,
+  ZoomDashboard,
   TeacherCourses,
   TeachersCourses,
   Transaction,

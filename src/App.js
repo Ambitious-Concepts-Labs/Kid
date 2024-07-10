@@ -121,7 +121,7 @@ function App() {
 
           {/* Dashboard General Routes */}
           {/* <Route path="/dashboard" element={<PrivateRoute type="login" element={<Screens.AdminDashboard {...states} user={user} />} user={user} currentUser={currentUser} />} /> */}
-          <Route exact path="/dashboard" element={<Screens.AdminDashboard {...states} user={user} />} />
+          <Route exact path="/dashboard" element={<Screens.Dashboard {...states} user={user} />} />
           <Route exact path="/dashboard/assesment" element={<Screens.AdminAssesment />} />
           <Route exact path="/dashboard/products" element={<Screens.Products {...states} user={user} />}/>
           <Route exact path="/dashboard/profile" element={<Screens.AdminProfile user={user} />} />
@@ -185,7 +185,7 @@ function App() {
 					<Route path="/dashboard/zoom/meetings" element={<Screens.Meeting  {...states} user={user} />} />
 					<Route path="/dashboard/zoom/mymeetings" element={<Screens.MyMeetings  {...states} user={user} />} />
           {/* Duplicates */}
-			    <Route path="/dashboard/zoom" element={<Screens.Dashboard  {...states} user={user}/>} />
+			    <Route path="/dashboard/zoom" element={<Screens.ZoomDashboard  {...states} user={user}/>} />
         </Routes>
       </BrowserRouter>
     </div>
