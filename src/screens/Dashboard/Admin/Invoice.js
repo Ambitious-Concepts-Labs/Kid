@@ -101,7 +101,7 @@ const InvoiceTransaction = (props) => {
                   <p> Business Number: 0-808-234-2380 (Company Number)</p>
                 </address>
                 <span>
-                  <img alt="it" src={imgPlaceholder} id="company-img" />
+                  <img loading="lazy"alt="it" src={imgPlaceholder} id="company-img" />
                 </span>
               </header>
               <article>
@@ -218,7 +218,7 @@ const InvoiceTransaction = (props) => {
                       <td>
                         Signature Here
                         <br />
-                        <img src={imgPlaceholder} alt="img" />
+                        <img loading="lazy" src={imgPlaceholder} alt="img" />
                       </td>
                     </tr>
                   </tbody>

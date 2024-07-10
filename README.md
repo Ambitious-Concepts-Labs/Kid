@@ -8,7 +8,7 @@
 
 <div align="center">
   <a href="https://github.com/your_username/repo_name">
-    <img src="https://i.imgur.com/RF2Zlgb.png" alt="Logo" width="80" height="80">
+    <img loading="lazy" src="https://i.imgur.com/RF2Zlgb.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">KidverCity</h3>

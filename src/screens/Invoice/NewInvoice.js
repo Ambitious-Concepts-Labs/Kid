@@ -558,7 +558,7 @@ const NewInvoice = (props) => {
                     <td>
                       Signature Here
                       <br />
-                      <img src={imgPlaceholder} alt="img" />
+                      <img loading="lazy" src={imgPlaceholder} alt="img" />
                     </td>
                   </tr>
                 </tbody>

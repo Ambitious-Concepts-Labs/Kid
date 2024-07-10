@@ -72,7 +72,7 @@ const EditCourse = (props) => {
 								/>
 							</div>
 							<div className="banner-img">
-								<img src={imgPlaceholder} alt="img-placeholder" />
+								<img loading="lazy" src={imgPlaceholder} alt="img-placeholder" />
 							</div>
 							<div className="author">
 								<div>

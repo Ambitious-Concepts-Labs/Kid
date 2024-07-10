@@ -155,7 +155,7 @@ export default function AdminAssesment() {
 							</div>
 
 							{/* characters svg */}
-							<img src={charImage} alt="charim" className="ml-auto mr-16" />
+							<img loading="lazy" src={charImage} alt="charim" className="ml-auto mr-16" />
 
 							{/* circle svg */}
 							<svg

@@ -444,7 +444,7 @@ export default function StudentScreen() {
                     px-12 md:pl-24 md:pr-0
                     "
         >
-          <img src={artsBg} alt="dates_img" className="w-full object-contain" />
+          <img loading="lazy" src={artsBg} alt="dates_img" className="w-full object-contain" />
         </div>
 
         {/* right */}

@@ -402,7 +402,7 @@ export default function AdmissionScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={apply} alt="book_img" className="w-full" />
+                <img loading="lazy" src={apply} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     aPPLY FOR AID{" "}
@@ -429,7 +429,7 @@ export default function AdmissionScreen() {
 							bg-[#C33B4C] 
 						"
               >
-                <img src={estimate} alt="book_img" className="w-full" />
+                <img loading="lazy" src={estimate} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-white font-bold font-[riffic] capitalize">
                     ESTIMATE YOUR COSTS{" "}
@@ -455,7 +455,7 @@ export default function AdmissionScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={types} alt="book_img" className="w-full" />
+                <img loading="lazy" src={types} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     TYPES OF AID{" "}
@@ -482,7 +482,7 @@ export default function AdmissionScreen() {
 							bg-[#C33B4C] 
 						"
               >
-                <img src={estimate} alt="book_img" className="w-full" />
+                <img loading="lazy" src={estimate} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-white font-bold font-[riffic] capitalize">
                     ESTIMATE YOUR COSTS{" "}
@@ -508,7 +508,7 @@ export default function AdmissionScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={types} alt="book_img" className="w-full" />
+                <img loading="lazy" src={types} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     TYPES OF AID{" "}

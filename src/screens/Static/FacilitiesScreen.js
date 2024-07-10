@@ -551,7 +551,7 @@ export default function FacilitiesScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={support} alt="book_img" className="w-full" />
+                <img loading="lazy" src={support} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     STUDENT SUPPORT{" "}
@@ -578,7 +578,7 @@ export default function FacilitiesScreen() {
 							bg-[#C33B4C] 
 						"
               >
-                <img src={campuses} alt="book_img" className="w-full" />
+                <img loading="lazy" src={campuses} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-white font-bold font-[riffic] capitalize">
                     CAMPUSES
@@ -604,7 +604,7 @@ export default function FacilitiesScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={union} alt="book_img" className="w-full" />
+                <img loading="lazy" src={union} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     STUDENTS UNION
@@ -631,7 +631,7 @@ export default function FacilitiesScreen() {
 							bg-[#C33B4C] 
 						"
               >
-                <img src={campuses} alt="book_img" className="w-full" />
+                <img loading="lazy" src={campuses} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-white font-bold font-[riffic] capitalize">
                     CAMPUSES
@@ -657,7 +657,7 @@ export default function FacilitiesScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={union} alt="book_img" className="w-full" />
+                <img loading="lazy" src={union} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     STUDENTS UNION

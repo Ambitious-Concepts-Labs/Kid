@@ -56,7 +56,7 @@ export default function HomeScreen(props) {
 				{/* left bar */}
 				<div className="hidden md:flex flex-col items-center mx-20 text-white font-[Grandstander] font-medium">
 					<p>01</p>
-					<img src={bar} alt="bar_img" className="w-[5px] h-[360px]" />
+					<img loading="lazy" src={bar} alt="bar_img" className="w-[5px] h-[360px]" />
 					<p>04</p>
 				</div>
 
@@ -262,7 +262,7 @@ export default function HomeScreen(props) {
 								bg-white 
 								"
 							>
-								<img src={book} alt="book_img" className="w-full" />
+								<img loading="lazy" src={book} alt="book_img" className="w-full" />
 								<div className="details text-left py-5 px-4">
 									<h1 className="text-left text-[20px] text-[#C33B4C] font-bold ">
 										Virtual Book Club
@@ -282,7 +282,7 @@ export default function HomeScreen(props) {
 							shadow-sm mx-auto p-1 cursor-pointer max-md:max-w-[300px]
 							bg-[#C33B4C]"
 							>
-								<img src={swim} alt="book_img" className="w-full" />
+								<img loading="lazy" src={swim} alt="book_img" className="w-full" />
 								<div className="details text-left py-5 px-4">
 									<h1 className="text-left text-[20px] text-white font-bold ">
 										Patton Report
@@ -301,7 +301,7 @@ export default function HomeScreen(props) {
 							shadow-sm mx-auto p-1 cursor-pointer max-md:max-w-[300px]
 							 bg-white"
 							>
-								<img src={golf} alt="book_img" className="w-full" />
+								<img loading="lazy" src={golf} alt="book_img" className="w-full" />
 								<div className="details text-left py-5 px-4">
 									<h1 className="text-left text-[20px] text-[#C33B4C] font-bold ">
 										Golf Lessons for Girls{" "}
@@ -320,7 +320,7 @@ export default function HomeScreen(props) {
 							shadow-sm mx-auto p-1 cursor-pointer max-md:max-w-[300px]
 							bg-[#C33B4C]"
 							>
-								<img src={swim} alt="book_img" className="w-full" />
+								<img loading="lazy" src={swim} alt="book_img" className="w-full" />
 								<div className="details text-left py-5 px-4">
 									<h1 className="text-left text-[20px] text-white font-bold ">
 										Patton Report
@@ -339,7 +339,7 @@ export default function HomeScreen(props) {
 							shadow-sm mx-auto p-1 cursor-pointer max-md:max-w-[300px]
 							 bg-white"
 							>
-								<img src={golf} alt="book_img" className="w-full" />
+								<img loading="lazy" src={golf} alt="book_img" className="w-full" />
 								<div className="details text-left py-5 px-4">
 									<h1 className="text-left text-[20px] text-[#C33B4C] font-bold ">
 										Golf Lessons for Girls{" "}
@@ -438,7 +438,7 @@ export default function HomeScreen(props) {
 						{/* register */}
 						<div className="tab flex items-center py-4 px-6 cursor-pointer hover:opacity-80">
 							<div className="bg-[#C33B4C33] h-[50px] aspect-square flex items-center justify-center">
-								<img src={register} alt="interested_img" className="h-[70%]" />
+								<img loading="lazy" src={register} alt="interested_img" className="h-[70%]" />
 							</div>
 
 							<h1 className="text-[18px] font-bold ml-3">Register</h1>
@@ -448,7 +448,7 @@ export default function HomeScreen(props) {
 					{/* image */}
 					<div className="w-[100%] lg:w-[35%] lg:mx-auto lg:min-w-[400px] max-w-[1100px]">
 						<div className="relative h-fit w-full z-0">
-							<img src={enrollBg} alt="enroll_img" className="w-full" />
+							<img loading="lazy" src={enrollBg} alt="enroll_img" className="w-full" />
 							{/* border */}
 							<div
 								style={{
@@ -576,7 +576,7 @@ export default function HomeScreen(props) {
 							bg-white 
 							"
 							>
-								<img src={summer} alt="book_img" className="w-full" />
+								<img loading="lazy" src={summer} alt="book_img" className="w-full" />
 								<div className="details text-left py-5 px-4">
 									<h1 className="text-left text-[20px] text-[#C33B4C] font-bold ">
 										Summer Phonics Class for Kids{" "}
@@ -605,7 +605,7 @@ export default function HomeScreen(props) {
 							shadow-sm mx-auto p-1 cursor-pointer max-md:max-w-[300px]
 							bg-[#C33B4C]"
 							>
-								<img src={math} alt="book_img" className="w-full" />
+								<img loading="lazy" src={math} alt="book_img" className="w-full" />
 								<div className="details text-left py-5 px-4">
 									<h1 className="text-left text-[20px] text-white font-bold ">
 										Middle School Math Summer Workshop{" "}
@@ -634,7 +634,7 @@ export default function HomeScreen(props) {
 							shadow-sm mx-auto p-1 cursor-pointer max-md:max-w-[300px]
 							 bg-white"
 							>
-								<img src={golf1} alt="book_img" className="w-full" />
+								<img loading="lazy" src={golf1} alt="book_img" className="w-full" />
 								<div className="details text-left py-5 px-4">
 									<h1 className="text-left text-[20px] text-[#C33B4C] font-bold ">
 										Golf for Girls{" "}
@@ -664,7 +664,7 @@ export default function HomeScreen(props) {
 							shadow-sm mx-auto p-1 cursor-pointer max-md:max-w-[300px]
 							bg-[#C33B4C]"
 							>
-								<img src={math} alt="book_img" className="w-full" />
+								<img loading="lazy" src={math} alt="book_img" className="w-full" />
 								<div className="details text-left py-5 px-4">
 									<h1 className="text-left text-[20px] text-white font-bold ">
 										Middle School Math Summer Workshop{" "}
@@ -693,7 +693,7 @@ export default function HomeScreen(props) {
 							shadow-sm mx-auto p-1 cursor-pointer max-md:max-w-[300px]
 							 bg-white"
 							>
-								<img src={golf1} alt="book_img" className="w-full" />
+								<img loading="lazy" src={golf1} alt="book_img" className="w-full" />
 								<div className="details text-left py-5 px-4">
 									<h1 className="text-left text-[20px] text-[#C33B4C] font-bold ">
 										Golf for Girls{" "}

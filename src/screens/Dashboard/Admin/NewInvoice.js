@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import imgPlaceholder from "../image-placeholder.png";
-import { addItem, removeItem, sendInvoice } from "../../../utils/invoiceFunctions";
+import {
+  addItem,
+  removeItem,
+  sendInvoice,
+} from "../../../utils/invoiceFunctions";
 import "./NewInvoice.css";
 import * as Papa from "papaparse";
 import Layout from "../../../components/Dashboard/Layout";
@@ -59,7 +63,6 @@ const NewInvoice = (props) => {
   }, [selectedInput]);
 
   useEffect(() => {
-    let unmounted = false;
     const readCsv = () => {
       fetch("data.csv")
         .then((response) => response.text())
@@ -79,13 +82,15 @@ const NewInvoice = (props) => {
               console.log({ res });
 
               const test = res.slice(0, 100).sort((a, b) => {
-                if (a.name.toUpperCase() < b.name.toUpperCase()) {
-                  return -1;
+                if (a.name && b.name) {
+                  if (a.name.toUpperCase() < b.name.toUpperCase()) {
+                    return -1;
+                  }
+                  if (a.name.toUpperCase() > b.name.toUpperCase()) {
+                    return 1;
+                  }
+                  return 0;
                 }
-                if (a.name.toUpperCase() > b.name.toUpperCase()) {
-                  return 1;
-                }
-                return 0;
               });
 
               console.log({ test });
@@ -97,10 +102,8 @@ const NewInvoice = (props) => {
         });
     };
 
-    if (!unmounted) {
-      readCsv();
-      setLoading(false);
-    }
+    readCsv();
+    setLoading(false);
 
     // Axios.get("/product/products", { cancelToken: source.token })
     // 	.then((res) => {
@@ -125,10 +128,6 @@ const NewInvoice = (props) => {
     // 			setLoading(false);
     // 		}
     // 	});
-
-    return function() {
-      unmounted = true;
-    };
   }, []);
 
   if (!currentUser) return <h1>Loading...</h1>;
@@ -146,7 +145,12 @@ const NewInvoice = (props) => {
               <p> Company's Business Number</p>
             </address>
             <span>
-              <img alt="it" src={imgPlaceholder} id="company-img" />
+              <img
+                loading="lazy"
+                alt="it"
+                src={imgPlaceholder}
+                id="company-img"
+              />
             </span>
           </header>
           <article>
@@ -422,7 +426,7 @@ const NewInvoice = (props) => {
                   <td>
                     Signature Here
                     <br />
-                    <img src={imgPlaceholder} alt="img" />
+                    <img loading="lazy" src={imgPlaceholder} alt="img" />
                   </td>
                 </tr>
               </tbody>

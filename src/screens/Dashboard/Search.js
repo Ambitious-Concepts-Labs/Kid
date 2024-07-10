@@ -7,7 +7,7 @@ import useGetAllCourses from "../../hooks/useGetAllCourses";
 import { mockSearchCourses } from "../../constants/mockData";
 
 export default function Search() {
-  const courses = useGetAllCourses();
+  const { courses, error, isLoading } = useGetAllCourses();
   const filteredCourses = courses.filter(
     (course) => Array.isArray(course.chapters) && course.chapters.length > 0
   );
@@ -24,7 +24,8 @@ export default function Search() {
     { id: 4, name: "Design" },
   ];
 
-
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout>
       <div className="px-6 pt-6 md:hidden md:mb-0 block">
