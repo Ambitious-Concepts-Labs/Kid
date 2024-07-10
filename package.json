@@ -39,7 +39,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": [
@@ -60,6 +61,7 @@
     ]
   },
   "devDependencies": {
+    "source-map-explorer": "^2.5.3",
     "tailwindcss": "^3.2.6"
   }
 }
