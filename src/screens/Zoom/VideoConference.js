@@ -1,15 +1,16 @@
+import React, { useState, lazy, Suspense } from "react";
 import { addDoc } from "firebase/firestore";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CreateMeetingButtons from "../../components/Form/Zoom/CreateMeetingButtons";
-import MeetingDateField from "../../components/Form/Zoom/MeetingDateField";
-import MeetingMaximumUsersField from "../../components/Form/Zoom/MeetingMaximumUsersField";
-import MeetingNameField from "../../components/Form/Zoom/MeetingNameFIeld";
-import MeetingUserField from "../../components/Form/Zoom/MeetingUserField";
+import Layout from "../../components/Dashboard/Layout";
 import * as Components from "../../components/all";
 import { meetingsRef } from "../../lib/firebase";
 import { generateMeetingID } from "./generateMeetingId";
-import Layout from "../../components/Dashboard/Layout";
+
+const CreateMeetingButtons = lazy(() => import('../../components/Form/Zoom/CreateMeetingButtons'));
+const MeetingDateField = lazy(() => import('../../components/Form/Zoom/MeetingDateField'));
+const MeetingMaximumUsersField = lazy(() => import('../../components/Form/Zoom/MeetingMaximumUsersField'));
+const MeetingNameField = lazy(() => import('../../components/Form/Zoom/MeetingNameFIeld'));
+const MeetingUserField = lazy(() => import('../../components/Form/Zoom/MeetingUserField'));
 
 export default function VideoConference() {
   const navigate = useNavigate();
@@ -77,7 +78,6 @@ export default function VideoConference() {
   return (
     <Layout>
       <div className="p-4 flex-1 h-full overflow-auto text-start">
-        {/* heading */}
         <Components.Paragraph className="font-bold mt-5">
           BreadCrumbs (6)
         </Components.Paragraph>
@@ -94,37 +94,39 @@ export default function VideoConference() {
               />
             </div>
 
-            <MeetingNameField
-              label="Meeting name"
-              isInvalid={showErrors.meetingName.show}
-              error={showErrors.meetingName.message}
-              placeholder="Meeting name"
-              value={meetingName}
-              setMeetingName={setMeetingName}
-            />
-
-            {anyoneCanJoin ? (
-              <MeetingMaximumUsersField value={size} setSize={setSize} />
-            ) : (
-              <MeetingUserField
-                label="Invite Users"
-                isInvalid={showErrors.meetingUsers.show}
-                error={showErrors.meetingUsers.message}
-                options={[]}
-                onChange={onUserChange}
-                selectedOptions={selectedUser}
-                isClearable={false}
-                placeholder="Select Users"
+            <Suspense fallback={<div>Loading...</div>}>
+              <MeetingNameField
+                label="Meeting name"
+                isInvalid={showErrors.meetingName.show}
+                error={showErrors.meetingName.message}
+                placeholder="Meeting name"
+                value={meetingName}
+                setMeetingName={setMeetingName}
               />
-            )}
 
-            <MeetingDateField
-              selected={startDate}
-              setStartDate={setStartDate}
-            />
-            <div className="my-4">
-              <CreateMeetingButtons createMeeting={createMeeting} />
-            </div>
+              {anyoneCanJoin ? (
+                <MeetingMaximumUsersField value={size} setSize={setSize} />
+              ) : (
+                <MeetingUserField
+                  label="Invite Users"
+                  isInvalid={showErrors.meetingUsers.show}
+                  error={showErrors.meetingUsers.message}
+                  options={[]}
+                  onChange={onUserChange}
+                  selectedOptions={selectedUser}
+                  isClearable={false}
+                  placeholder="Select Users"
+                />
+              )}
+
+              <MeetingDateField
+                selected={startDate}
+                setStartDate={setStartDate}
+              />
+              <div className="my-4">
+                <CreateMeetingButtons createMeeting={createMeeting} />
+              </div>
+            </Suspense>
           </form>
         </div>
       </div>
