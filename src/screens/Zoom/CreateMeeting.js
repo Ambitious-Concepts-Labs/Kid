@@ -1,8 +1,9 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
-import meeting1 from "../../assets/meeting1.png";
-import meeting2 from "../../assets/meeting2.png";
 import Layout from "../../components/Dashboard/Layout";
+
+const Meeting1Card = lazy(() => import("../../components/Cards/Meeting1Card"));
+const Meeting2Card = lazy(() => import("../../components/Cards/Meeting2Card"));
 
 export default function CreateMeeting() {
   const navigate = useNavigate();
@@ -19,32 +20,10 @@ export default function CreateMeeting() {
         <div className="flex flex-col h-full" style={{ minHeight: "100vh" }}>
           <div className="flex justify-center items-center my-20 mx-40">
             <div className="flex space-x-8">
-              <div
-                className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center cursor-pointer"
-                onClick={() => navigate("/dashboard/zoom/create/1on1")}
-              >
-                <img src={meeting1} alt="icon" className="w-full mb-4" />
-                <h2 className="text-xl font-bold mb-2">
-                  Create 1 on 1 Meeting
-                </h2>
-                <p className="text-gray-700">
-                  Create a personal single person meeting.
-                </p>
-              </div>
-              <div
-                className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center cursor-pointer"
-                onClick={() =>
-                  navigate("/dashboard/zoom/create/video-conference")
-                }
-              >
-                <img src={meeting2} alt="icon" className="w-full mb-4" />
-                <h2 className="text-xl font-bold mb-2">
-                  Create Video Conference
-                </h2>
-                <p className="text-gray-700">
-                  Invite multiple persons to the meeting.
-                </p>
-              </div>
+              <Suspense fallback={<div>Loading...</div>}>
+                <Meeting1Card navigate={navigate} />
+                <Meeting2Card navigate={navigate} />
+              </Suspense>
             </div>
           </div>
         </div>
