@@ -1,25 +1,26 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
-const useGetAllTransactions = () => {
-  const [transactions, setTransactions] = useState([]);
+const fetchAllTransactions = async () => {
+  const querySnapshot = await getDocs(collection(db, "transactions"));
+  return querySnapshot.docs.map((transaction) => ({
+    ...transaction.data(),
+    transactionId: transaction.id,
+  }));
+};
 
-  const getAllTransactions = async () => {
-    const dataArr = [];
-    const querySnapshot = await getDocs(collection(db, "transactions"));
-    querySnapshot.forEach((transactions) => {
-      const obj = { ...transactions.data(), transactionsId: transactions.id };
-      dataArr.push(obj);
-    });
-    setTransactions(dataArr);
+const useGetAllTransactions = () => {
+  const { data: transactions = [], isLoading, error } = useQuery({
+    queryKey: ["transactions"],
+    queryFn: fetchAllTransactions,
+  });
+  return {
+    transactions,
+    transactionsError: error,
+    transactionsAreLoading: isLoading,
   };
 
-  useEffect(() => {
-    getAllTransactions();
-  }, []);
-
-  return transactions;
 };
 
 export default useGetAllTransactions;

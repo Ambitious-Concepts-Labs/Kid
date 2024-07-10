@@ -1,25 +1,22 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
+const fetchAllCourses = async () => {
+  const querySnapshot = await getDocs(collection(db, "courses"));
+  return querySnapshot.docs.map((course) => ({
+    ...course.data(),
+    courseId: course.id,
+  }));
+};
+
 const useGetAllCourses = () => {
-  const [courses, setCourses] = useState([]);
+  const { data: courses = [], isLoading, error } = useQuery({
+    queryKey: ["courses"],
+    queryFn: fetchAllCourses,
+  });
 
-  const getAllCourses = async () => {
-    const dataArr = [];
-    const querySnapshot = await getDocs(collection(db, "courses"));
-    querySnapshot.forEach((course) => {
-      const obj = { ...course.data(), courseId: course.id };
-      dataArr.push(obj);
-    });
-    setCourses(dataArr);
-  };
-
-  useEffect(() => {
-    getAllCourses();
-  }, []);
-
-  return courses;
+  return { courses, isLoading, error };
 };
 
 export default useGetAllCourses;
