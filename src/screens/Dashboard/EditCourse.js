@@ -22,7 +22,7 @@ const EditCourse = (props) => {
 		setUpdatedCourse(async () => {
 			if (key !== "instructor") {
 				course[key] = e.target.value;
-				await updateFireStoreDoc(doc(db, "users", user.uid), { course: [...course] });
+				await updateFireStoreDoc("users", user.uid, { course: [...course] });
 				if (e.target.value.length) {
 					return {
 						...updatedCourse,

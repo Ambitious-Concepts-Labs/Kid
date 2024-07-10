@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import MuxPlayer from "@mux/mux-player-react";
-import { db, mutateFireStoreDoc } from "../lib/firebase";
-import { doc } from "firebase/firestore";
+import { mutateFireStoreDoc } from "../lib/firebase";
 import useGetCourseById from "../hooks/useGetCouseById";
 
 const VideoPlayer = ({
@@ -20,7 +19,6 @@ const VideoPlayer = ({
   const onEnd = async () => {
     try {
       if (completeOnEnd) {
-        const courseRef = doc(db, "courses", courseId);
         const chapters = course.chapters || [];
         const chapterIndex = chapters.findIndex(
           (chapter) => chapter.id === chapterId
@@ -28,7 +26,7 @@ const VideoPlayer = ({
         if (chapterIndex !== -1) {
           chapters[chapterIndex].video.progress = {isCompleted: true};
 
-          await mutateFireStoreDoc(courseRef, { chapters });
+          await mutateFireStoreDoc("courses", courseId, { chapters });
 
         }
 

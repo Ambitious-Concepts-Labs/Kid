@@ -1,6 +1,6 @@
-import { db, mutateFireStoreDoc, updateFireStoreDoc } from "../lib/firebase";
+import { mutateFireStoreDoc, updateFireStoreDoc } from "../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { doc, serverTimestamp } from "firebase/firestore";
+import { serverTimestamp } from "firebase/firestore";
 
 const addToCart = async (props) => {
   const {
@@ -34,7 +34,7 @@ const addToCart = async (props) => {
       updatedCart.total_price = items.reduce((acc, item) => {
         return total_price + parseInt(item.price);
       }, 0);
-      await updateFireStoreDoc(doc(db, "transactions", uuidv4()), {
+      await updateFireStoreDoc("transactions", uuidv4(), {
         ...updatedCart,
         createdAt: serverTimestamp(),
         id: uuidv4(),
@@ -162,7 +162,7 @@ const editCart = async (props) => {
     const confirm = window.confirm("Proceed to apply changes?");
     if (confirm) {
       setLoading(true);
-      await mutateFireStoreDoc(doc(db, "transactions", id), { cart: editedCart });
+      await mutateFireStoreDoc("transactions", id, { cart: editedCart });
       // Axios.put("/cart/editcart", {
       // 	cart: editedCart,
       // })
@@ -185,7 +185,7 @@ const avail = async (props) => {
   const confirm = window.confirm("Proceed to avail items?");
   if (confirm) {
     setLoading(true);
-    await mutateFireStoreDoc(doc(db, "transactions", id), { cart: item });
+    await mutateFireStoreDoc("transactions", id, { cart: item });
     // Axios.post("/cart/avail")
     // 	.then((res) => {
     // 		window.alert("Item successfully availed!");

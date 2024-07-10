@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth, signInWithPopup, signInWithEmailAndPassword,
 createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "firebase/auth";
-import { getFirestore, query, getDocs, collection, where, addDoc, updateDoc, setDoc } from "firebase/firestore";
+import { getFirestore, query, getDocs, collection, where, addDoc, updateDoc, setDoc, doc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { generateUsername } from "../utils/helperfunctions";
 
@@ -115,18 +115,20 @@ const signInWithGoogle = async () => {
 
 const meetingsRef = collection(db, "meetings");
 
-const updateFireStoreDoc = async (docRef, data) => {
+const updateFireStoreDoc = async (collection, id, data) => {
   try {
-    await setDoc(docRef, data, { merge: true });
+    const dataRef = id ? doc(db, collection, id) : doc(db, collection);
+    await setDoc(dataRef, data, { merge: true });
   } catch (err) {
     console.error(err);
     alert(err.message);
   }
-}
+};
 
-const mutateFireStoreDoc = async (docRef, data) => {
+const mutateFireStoreDoc = async (collection, id, data) => {
   try {
-    await updateDoc(docRef, data, { merge: true });
+    const dataRef = id ? doc(db, collection, id) : doc(db, collection);
+    await updateDoc(dataRef, data, { merge: true });
   } catch (err) {
     console.error(err);
     alert(err.message);

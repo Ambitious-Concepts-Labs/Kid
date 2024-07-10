@@ -2,8 +2,7 @@ import { useConfettiStore } from "../../hooks/useConfettiStore";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 // import toast from "react-hot-toast";
-import { db, mutateFireStoreDoc } from "../../lib/firebase";
-import { doc } from "firebase/firestore";
+import { mutateFireStoreDoc } from "../../lib/firebase";
 import useGetCourseById from "../../hooks/useGetCouseById";
 
 const CourseProgressButton = ({
@@ -21,7 +20,6 @@ const CourseProgressButton = ({
     alert("clicked");
     try {
       setIsLoading(true);
-       const courseRef = doc(db, "courses", courseId);
        const chapters = course.chapters || [];
        const chapterIndex = chapters.findIndex(
          (chapter) => chapter.id === chapterId
@@ -32,7 +30,7 @@ const CourseProgressButton = ({
            isCompleted: !chapters[chapterIndex].isCompleted,
          };
 
-         await mutateFireStoreDoc(courseRef, { chapters });
+         await mutateFireStoreDoc("courses", courseId, { chapters });
          isCompleted = !chapters[chapterIndex].isCompleted;
        }
 

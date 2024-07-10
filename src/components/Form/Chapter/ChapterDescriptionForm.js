@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Editor from "../../Editor";
 import Preview from "../../Preview";
 import Button from "./Button";
-import { db, mutateFireStoreDoc } from "../../../lib/firebase";
-import { doc } from "firebase/firestore";
+import { mutateFireStoreDoc } from "../../../lib/firebase";
 import { cn } from "../../../utils/helperfunctions";
 import useGetCourseById from "../../../hooks/useGetCouseById";
 
@@ -34,7 +33,6 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }) => {
     if (Object.keys(errors).length === 0) {
       try {
         setIsSubmitting(true);
-        const courseRef = doc(db, "courses", courseId);
         const chapters = course.chapters || [];
         const chapterIndex = chapters.findIndex(
           (chapter) => chapter.id === chapterId
@@ -43,7 +41,7 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }) => {
         if (chapterIndex !== -1) {
           chapters[chapterIndex].description = formValues;
 
-          await mutateFireStoreDoc(courseRef, { chapters });
+          await mutateFireStoreDoc("courses", courseId, { chapters });
         }
         alert("Chapter updated successfully");
         toggleEdit();

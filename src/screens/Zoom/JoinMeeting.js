@@ -208,7 +208,7 @@ export default function JoinMeeting(props) {
         type: offerDescription.type,
       };
 
-      await updateFireStoreDoc(callDoc, { offer });
+      await updateFireStoreDoc("calls", null, { offer });
 
       onSnapshot(callDoc, (snapshot) => {
         const data = snapshot.data();

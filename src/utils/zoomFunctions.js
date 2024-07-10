@@ -30,7 +30,7 @@ const createCall = async (pc, callInputRef, hangupButtonRef, setCallId) => {
       type: offerDescription.type,
     };
 
-    await updateFireStoreDoc(callDoc, { offer });
+    await updateFireStoreDoc("calls", null, { offer });
 
     onSnapshot(callDoc, (snapshot) => {
       const data = snapshot.data();
@@ -96,7 +96,7 @@ const answerCall = async (pc, id) => {
       sdp: answerDescription.sdp,
     };
 
-    await updateFireStoreDoc(callDoc, { answer });
+    await updateFireStoreDoc("calls", null, { answer });
 
     onSnapshot(offerCandidates, (snapshot) => {
       snapshot.docChanges().forEach((change) => {

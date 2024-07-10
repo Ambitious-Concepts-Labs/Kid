@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { db, mutateFireStoreDoc } from "../lib/firebase";
-import { doc } from "firebase/firestore";
-// Custom ConfirmModal component
+import { mutateFireStoreDoc } from "../lib/firebase";
+
 const ConfirmModal = ({ children, onConfirm }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -69,8 +68,9 @@ const Actions = ({ disabled, courseId, isPublished }) => {
   const onClick = async () => {
     try {
       setIsLoading(true);
-      const courseDoc = doc(db, "courses", courseId);
-      await mutateFireStoreDoc(courseDoc, { isPublished: !isPublished })
+      await mutateFireStoreDoc("courses", courseId, {
+        isPublished: !isPublished,
+      });
       window.location.reload();
       if (isPublished) {
         // Replace with your API call

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { db, mutateFireStoreDoc } from "../../../lib/firebase";
-import { doc } from "firebase/firestore";
+import { mutateFireStoreDoc } from "../../../lib/firebase";
 
 const DescriptionForm = ({ initialData, courseId }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -27,9 +26,9 @@ const DescriptionForm = ({ initialData, courseId }) => {
 
     setIsSubmitting(true);
     try {
-      const courseDoc = doc(db, "courses", courseId);
-
-      await mutateFireStoreDoc(courseDoc, { courseDescription: inputValue });
+      await mutateFireStoreDoc("courses", courseId, {
+        courseDescription: inputValue,
+      });
 
       setDescription(inputValue);
       alert("Course updated successfully");

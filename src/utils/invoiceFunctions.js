@@ -199,8 +199,7 @@ const confirmEdit = async (props) => {
         foundTransaction.cart = editedInvoice.cart;
         foundTransaction.manualDateAdded = editedInvoice.manualDateAdded;
 
-        await updateFireStoreDoc(
-          doc(db, "transactions", editedInvoice._id),
+        await updateFireStoreDoc("transactions", editedInvoice._id,
           { ...editedInvoice }
         );
         setEdit(false);
@@ -269,18 +268,15 @@ const sendInvoice = async (props) => {
         };
         const transactionId = uuidv4();
         updatedTransactions.push(transactionId);
-        await updateFireStoreDoc(
-          doc(db, "transactions", transactionId),
+        await updateFireStoreDoc("transactions", transactionId,
           { ...newTransaction }
         );
         if (selectedStudent) {
-          await updateFireStoreDoc(
-            doc(db, "users", selectedStudent.id),
+          await updateFireStoreDoc("users", selectedStudent.id,
             { transactions: updatedTransactions }
           );
         } else {
-          await updateFireStoreDoc(
-            doc(db, "users", currentUser.id),
+          await updateFireStoreDoc("users", currentUser.id,
             { transactions: updatedTransactions }
           );
         }
@@ -294,8 +290,7 @@ const sendInvoice = async (props) => {
 
     if (confirm) {
       currentInvoice.status = status ? status : "pendnig";
-      await updateFireStoreDoc(
-        doc(db, "transactions", transactionId),
+      await updateFireStoreDoc("transactions", transactionId,
         { ...currentInvoice }
       );
       history("/dashboard/admin/invoices/all");
