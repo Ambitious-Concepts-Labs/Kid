@@ -124,7 +124,7 @@ function App() {
           <Route exact path="/dashboard" element={<Screens.Dashboard {...states} user={user} />} />
           <Route exact path="/dashboard/assesment" element={<Screens.AdminAssesment />} />
           <Route exact path="/dashboard/products" element={<Screens.Products {...states} user={user} />}/>
-          <Route exact path="/dashboard/profile" element={<Screens.AdminProfile user={user} />} />
+          <Route exact path="/dashboard/profile" element={<Screens.Profile user={user} />} />
           <Route exact path="/dashboard/purchase" element={<Screens.AdminPurchase />} />
           <Route exact path="/dashboard/rewards" element={<Screens.AdminRewards />} />
           <Route exact path="/dashboard/suggestions" element={<Screens.AdminSuggestions />} />

@@ -34,7 +34,7 @@ ChartJS.register(
 	Legend
 );
 
-export default function AdminProfile(props) {
+export default function Profile(props) {
 	const [name, setName] = useState("");
 	const [avatar, setAvatar] = useState("");
 	const [email, setEmail] = useState("");

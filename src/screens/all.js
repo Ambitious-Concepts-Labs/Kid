@@ -19,8 +19,6 @@ import SignUpScreen from "./Auth/SignUpScreen";
 // Auth Screens
 
 
-import Dashboard from "./Dashboard/index.js";
-import AdminProfile from "./Profile/AdminProfile";
 import AdminAssesment from "./Admin/AdminAssesment";
 import AdminSuggestions from "./Admin/AdminSuggestions";
 import AdminZoom from "./Admin/AdminZoom";
@@ -41,11 +39,13 @@ import WebRTCDemo from "./Zoom/WebRTCDemo2.js";
 
 import UpdateCourse from "./Dashboard/UpdateCourse";
 
+import Dashboard from "./Dashboard/index.js";
+import NewCourse from "./Dashboard/Admin/NewCourse.js";
 import TeacherCourses from "./Dashboard/Teachers/TeacherCourses";
 import TeachersCourses from "./Dashboard/Teachers/TeachersCourses.js";
 import ViewStudents from "./Dashboard/Teachers/ViewStudents.js";
-import NewCourse from "./Dashboard/Admin/NewCourse.js";
 import Products from "./Dashboard/Products";
+import Profile from "./Dashboard/Profile.js";
 import Cart from "./Dashboard/Students/Cart.js";
 
 // Invoice Screens
@@ -85,7 +85,7 @@ export {
   ResetPasswordScreen,
   SignUpScreen,
   Dashboard,
-  AdminProfile,
+  Profile,
   AdminAssesment,
   AdminSuggestions,
   AdminZoom,
