@@ -1,29 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   updateCourse,
   deleteCourse,
   requestCourse,
 } from "../../utils/courseFunctions";
-import EditCourse from "./EditCourse";
 import "./Course.css";
 import useUserData from "../../hooks/useUserData";
 import Layout from "../../components/Dashboard/Layout";
-import TitleForm from "../../components/Form/Course/TitleForm";
-import DescriptionForm from "../../components/Form/Course/DescriptionForm";
-import ImageForm from "../../components/Form/Course/ImageForm";
-import CategoryForm from "../../components/Form/Course/CategoryForm";
-import PriceForm from "../../components/Form/Course/PriceForm";
-import AttachmentForm from "../../components/Form/Course/AttachmentForm";
-import IconBadge from "../../components/IconBadge";
-import { LuLayoutDashboard, LuListChecks } from "react-icons/lu";
-import { BsCurrencyDollar } from "react-icons/bs";
-import { FaRegFile } from "react-icons/fa";
-import ChaptersForm from "../../components/Form/Course/ChaptersForm";
 import Banner from "../../components/Banner";
-import Actions from "../../components/Actions";
 import useGetCourseById from "../../hooks/useGetCouseById";
 import useGetAllCategories from "../../hooks/useGetAllCategories";
+
+const EditCourse = lazy(() => import("./EditCourse"));
+const CourseSetup = lazy(() => import("../../components/Courses/CourseSetup"));
 
 const UpdateCourse = (props) => {
   const { id } = useParams();
@@ -35,7 +25,7 @@ const UpdateCourse = (props) => {
   const { currentUser, user } = useUserData();
   const { data: course } = useGetCourseById(id);
   const { categories, error, isLoading } = useGetAllCategories(setLoading);
- 
+
   useEffect(() => {
     if (course && currentUser) {
       if (currentUser.isStudent || currentUser.id !== course.courseInstructor) {
@@ -135,172 +125,40 @@ const UpdateCourse = (props) => {
           <Banner label="This Course is unpublished. It will not be visible to the students" />
         )}
         <div style={{ overflow: "scroll" }}>
-          {!edit ? (
-            <div className="container-fluid p-6">
-              <div className="row">
-                <div className="col-12">
-                  <div className="tile">
-                    <div className="flex items-center justify-between">
-                      <div className="flex flex-col gap-y-2">
-                        <h1 className="text-2xl font-medium">Course Setup</h1>
-                        <span className="text-slate-700 text-sm">
-                          Complete all fields {completionText}
-                        </span>
-                      </div>
-                      <Actions
-                        disabled={!isComplete}
-                        courseId={id}
-                        isPublished={course.isPublished}
-                      />
-                    </div>
-                    <div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                        <div>
-                          <div className="flex items-center gap-x-2">
-                            <IconBadge icon={LuLayoutDashboard} />
-                            <h2 className="text-xl">Customize your course</h2>
-                          </div>
-                          <TitleForm initialData={course} courseId={id} />
-                          <DescriptionForm initialData={course} courseId={id} />
-                          <ImageForm initialData={course} courseId={id} />
-                          <CategoryForm
-                            initialData={course}
-                            courseId={id}
-                            options={categories.map((category) => ({
-                              label: category.category,
-                              value: category.id,
-                            }))}
-                          />
-                        </div>
-                        <div className="space-y-6">
-                          <div>
-                            <div className="flex items-center gap-x-2">
-                              <IconBadge icon={LuListChecks} />
-                              <h2 className="text-xl">Course Chapters</h2>
-                            </div>
-                            <ChaptersForm initialData={course} courseId={id} />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-x-2">
-                              <IconBadge icon={BsCurrencyDollar} />
-                              <h2 className="text-xl">Sell your course</h2>
-                            </div>
-                            <PriceForm initialData={course} courseId={id} />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-x-2">
-                              <IconBadge icon={FaRegFile} />
-                              <h2 className="text-xl">
-                                Resources & Attachments
-                              </h2>
-                            </div>
-                            <AttachmentForm
-                              initialData={course}
-                              courseId={id}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <br />
-                      <div className="flex justify-around w-100">
-                        {!currentUser.isStudent ? (
-                          (currentUser.isAdmin ||
-                            currentUser._id === course.instructor._id) && (
-                            <>
-                              <button
-                                className="btn btn-primary"
-                                onClick={() => {
-                                  setEdit(true);
-                                }}
-                              >
-                                Update
-                              </button>
-
-                              <button
-                                className="btn btn-info"
-                                onClick={() => {
-                                  history(`/dashboard/course/${id}/students`);
-                                }}
-                              >
-                                Students
-                              </button>
-
-                              <button
-                                className="btn btn-danger"
-                                onClick={() => {
-                                  deleteCourse({ ...props, course, history });
-                                }}
-                              >
-                                Delete
-                              </button>
-                            </>
-                          )
-                        ) : isPending(course) ? (
-                          <button className="btn btn-warning" disabled>
-                            Pending
-                          </button>
-                        ) : isInTransactions ? (
-                          isCourseDenied ? (
-                            <button
-                              className="btn btn-primary"
-                              onClick={() => {
-                                requestCourse({
-                                  ...props,
-                                  course: course[0],
-                                  setLoading,
-                                  history,
-                                });
-                              }}
-                            >
-                              Request
-                            </button>
-                          ) : isForPayment ? (
-                            <button className="btn btn-secondary" disabled>
-                              For Payment
-                            </button>
-                          ) : isOwned(course) ? (
-                            <button className="btn btn-success" disabled>
-                              Owned
-                            </button>
-                          ) : (
-                            <button className="btn btn-warning" disabled>
-                              Pending
-                            </button>
-                          )
-                        ) : (
-                          <button
-                            className="btn btn-primary"
-                            onClick={() => {
-                              requestCourse({
-                                ...props,
-                                course,
-                                setLoading,
-                                history,
-                              });
-                            }}
-                          >
-                            Request
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <EditCourse
-              course={course}
-              currentUser={currentUser}
-              setCheckUser={setCheckUser}
-              updateCourse={updateCourse}
-              updatedCourse={updatedCourse}
-              setUpdatedCourse={setUpdatedCourse}
-              setEdit={setEdit}
-              setLoading={setLoading}
-              user={user}
-            />
-          )}
+          <Suspense fallback={<div>Loading...</div>}>
+            {!edit ? (
+              <CourseSetup
+                course={course}
+                completionText={completionText}
+                isComplete={isComplete}
+                id={id}
+                categories={categories}
+                currentUser={currentUser}
+                setEdit={setEdit}
+                history={history}
+                deleteCourse={deleteCourse}
+                isPending={isPending}
+                isInTransactions={isInTransactions}
+                isCourseDenied={isCourseDenied}
+                isForPayment={isForPayment}
+                isOwned={isOwned}
+                requestCourse={requestCourse}
+                {...props}
+              />
+            ) : (
+              <EditCourse
+                course={course}
+                currentUser={currentUser}
+                setCheckUser={setCheckUser}
+                updateCourse={updateCourse}
+                updatedCourse={updatedCourse}
+                setUpdatedCourse={setUpdatedCourse}
+                setEdit={setEdit}
+                setLoading={setLoading}
+                user={user}
+              />
+            )}
+          </Suspense>
         </div>
       </Layout>
     );

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../utils/cartFunctions";
 import Papa from "papaparse";
 import Layout from "../../components/Dashboard/Layout";
 import "./Products.css";
+
+const ProductTable = lazy(() => import("../../components/Tables/ProductTable"));
 
 const Products = (props) => {
   const { currentUser, cart, setCart } = props;
@@ -79,7 +81,7 @@ const Products = (props) => {
   if (!loading && areProductsLoaded) {
     return (
       <Layout>
-        <div style={{overflow: "scroll"}} className="container mx-auto p-4">
+        <div style={{ overflow: "scroll" }} className="container mx-auto p-4">
           <h2 className="text-2xl font-bold mb-4">Products</h2>
           <div className="mb-4">
             <input
@@ -90,84 +92,21 @@ const Products = (props) => {
               className="border p-2 mr-2"
             />
           </div>
-          <table className="min-w-full bg-white border">
-            <thead>
-              <tr>
-                <th
-                  className="py-2 px-4 border-b cursor-pointer"
-                  onClick={() => handleSort("name")}
-                >
-                  Item Name
-                </th>
-                <th
-                  className="py-2 px-4 border-b cursor-pointer"
-                  onClick={() => handleSort("price")}
-                >
-                  Price
-                </th>
-                {!currentUser.isAdmin && (
-                  <th className="py-2 px-4 border-b">Action</th>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {filteredProducts
-                .slice(productsSlice[0], productsSlice[1])
-                .map((item) => (
-                  <tr key={item._id}>
-                    <td className="py-2 px-4 border-b">{item.name}</td>
-                    <td className="py-2 px-4 border-b">${item.price}</td>
-                    {currentUser.isStudent && (
-                      <td className="py-2 px-4 border-b">
-                        <button
-                          className="bg-blue-500 text-white px-4 py-2 rounded"
-                          onClick={() => {
-                            addToCart({
-                              setCart,
-                              cart,
-                              item,
-                              ...props,
-                              setLoading,
-                              history
-                            });
-                          }}
-                        >
-                          Add to cart
-                        </button>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-          <div className="flex justify-center mt-4">
-            {productsSlice[0] > 0 && (
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-                onClick={() =>
-                  setProductsSlice([
-                    productsSlice[0] - 10,
-                    productsSlice[1] - 10,
-                  ])
-                }
-              >
-                Prev
-              </button>
-            )}
-            {productsSlice[1] < filteredProducts.length && (
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded"
-                onClick={() =>
-                  setProductsSlice([
-                    productsSlice[0] + 10,
-                    productsSlice[1] + 10,
-                  ])
-                }
-              >
-                Next
-              </button>
-            )}
-          </div>
+          <Suspense fallback={<div>Loading product table...</div>}>
+            <ProductTable
+              filteredProducts={filteredProducts}
+              productsSlice={productsSlice}
+              setProductsSlice={setProductsSlice}
+              currentUser={currentUser}
+              handleSort={handleSort}
+              addToCart={addToCart}
+              setCart={setCart}
+              cart={cart}
+              setLoading={setLoading}
+              history={history}
+              {...props}
+            />
+          </Suspense>
         </div>
       </Layout>
     );
