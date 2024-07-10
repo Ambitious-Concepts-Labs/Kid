@@ -1,7 +1,6 @@
 import React from "react";
 import imgPlaceholder from "./image-placeholder.png";
-import { db, updateFireStoreDoc } from "../../lib/firebase";
-import { doc } from "firebase/firestore";
+import { updateFireStoreDoc } from "../../lib/firebase";
 
 const EditCourse = (props) => {
 	const {

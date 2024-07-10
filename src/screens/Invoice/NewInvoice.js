@@ -4,8 +4,7 @@ import imgPlaceholder from "./image-placeholder.png";
 import { addItem, removeItem, sendInvoice } from "../../utils/invoiceFunctions";
 import * as Papa from "papaparse";
 import Layout from "../../components/Dashboard/Layout";
-import { getDocs, collection } from "firebase/firestore";
-import { db } from "../../lib/firebase";
+import useGetAllUsers from "../../hooks/useGetAllUsers";
 
 const NewInvoice = (props) => {
   const { currentUser } = props;
@@ -20,6 +19,7 @@ const NewInvoice = (props) => {
   const [selectedStudent, setSelectedStudent] = useState({});
   const [isStudentFound, setIsStudentFound] = useState(false);
   const [areStudentsLoaded, setAreStudentsLoaded] = useState(false);
+  const { users } = useGetAllUsers();
 
   const [assignedCourse, setAssignedCourse] = useState({
     student: { username: "" },
@@ -137,11 +137,9 @@ const NewInvoice = (props) => {
             const getStudents = async () => {
               const studentsData = [];
               try {
-                const querySnapshot = await getDocs(collection(db, "users"));
-                querySnapshot.forEach((doc) => {
-                  if (doc.data().isStudent) {
-                    const student = { ...doc.data(), id: doc.id };
-                    studentsData.push(student);
+                users.forEach((doc) => {
+                  if (doc.isStudent) {
+                    studentsData.push(doc);
                   }
                 });
                 setStudents(studentsData);

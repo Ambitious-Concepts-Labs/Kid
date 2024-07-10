@@ -7,7 +7,6 @@ import { answerCall } from "../../utils/zoomFunctions";
 import {
   collection,
   doc,
-  getDoc,
   onSnapshot,
   addDoc,
 } from "firebase/firestore";

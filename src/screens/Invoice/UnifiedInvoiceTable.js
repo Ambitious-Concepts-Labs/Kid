@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Dashboard/Layout";
 import SearchBar from "../../components/SearchBar";
-import { getDocs, collection } from "firebase/firestore";
-import { db } from "../../lib/firebase";
 import useGetAllTransactions from "../../hooks/useGetAllTransactions";
+import useGetAllUsers from "../../hooks/useGetAllUsers";
 
 const UnifiedInvoiceTable = ({ currentUser }) => {
   const { transactions, isLoading, error } = useGetAllTransactions();
@@ -17,16 +16,12 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [itemsPerPage] = useState(10);
+  const { users } = useGetAllUsers();
 
   const getTransactions = async () => {
     try {
-      const usersSnapshot = await getDocs(collection(db, "users"));
-      const usersData = usersSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
       transactions.forEach(async (transaction) => {
-        usersData.forEach((user) => {
+        users.forEach((user) => {
           const username = user.username
           if (user.id === transaction.user) {
             transaction.username = username ? username : "Anonymous";

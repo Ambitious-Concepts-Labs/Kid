@@ -3,15 +3,15 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { searchStudent } from "../../../utils/courseFunctions";
 import SearchBar from "../../../components/SearchBar";
 import Layout from "../../../components/Dashboard/Layout";
-import { db } from "../../../lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
 import useGetAllCourses from "../../../hooks/useGetAllCourses";
+import useGetAllUsers from "../../../hooks/useGetAllUsers";
 
 const ViewStudents = (props) => {
   const { currentUser } = props;
   const { id } = useParams();
   const navigate = useNavigate();
   const { courses, error, isLoading } = useGetAllCourses();
+  const { users } = useGetAllUsers();
   const [searchedItems, setSearchedItems] = useState([]);
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,12 +25,11 @@ const ViewStudents = (props) => {
   const getStudents = async (currentCourse) => {
     const students = [];
     for (const studentId of currentCourse.students) {
-      const studentRef = doc(db, "users", studentId);
-      const studentDoc = await getDoc(studentRef);
-      if (studentDoc.exists()) {
-        console.log(studentDoc.data());
-        students.push({ id: studentDoc.id, ...studentDoc.data() });
-      }
+      users.forEach((user) => {
+        if (user.id === studentId) {
+          students.push(user);
+        }
+      });
     }
     return students;
   };

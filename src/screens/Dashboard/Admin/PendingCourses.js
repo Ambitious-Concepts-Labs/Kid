@@ -4,8 +4,7 @@ import { searchCourse } from "../../../utils/courseFunctions";
 import SearchBar from "../../../components/SearchBar";
 import Layout from "../../../components/Dashboard/Layout";
 import useGetAllUsers from "../../../hooks/useGetAllUsers";
-import { db } from "../../../lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import useGetAllCourses from "../../../hooks/useGetAllCourses";
 
 const PendingCourses = (props) => {
   const { currentUser } = props;
@@ -14,29 +13,21 @@ const PendingCourses = (props) => {
   const [pendingCourses, setPendingCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [coursesSlice, setCoursesSlice] = useState([0, 10]);
-
-  const getUserPendingCourses = async (id) => {
-    const docRef = await getDoc(doc(db, "courses", id));
-    return {...docRef.data(), courseId: id};
-  };
+  const { courses } = useGetAllCourses();
 
   useEffect(() => {
-    const fetchPendingCourses = async () => {
+    const fetchPendingCourses = () => {
       if (currentUser && users.length > 0) {
         const usersWithPendingCourses = users.filter(
           (user) => user.pendingCourses.length > 0
         );
 
-        const pendingCoursesData = await Promise.all(
-          usersWithPendingCourses.map(async (user) => {
-            const userPendingCourses = await Promise.all(
-              user.pendingCourses.map(async (courseId) => {
-                return getUserPendingCourses(courseId);
-              })
-            );
-            return { ...user, pendingCourses: userPendingCourses };
-          })
-        );
+        const pendingCoursesData = usersWithPendingCourses.map((user) => {
+          const userPendingCourses = courses.filter((course) => {
+            return user.pendingCourses.includes(course.courseId);
+          });
+          return { ...user, pendingCourses: userPendingCourses };
+        });
 
         setPendingCourses(pendingCoursesData);
         setSearchedItems(pendingCoursesData);

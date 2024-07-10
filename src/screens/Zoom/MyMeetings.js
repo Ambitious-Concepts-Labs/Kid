@@ -1,5 +1,5 @@
-import { getDocs, query } from "firebase/firestore";
 import React, { useEffect, useState, useCallback } from "react";
+import { getDocs, query } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import EditFlyout from "./EditFlyout";
 import { meetingsRef } from "../../lib/firebase";

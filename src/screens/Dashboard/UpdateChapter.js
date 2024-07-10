@@ -11,10 +11,8 @@ import IconBadge from "../../components/IconBadge";
 import Banner from "../../components/Banner";
 import Layout from "../../components/Dashboard/Layout";
 import { useLocation } from "react-router-dom";
-import { getDoc, doc } from "firebase/firestore";
-import { db } from "../../lib/firebase";
 import { mockFetchChapter } from "../../constants/mockData";
-
+import useGetCourseById from "../../hooks/useGetCouseById";
 
 const mockRedirect = (url) => {
   // Mock redirect logic
@@ -26,13 +24,11 @@ const UpdateChapter = () => {
   const [chapterId, setChapterId] = useState(null);
   const location = useLocation();
   const [chapter, setChapter] = useState(mockFetchChapter(courseId, chapterId));
-  const [course, setCourse] = useState(null);
-
   useEffect(() => {
     const url = location.pathname;
     const regex = /\/course\/([^/]+)\/chapters\/([^/]+)/;
     const match = url.match(regex);
-
+    
     if (match) {
       const courseId = match[1];
       const chapterId = match[2];
@@ -44,23 +40,7 @@ const UpdateChapter = () => {
       console.log("No match found");
     }
   }, [courseId, chapterId]);
-
-  const getCourse = async () => {
-    const docRef = await getDoc(doc(db, "courses", courseId));
-    if (!docRef.exists()) {
-      console.log("No such document!");
-      const data = await mockFetchChapter(courseId, chapterId);
-      setCourse(data);
-    } else {
-      console.log("Document data:", docRef);
-      console.log("Document data:", docRef.data());
-      setCourse(docRef.data());
-    }
-  };
-
-  useEffect(() => {
-    getCourse();
-  }, [courseId, chapterId]);
+  const { data: course, isLoading, error } = useGetCourseById(courseId);
 
   useEffect(() => {
     const fetchChapter = async () => {

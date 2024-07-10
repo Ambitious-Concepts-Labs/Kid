@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { getDocs, collection } from "firebase/firestore";
 import imgPlaceholder from "../image-placeholder.png";
 import { assignStudentToCourse, selectCourse } from "../../../utils/courseFunctions";
-import { db } from "../../../lib/firebase";
 import Layout from "../../../components/Dashboard/Layout";
 import { useNavigate } from "react-router-dom";
 import useGetAllCourses from "../../../hooks/useGetAllCourses";
+import useGetAllUsers from "../../../hooks/useGetAllUsers";
 
 const AssignStudentCourse = (props) => {
   const { currentUser } = props;
   const history = useNavigate();
   const [students, setStudents] = useState([]);
+  const { users } = useGetAllUsers();
   const [areStudentsLoaded, setAreStudentsLoaded] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState({});
   const { courses, error, isLoading } = useGetAllCourses();
@@ -103,10 +103,9 @@ const AssignStudentCourse = (props) => {
           const getStudents = async () => {
             const studentsData = [];
             try {
-              const querySnapshot = await getDocs(collection(db, "users"));
-              querySnapshot.forEach((doc) => {
-                  if (doc.data().isStudent) {
-                    const student = { ...doc.data(), id: doc.id };
+              users.forEach((doc) => {
+                  if (doc.isStudent) {
+                    const student = { ...doc, id: doc.id };
                     studentsData.push(student);
                   }
               });
