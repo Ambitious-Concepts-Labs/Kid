@@ -1,10 +1,13 @@
-import React from "react";
-import TeacherCoursesList from "../../../components/Courses/TeacherCoursesList";
-import InfoCard from "../../../components/Dashboard/InfoCard";
+import React, { lazy, Suspense } from "react";
 import { CiClock2 } from "react-icons/ci";
 import { FaCheckCircle } from "react-icons/fa";
 import Layout from "../../../components/Dashboard/Layout";
 import useGetAllCourses from "../../../hooks/useGetAllCourses";
+
+const InfoCard = lazy(() => import("../../../components/Dashboard/InfoCard"));
+const TeacherCoursesList = lazy(() =>
+  import("../../../components/Courses/TeacherCoursesList")
+);
 
 const TeachersCourses = ({ currentUser }) => {
   const [userCourses, setUserCourses] = React.useState([]);
@@ -37,27 +40,27 @@ const TeachersCourses = ({ currentUser }) => {
   return (
     <Layout>
       <div className="p-6 space-y-4">
-        <h2>
-          View Enrolled Students
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <InfoCard
-            icon={CiClock2}
-            label={"In Progress"}
-            numberOfItems={coursesInProgress.length}
-          />
-          <InfoCard
-            icon={FaCheckCircle}
-            label={"Pass Courses"}
-            numberOfItems={completedCourses.length}
-            variant="success"
-          />
-        </div>
-        {userCourses.length === 0 ? (
-          <h2>Loading...</h2>
-        ) : (
-          <TeacherCoursesList items={userCourses} />
-        )}
+        <h2>View Enrolled Students</h2>
+        <Suspense fallback={<div>Loading...</div>}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <InfoCard
+              icon={CiClock2}
+              label={"In Progress"}
+              numberOfItems={coursesInProgress.length}
+            />
+            <InfoCard
+              icon={FaCheckCircle}
+              label={"Pass Courses"}
+              numberOfItems={completedCourses.length}
+              variant="success"
+            />
+          </div>
+        </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+          {userCourses.length === 0 && (
+            <TeacherCoursesList items={userCourses} />
+          )}
+        </Suspense>
       </div>
     </Layout>
   );
