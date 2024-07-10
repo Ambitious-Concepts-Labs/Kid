@@ -2,8 +2,12 @@ import React from "react";
 import * as Components from "../../components/all";
 import { ConfettiProvider } from "../../hooks/useConfettiStore";
 
-export default function Layout({ children }) {
+export default function Layout(props) {
   const [page, setPage] = React.useState("Dashboard");
+  const defaultCrumbs = [
+    { label: "Home", link: "/dashboard" }
+  ];
+  console.log(props);
   return (
     <div className="AdminProfile bg-[#F7F9FF] flex items-stretch h-screen max-h-screen overflow-hidden">
       {/* Sidebar */}
@@ -14,7 +18,10 @@ export default function Layout({ children }) {
         {/* Navbar */}
         <ConfettiProvider />
         <Components.AdminNavbar page={page} />
-        {children}
+        <Components.Breadcrumb
+          crumbs={props.crumbs ? props.crumbs : defaultCrumbs}
+        />
+        {props.children}
       </div>
     </div>
   );

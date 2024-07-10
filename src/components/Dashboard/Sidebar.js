@@ -5,9 +5,7 @@ import useUserData from "../../hooks/useUserData";
 import Dashboard from "../Icons/Dashboard";
 import Profile from "../Icons/Profile";
 import Assessments from "../Icons/Assessments";
-import { GiHeartBeats } from "react-icons/gi";
 import { BiSolidPurchaseTagAlt, BiLogoZoom } from "react-icons/bi";
-import { TbShoppingCart } from "react-icons/tb";
 import { VscFeedback } from "react-icons/vsc";
 import { GiArchiveResearch } from "react-icons/gi";
 import { FaLayerGroup } from "react-icons/fa";
@@ -19,6 +17,7 @@ export default function Sidebar({ page, setPage }) {
   const navigate = useNavigate();
   const { currentUser, user, loading } = useUserData();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [active, setActive] = useState("Dashboard");
   const isAdmin = currentUser?.isAdmin;
   const isTeacher = currentUser?.isTeacher;
 
@@ -29,7 +28,7 @@ export default function Sidebar({ page, setPage }) {
     { name: "Profile", icon: <Profile page="profile" />, path: "/dashboard/profile" },
     { name: "Assesments", icon: <Assessments page="assesment" />, path: "/dashboard/assesment" },
     { name: "Suggestions", icon: <VscFeedback page="suggestions" />, path: "/dashboard/suggestions" },
-    { name: "Create Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
+    { name: "Create Zoom", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
     { name: "My Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom/mymeetings" },
   ];
 
@@ -42,7 +41,7 @@ export default function Sidebar({ page, setPage }) {
     { name: "My Profile", icon: <RiPassPendingFill page="profile" />, path: "/dashboard/profile" },
     // { name: "Assesments", icon: <Assessments page="Pre and Post assesment" />, path: "/dashboard/assesment" },
     // { name: "Suggestions", icon: <VscFeedback page="suggestions" />, path: "/dashboard/suggestions" },
-    { name: "Create Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
+    { name: "Create Zoom", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
     { name: "My Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom/mymeetings" },
     // { name: "Thank You", icon: <GiHeartBeats page="thankyou" />, path: "/dashboard/thankyou" },
   ];
@@ -59,12 +58,11 @@ export default function Sidebar({ page, setPage }) {
     { name: "Create Invoice", icon: <RiPassPendingFill />, path: "/dashboard/admin/invoice/new" },
     { name: "View Invoices", icon: <RiPassPendingFill />, path: "/dashboard/admin/invoices/all" },
     { name: "User Profile", icon: <RiPassPendingFill />, path: "/dashboard/profile" },
-    { name: "Create Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
+    { name: "Create Zoom", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom" },
     { name: "My Zoom-Sessions", icon: <BiLogoZoom page="zoom" />, path: "/dashboard/zoom/mymeetings" },
     { name: "Assesments", icon: <Assessments page="assessments" />, path: "/dashboard/assesment" },
     { name: "Suggestions", icon: <RiPassPendingFill />, path: "/dashboard/suggestions" },
 ];
-
 
   const routes = isAdmin
     ? adminRoutes
@@ -77,26 +75,28 @@ export default function Sidebar({ page, setPage }) {
   };
 
   const handleOnClick = (route) => {
-    console.log('route', route, page)
     const routeName = route.name.charAt(0).toUpperCase() + route.name.slice(1);
+    setActive(route.name)
     setPage(routeName);
     navigate(route.path);
   };
 
+  console.log({active})
   return (
     <>
       <div
         className={`w-[17%] min-w-[200px] flex flex-col items-start p-6 bg-[#C33B4C] text-white text-sm transition-transform duration-300 md:block ${
           isMobileOpen ? "fixed inset-0 z-50" : "hidden md:flex"
-        }`}
+        } overflow-auto`}
       >
         <img loading="lazy" src={logo} alt="" className="h-20 mb-6" />
         {routes.map((route) => (
           <div
             key={route.name}
-            className={`flex items-center w-full pl-8 pr-5 py-1.5 rounded-md mb-4 ${page ===
-              route.name.toLowerCase() &&
-              "bg-[#F2E4E6] text-[#C33B4C]"} cursor-pointer hover:opacity-50`}
+            className={`flex items-center w-full pl-8 pr-5 py-1.5 rounded-md mb-4 
+            cursor-pointer hover:opacity-50
+            ${active.includes(route.name) && "bg-[#F2E4E6] text-[#C33B4C]"}
+            `}
             onClick={() => handleOnClick(route)}
           >
             {route.icon}

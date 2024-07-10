@@ -1,5 +1,8 @@
+import { db } from "../lib/firebase";
+import { v4 as uuidv4 } from "uuid";
+import { doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 
-const addToCart = (props) => {
+const addToCart = async (props) => {
   const {
     currentUser,
     item,
@@ -8,7 +11,7 @@ const addToCart = (props) => {
     isLoggedin,
     history,
     setCart,
-    cart
+    cart,
   } = props;
 
   if (
@@ -22,20 +25,20 @@ const addToCart = (props) => {
     const confirm = window.confirm("Add to cart?");
     if (confirm) {
       setLoading(true);
-      // await setDoc(doc(db, "transactions", uid), {
-      //   ...newCourse,
-      //   createdAt: serverTimestamp(),
-      //   id: uuidv4(),
-      // });
       const items = [item];
 
       const updatedCart = { ...cart, items };
       const total_price = 0;
       const total_quantity = 1;
-      updatedCart.total_quantity = total_quantity; 
+      updatedCart.total_quantity = total_quantity;
       updatedCart.total_price = items.reduce((acc, item) => {
         return total_price + parseInt(item.price);
       }, 0);
+      await setDoc(doc(db, "transactions", uuidv4()), {
+        ...updatedCart,
+        createdAt: serverTimestamp(),
+        id: uuidv4(),
+      });
       setCart({ ...updatedCart, items });
       console.log({ ...updatedCart, items });
       // Axios.put("/cart/addtocart", { item: { ...item, qty: 1 } })
@@ -54,7 +57,7 @@ const addToCart = (props) => {
       // 		console.log(err);
       // 	});
       alert("Item added to cart");
-      history("/dashboard/cart")
+      history("/dashboard/cart");
     }
   }
 };
@@ -108,39 +111,38 @@ const handleInput = (props) => {
 
 const handleRemove = (props) => {
   const { item, setEdit, editedCart, setEditedCart, setCart } = props;
-  console.log("click");
-  // let updatedItems = [
-  //   ...editedCart.items.filter((filtered) => {
-  //     return filtered._id !== item._id;
-  //   }),
-  // ];
+  let updatedItems = [
+    ...editedCart.items.filter((filtered) => {
+      return filtered._id !== item._id;
+    }),
+  ];
 
-  // let updatedPrice = 0;
-  // updatedItems.forEach((uitem) => {
-  //   updatedPrice += uitem.price * uitem.qty;
-  // });
+  let updatedPrice = 0;
+  updatedItems.forEach((uitem) => {
+    updatedPrice += uitem.price * uitem.qty;
+  });
   const confirm = window.confirm("Remove item?");
   if (confirm) {
-    // setEdit(true);
-    // setEditedCart({
-    //   ...editedCart,
-    //   items: updatedItems,
-    //   total_price: +updatedPrice,
-    // });
+    setEdit(true);
+    setEditedCart({
+      ...editedCart,
+      items: updatedItems,
+      total_price: +updatedPrice,
+    });
   }
-  setCart({ items: [], total_price: 0, total_quantity: 0 })
+  setCart({ items: [], total_price: 0, total_quantity: 0 });
   window.location.reload();
 };
 
-const editCart = (props) => {
+const editCart = async (props) => {
   const {
     event,
-
     setLoading,
     editedCart,
     setEditedCart,
     setEdit,
     setCheckUser,
+    id
   } = props;
   event.preventDefault();
 
@@ -160,6 +162,9 @@ const editCart = (props) => {
     const confirm = window.confirm("Proceed to apply changes?");
     if (confirm) {
       setLoading(true);
+      await updateDoc(doc(db, "transactions", id), {
+        cart: editedCart
+      }, { merge: true })
       // Axios.put("/cart/editcart", {
       // 	cart: editedCart,
       // })
@@ -177,11 +182,14 @@ const editCart = (props) => {
   }
 };
 
-const avail = (props) => {
-  const { setLoading, setCheckUser } = props;
+const avail = async (props) => {
+  const { setLoading, setCheckUser, id, item } = props;
   const confirm = window.confirm("Proceed to avail items?");
   if (confirm) {
     setLoading(true);
+    await updateDoc(doc(db, "transactions", id), {
+      cart: item, 
+    }, {merge: true})
     // Axios.post("/cart/avail")
     // 	.then((res) => {
     // 		window.alert("Item successfully availed!");
