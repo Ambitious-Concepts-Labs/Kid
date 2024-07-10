@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ChaptersList from "../../ChaptersList";
 import { FiPlusCircle } from "react-icons/fi";
-import { db } from "../../../lib/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { db, mutateFireStoreDoc } from "../../../lib/firebase";
+import { doc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
 // Input component
@@ -101,12 +101,12 @@ const ChaptersForm = ({ initialData, courseId }) => {
     try {
       const courseDoc = doc(db, "courses", courseId);
       if (initialData.chapters) {
-        await updateDoc(courseDoc, {
+        await mutateFireStoreDoc(courseDoc, {
           chapters: [...initialData.chapters, title],
         });
       } else {
-        await updateDoc(courseDoc, {
-          chapters: [title],  
+        await mutateFireStoreDoc(courseDoc, {
+          chapters: [title],
         });
       }
       alert("Chapter created successfully");
@@ -125,7 +125,7 @@ const ChaptersForm = ({ initialData, courseId }) => {
       setIsUpdating(true);
       const courseDoc = doc(db, "courses", courseId);
 
-      await updateDoc(courseDoc, {
+      await mutateFireStoreDoc(courseDoc, {
         chapters: updateData,
       });
       alert("Chapters Reordered");

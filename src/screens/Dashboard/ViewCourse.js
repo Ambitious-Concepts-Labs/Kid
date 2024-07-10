@@ -12,7 +12,6 @@ export default function ViewCourse(props) {
   const [chapterId, setChapterId] = React.useState(null);
   React.useEffect(() => {
     if (course && course.chapters && course.chapters.length > 0) {
-      console.log(course.chapters[0]);
       setChapterId(course.chapters[0]);
     }
   }, [course, id]);

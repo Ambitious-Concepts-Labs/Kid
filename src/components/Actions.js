@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { db } from "../lib/firebase";
-import { doc, updateDoc } from "firebase/firestore";
-
+import { db, mutateFireStoreDoc } from "../lib/firebase";
+import { doc } from "firebase/firestore";
 // Custom ConfirmModal component
 const ConfirmModal = ({ children, onConfirm }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,11 +70,8 @@ const Actions = ({ disabled, courseId, isPublished }) => {
     try {
       setIsLoading(true);
       const courseDoc = doc(db, "courses", courseId);
-
-      await updateDoc(courseDoc, {
-        isPublished: !isPublished,
-      });
-        window.location.reload();
+      await mutateFireStoreDoc(courseDoc, { isPublished: !isPublished })
+      window.location.reload();
       if (isPublished) {
         // Replace with your API call
         console.log(`Unpublish course: ${courseId}`);

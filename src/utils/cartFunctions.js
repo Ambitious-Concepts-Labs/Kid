@@ -1,6 +1,6 @@
-import { db } from "../lib/firebase";
+import { db, mutateFireStoreDoc } from "../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 const addToCart = async (props) => {
   const {
@@ -162,9 +162,7 @@ const editCart = async (props) => {
     const confirm = window.confirm("Proceed to apply changes?");
     if (confirm) {
       setLoading(true);
-      await updateDoc(doc(db, "transactions", id), {
-        cart: editedCart
-      }, { merge: true })
+      await mutateFireStoreDoc(doc(db, "transactions", id), { cart: editedCart });
       // Axios.put("/cart/editcart", {
       // 	cart: editedCart,
       // })
@@ -187,9 +185,7 @@ const avail = async (props) => {
   const confirm = window.confirm("Proceed to avail items?");
   if (confirm) {
     setLoading(true);
-    await updateDoc(doc(db, "transactions", id), {
-      cart: item, 
-    }, {merge: true})
+    await mutateFireStoreDoc(doc(db, "transactions", id), { cart: item });
     // Axios.post("/cart/avail")
     // 	.then((res) => {
     // 		window.alert("Item successfully availed!");

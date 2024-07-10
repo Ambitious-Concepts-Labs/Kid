@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
-import { db } from "../../../lib/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { db, mutateFireStoreDoc } from "../../../lib/firebase";
+import { doc } from "firebase/firestore";
 import useGetCourseById from "../../../hooks/useGetCouseById";
 // Input component
 const Input = ({ disabled, placeholder, value, onChange }) => (
@@ -55,7 +55,7 @@ const ChapterTitleForm = ({ initialData, courseId, chapterId }) => {
         if (chapterIndex !== -1) {
           chapters[chapterIndex].title = inputValue;
 
-          await updateDoc(courseRef, { chapters });
+          await mutateFireStoreDoc(courseRef, { chapters });
         }
         alert("Chapter updated successfully");
         toggleEdit();

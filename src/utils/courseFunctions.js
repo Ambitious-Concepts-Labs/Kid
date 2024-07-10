@@ -1,6 +1,6 @@
-import { db } from "../lib/firebase";
+import { db, mutateFireStoreDoc } from "../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 const createCourse = async (props) => {
   const { currentUser, newCourse, history, user } = props;
@@ -326,11 +326,10 @@ const assignCourse = async (props) => {
       });
       if (!exisiting) {
         updatedCourses.push(assignedCourse);
-        await updateDoc(
-          doc(db, "users", currentUser.uid),
-          { courses: updatedCourses }
-        );
-        await updateDoc(doc(db, "coures", assignedCourse.id), {
+        await mutateFireStoreDoc(doc(db, "users", currentUser.uid), {
+          courses: updatedCourses,
+        });
+        await mutateFireStoreDoc(doc(db, "courses", assignedCourse.id), {
           instructor: currentUser.uid,
         });
       }
@@ -360,13 +359,13 @@ const assignStudentToCourse = async ({
     try {
       // Update student's assigned courses
       const updatedCourses = [...student.courses, course.id];
-      await updateDoc(doc(db, "students", student.id), {
+      await mutateFireStoreDoc(doc(db, "users", student.id), {
         courses: updatedCourses,
       });
 
       // Update course to include student
       const updatedStudents = [...course.students, student.id];
-      await updateDoc(doc(db, "courses", course.id), {
+      await mutateFireStoreDoc(doc(db, "courses", course.id), {
         students: updatedStudents,
       });
 

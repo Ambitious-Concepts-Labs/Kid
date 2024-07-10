@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { db } from "../../../lib/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { db, mutateFireStoreDoc } from "../../../lib/firebase";
+import { doc } from "firebase/firestore";
 
 const PriceForm = ({ initialData, courseId }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -25,7 +25,7 @@ const PriceForm = ({ initialData, courseId }) => {
     try {
       const courseDoc = doc(db, "courses", courseId);
 
-      await updateDoc(courseDoc, {
+      await mutateFireStoreDoc(courseDoc, {
         price: parseFloat(price),
       });
 

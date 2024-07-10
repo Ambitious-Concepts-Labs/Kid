@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Editor from "../../Editor";
 import Preview from "../../Preview";
 import Button from "./Button";
-import { db } from "../../../lib/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { db, mutateFireStoreDoc } from "../../../lib/firebase";
+import { doc } from "firebase/firestore";
 import { cn } from "../../../utils/helperfunctions";
 import useGetCourseById from "../../../hooks/useGetCouseById";
 
@@ -43,7 +43,7 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }) => {
         if (chapterIndex !== -1) {
           chapters[chapterIndex].description = formValues;
 
-          await updateDoc(courseRef, { chapters });
+          await mutateFireStoreDoc(courseRef, { chapters });
         }
         alert("Chapter updated successfully");
         toggleEdit();

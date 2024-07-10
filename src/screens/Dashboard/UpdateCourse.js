@@ -22,7 +22,7 @@ import { FaRegFile } from "react-icons/fa";
 import ChaptersForm from "../../components/Form/Course/ChaptersForm";
 import Banner from "../../components/Banner";
 import Actions from "../../components/Actions";
-import useGetCouseById from "../../hooks/useGetCouseById";
+import useGetCourseById from "../../hooks/useGetCouseById";
 import useGetAllCategories from "../../hooks/useGetAllCategories";
 
 const UpdateCourse = (props) => {
@@ -30,20 +30,21 @@ const UpdateCourse = (props) => {
   const history = useNavigate();
   const { isLoggedin, setCheckUser } = props;
   const [edit, setEdit] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [updatedCourse, setUpdatedCourse] = useState({});
   const { currentUser, user } = useUserData();
-  const { course, loading, setLoading } = useGetCouseById(id);
+  const { data: course } = useGetCourseById(id);
   const { categories, error, isLoading } = useGetAllCategories(setLoading);
  
   useEffect(() => {
     if (course && currentUser) {
-      if (currentUser.isStudent || currentUser.id !== course.instructor) {
+      if (currentUser.isStudent || currentUser.id !== course.courseInstructor) {
         history(-1);
       }
     }
-  }, [user, currentUser, course]);
+  }, [currentUser, course]);
 
-  if (!user || !currentUser) return <>Loading...</>;
+  if (!currentUser) return <>Loading...</>;
 
   const requiredFields = [
     course.courseName,

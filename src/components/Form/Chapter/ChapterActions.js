@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ConfirmModal } from "../../Modal/Confirm";
 import Button from "./Button";
-import { db } from "../../../lib/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { db, mutateFireStoreDoc } from "../../../lib/firebase";
+import { doc } from "firebase/firestore";
 import useGetCourseById from "../../../hooks/useGetCouseById";
 
 // Placeholder for the Trash icon
@@ -38,7 +38,7 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }) => {
       if (chapterIndex !== -1) {
         chapters[chapterIndex].isPublished = !isPublished;
 
-        await updateDoc(courseRef, { chapters });
+        await mutateFireStoreDoc(courseRef, { chapters });
       }
       if (isPublished) {
         alert("Chapter Unpublished");
@@ -71,7 +71,7 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }) => {
         };
         const newChapters = removeItemByIndex(chapterIndex)
 
-        await updateDoc(courseRef, { newChapters });
+        await mutateFireStoreDoc(courseRef, { chapters: newChapters });
       }
       alert("Chapter deleted successfully");
       window.location.reload();

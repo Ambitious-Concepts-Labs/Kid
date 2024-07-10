@@ -1,6 +1,6 @@
-import { doc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../../lib/firebase";
+import { doc } from "firebase/firestore";
+import { db, mutateFireStoreDoc } from "../../lib/firebase";
 import CreateMeetingButtons from "../../components/Form/Zoom/CreateMeetingButtons";
 import MeetingDateField from "../../components/Form/Zoom/MeetingDateField";
 import MeetingMaximumUsersField from "../../components/Form/Zoom/MeetingMaximumUsersField";
@@ -44,7 +44,7 @@ export default function EditFlyout({ closeFlyout, meeting }) {
     };
     delete editedMeeting.docId;
     const docRef = doc(db, "meetings", meeting.docId);
-    await updateDoc(docRef, editedMeeting);
+    await mutateFireStoreDoc(docRef, editedMeeting);
     closeFlyout(true);
   };
 
