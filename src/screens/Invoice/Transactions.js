@@ -9,7 +9,7 @@ const Transactions = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [allTransactions, setAllTransactions] = useState([]);
   const [sortedTransactions, setSortedTransactions] = useState([]);
-  const transactions = useGetAllTransactions();
+  const { transactions, isLoading, error } = useGetAllTransactions();
   const [transactionsSlice, setTransactionsSlice] = useState([
     (currentPage - 1) * 10,
     currentPage * 10,
@@ -79,6 +79,8 @@ const Transactions = (props) => {
     }
   }, [transactions, currentUser]);
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   if (currentUser) {
     return (
       <Layout>

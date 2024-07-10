@@ -3,8 +3,9 @@ import Editor from "../../Editor";
 import Preview from "../../Preview";
 import Button from "./Button";
 import { db } from "../../../lib/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { cn } from "../../../utils/helperfunctions";
+import useGetCourseById from "../../../hooks/useGetCouseById";
 
 // Simple form validation function
 const validate = (values) => {
@@ -22,6 +23,8 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }) => {
   });
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+    const { data: course } = useGetCourseById(courseId);
+
 
   const toggleEdit = () => setIsEditing(!isEditing);
 
@@ -32,9 +35,7 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }) => {
       try {
         setIsSubmitting(true);
         const courseRef = doc(db, "courses", courseId);
-        const courseDoc = await getDoc(courseRef);
-        const courseData = courseDoc.data();
-        const chapters = courseData.chapters || [];
+        const chapters = course.chapters || [];
         const chapterIndex = chapters.findIndex(
           (chapter) => chapter.id === chapterId
         );

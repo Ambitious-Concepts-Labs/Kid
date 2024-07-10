@@ -8,7 +8,7 @@ import useUserData from "../../hooks/useUserData";
 
 export default function AdminNavbar({ page }) {
   const navigate = useNavigate();
-  const { currentUser, loading, error } = useUserData();
+  const { currentUser, user, loading } = useUserData();
   const [avatar, setAvatar] = useState("");
   const [name, setName] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
@@ -41,7 +41,6 @@ export default function AdminNavbar({ page }) {
   }, [page]);
 
   useEffect(() => {
-    if (loading) return;
     // if (!currentUser) return navigate("/");
     if (selectedOption.value === "Admin Mode")
       return navigate("/dashboard/courses/browse");
@@ -52,7 +51,7 @@ export default function AdminNavbar({ page }) {
       logout();
       navigate("/login");
     }
-  }, [currentUser, loading, selectedOption]);
+  }, [currentUser, selectedOption]);
 
   return (
     <div

@@ -31,9 +31,9 @@ const UpdateCourse = (props) => {
   const { isLoggedin, setCheckUser } = props;
   const [edit, setEdit] = useState(false);
   const [updatedCourse, setUpdatedCourse] = useState({});
-  const { user, currentUser } = useUserData();
+  const { currentUser, user } = useUserData();
   const { course, loading, setLoading } = useGetCouseById(id);
-  const { categories } = useGetAllCategories(setLoading);
+  const { categories, error, isLoading } = useGetAllCategories(setLoading);
  
   useEffect(() => {
     if (course && currentUser) {
@@ -125,6 +125,8 @@ const UpdateCourse = (props) => {
       return true;
   };
 
+  if (isLoading || loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   if (!loading) {
     return (
       <Layout>

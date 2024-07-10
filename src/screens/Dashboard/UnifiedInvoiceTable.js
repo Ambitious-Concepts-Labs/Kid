@@ -15,7 +15,11 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [allTransactions, setTransactions] = useState([]);
   const [itemsPerPage] = useState(10);
-  const transactions = useGetAllTransactions();
+  const {
+    transactions,
+    transactionsError,
+    transactionsAreLoading,
+  } = useGetAllTransactions();
 
   useEffect(() => {
     const getTransactions = async () => {
@@ -60,7 +64,7 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
     setSearchedItems(filtered);
   }, [transactions, invoiceType]);
 
-  if (!currentUser) return <h1>Loading...</h1>
+  
 
   const handleSort = (key) => {
     const sortedInvoices = [...filteredInvoices].sort((a, b) => {
@@ -98,6 +102,9 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = searchedItems.slice(indexOfFirstItem, indexOfLastItem);
 
+  if (!currentUser) return <h1>Loading...</h1>;
+  if (transactionsAreLoading) return <div>Loading...</div>;
+  if (transactionsError) return <div>Error: {transactionsError.message}</div>;
   return (
     <Layout>
       <div className="container mx-auto py-6">

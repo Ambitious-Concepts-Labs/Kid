@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { db } from "../../lib/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
+import useGetCourseById from "../../hooks/useGetCouseById";
 
 const CloudinaryScriptContext = createContext();
 
@@ -15,6 +16,7 @@ function CloudinaryUploadWidget({
   toggleEdit,
 }) {
   const [loaded, setLoaded] = useState(false);
+  const { data: course, isLoading, error } = useGetCourseById(courseId);
 
   useEffect(() => {
     if (!loaded) {
@@ -44,9 +46,7 @@ function CloudinaryUploadWidget({
             if (type === "video") {
               console.log("video");
               const courseRef = doc(db, "courses", courseId);
-              const courseDoc = await getDoc(courseRef);
-              const courseData = courseDoc.data();
-              const chapters = courseData.chapters || [];
+              const chapters = course.chapters || [];
               const chapterIndex = chapters.findIndex(
                 (chapter) => chapter.id === chapterId
               );

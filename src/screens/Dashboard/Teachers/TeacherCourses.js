@@ -5,36 +5,17 @@ import { searchCourse } from "../../../utils/courseFunctions";
 import imgPlaceholder from "../image-placeholder.png";
 import "./TeacherCourses.css";
 import Layout from "../../../components/Dashboard/Layout";
-import { db } from "../../../lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
-import { removeDuplicates } from "../../../utils/helperfunctions";
+import useGetAllCourses from "../../../hooks/useGetAllCourses";
 
 const UserCourses = (props) => {
   // const history = useHistory();
   const { currentUser } = props;
-  const [courses, setCourses] = useState([]);
   const [searchedItems, setSearchedItems] = useState();
   const [coursesSlice, setCoursesSlice] = useState([0, 3]);
-  const getCourses = async () => {
-    currentUser.courses.map(async (course) => {
-      const courseRef = doc(db, "courses", course);
-      const courseDoc = await getDoc(courseRef);
-      const courseData = courseDoc.data();
-      setCourses((prev) => [...prev, courseData]);
-    });
-    const uniqueCourses = removeDuplicates(courses);
-    setCourses(uniqueCourses);
-  };
-  React.useEffect(() => {
-    // 3000 milliseconds = 3 seconds
-    const threeMilliseconds = 3 * 1000;
-    const timer = setTimeout(() => {
-      getCourses();
-    }, threeMilliseconds);
+  const { courses, error, isLoading } = useGetAllCourses();
 
-    // Cleanup the timer on component unmount
-    return () => clearTimeout(timer);
-  }, [currentUser]);
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   if (!currentUser) return <h1>Loading...</h1>;
   return (
     <Layout>
@@ -69,7 +50,7 @@ const UserCourses = (props) => {
                             // history.push(`/course/${course._id}`);
                           }}
                         >
-                          <img src={imgPlaceholder} alt="img" />
+                          <img loading="lazy" src={imgPlaceholder} alt="img" />
                           <div className="info">
                             <h2 className="title">{course.course_name}</h2>
                             <p className="desc">Subject: {course.subject}</p>

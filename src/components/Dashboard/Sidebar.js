@@ -17,7 +17,7 @@ import { RiPassPendingFill } from "react-icons/ri";
 
 export default function Sidebar({ page, setPage }) {
   const navigate = useNavigate();
-  const { currentUser } = useUserData();
+  const { currentUser, user, loading } = useUserData();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const isAdmin = currentUser?.isAdmin;
   const isTeacher = currentUser?.isTeacher;
@@ -90,7 +90,7 @@ export default function Sidebar({ page, setPage }) {
           isMobileOpen ? "fixed inset-0 z-50" : "hidden md:flex"
         }`}
       >
-        <img src={logo} alt="" className="h-20 mb-6" />
+        <img loading="lazy" src={logo} alt="" className="h-20 mb-6" />
         {routes.map((route) => (
           <div
             key={route.name}

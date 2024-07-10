@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { getDocs, collection } from "firebase/firestore";
 import imgPlaceholder from "../image-placeholder.png";
 import { assignCourse, selectCourse } from "../../../utils/courseFunctions";
-import { db } from "../../../lib/firebase";
 import Layout from "../../../components/Dashboard/Layout";
 import { useNavigate } from "react-router-dom";
+import useGetAllCourses from "../../../hooks/useGetAllCourses";
+import useGetAllUsers from "../../../hooks/useGetAllUsers";
 
 const AssignCourse = (props) => {
   const { currentUser } = props;
   const history = useNavigate();
-  const [users, setUsers] = useState([]);
-  const [areUsersLoaded, setAreUsersLoaded] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
-  const [courses, setCourses] = useState([]);
-  const [areCoursesLoaded, setAreCoursesLoaded] = useState(false);
+  const { courses, isLoading, error } = useGetAllCourses();
+  const { users } = useGetAllUsers();
   const [showUserResults, setShowUserResults] = useState(false);
   const [showCourseResults, setShowCourseResults] = useState(false);
   const [focused, setFocused] = useState({});
-  const [loading, setLoading] = useState(true);
   const [isUserFound, setIsUserFound] = useState(false);
   const [isCourseFound, setIsCourseFound] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -135,47 +132,6 @@ const AssignCourse = (props) => {
   };
 
   useEffect(() => {
-    if (loading) {
-      const getData = async () => {
-        if (!areCoursesLoaded) {
-          const getAllCourses = async () => {
-            const dataArr = [];
-            const querySnapshot = await getDocs(collection(db, "courses"));
-            querySnapshot.forEach((course) => {
-              const obj = { ...course.data(), courseId: course.id };
-              dataArr.push(obj);
-            });
-            setCourses(dataArr);
-            setAreCoursesLoaded(true);
-          };
-
-          getAllCourses();
-        }
-
-        if (!areUsersLoaded) {
-          const getUsers = async () => {
-            const dataArr = [];
-            try {
-              const querySnapshot = await getDocs(collection(db, "users"));
-              querySnapshot.forEach((doc) => {
-                const obj = { ...doc.data(), documentId: doc.id };
-                dataArr.push(obj);
-              });
-              setUsers(dataArr);
-              setAreUsersLoaded(true);
-              setLoading(false);
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          getUsers();
-        }
-      };
-      getData();
-    }
-  }, [loading, areCoursesLoaded, areUsersLoaded]);
-
-  useEffect(() => {
     if (focused && focused !== "assigned-course-name") {
       setShowCourseResults(false);
     } else if (focused && focused !== "assigned-user") {
@@ -183,9 +139,10 @@ const AssignCourse = (props) => {
     }
   }, [focused]);
 
-  if (!currentUser) return <h1>Loading...</h1>;
+  if (isLoading) return <div>is Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!currentUser) return <h1>Loading User...</h1>;
   if (!currentUser.isAdmin) history("/dashboard");
-  if (!loading) {
     return (
       <Layout>
         <div id="assign-course" className="w-1/2 mx-auto">
@@ -369,9 +326,6 @@ const AssignCourse = (props) => {
                           isUserFound,
                           currentUser,
                           assignedCourse,
-                          setAreUsersLoaded,
-                          setAreCoursesLoaded,
-                          setLoading,
                           setIsUserFound,
                           setIsCourseFound,
                         });
@@ -392,15 +346,6 @@ const AssignCourse = (props) => {
         </div>
       </Layout>
     );
-  } else {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="spinner-border text-indigo-600" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
-  }
 };
 
 export default AssignCourse;

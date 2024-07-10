@@ -56,9 +56,9 @@ ChartJS.register(
 export default function AdminDashboard(props) {
   console.log(props);
   const { currentUser, loading } = props;
-  const users = useGetAllUsers();
-  const courses = useGetAllCourses();
-  const transactions = useGetAllTransactions();
+  const { courses, isLoading, error } = useGetAllCourses();
+  const { users } = useGetAllUsers();
+  const { transactions } = useGetAllTransactions();
   const [totalStudents, setTotalStudents] = React.useState(0);
   const [totalTeachers, setTotalTeachers] = React.useState(0);
   const [totalParents, setTotalParents] = React.useState(0);
@@ -120,7 +120,6 @@ export default function AdminDashboard(props) {
   }, [users]);
 
   const navigate = useNavigate();
-  if (loading || !currentUser) return <h1>Loading...</h1>;
 
   const isStudent = () => {
     const gradeData = {
@@ -707,7 +706,9 @@ export default function AdminDashboard(props) {
       </>
     );
   };
-
+  if (loading || !currentUser) return <h1>Loading...</h1>;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout>
       <div className="p-4 flex-1 flex flex-col h-full overflow-auto">

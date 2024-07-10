@@ -4,7 +4,7 @@ import Banner from "../../components/Banner";
 import CourseLayout from "../../components/Courses/CourseLayout";
 import Layout from "../../components/Dashboard/Layout";
 import VideoPlayer from "../../components/VideoPlayer";
-import useGetCouseById from "../../hooks/useGetCouseById";
+import useGetCourseById from "../../hooks/useGetCouseById";
 import useGetCourseAttachments from "../../hooks/useGetCourseAttachments";
 import CourseProgressButton from "../../components/Chapters/CourseProgressButton";
 // Mock functions and data to simulate authentication and database fetching
@@ -81,12 +81,14 @@ const ChapterIdPage = ({ currentUser }) => {
     userProgress: null,
   });
   const [nextChapter, setNextChapter] = useState(null);
-  const { course } = useGetCouseById(courseId);
-  const attachments = useGetCourseAttachments(courseId);
+  const { data: course } = useGetCourseById(courseId);
+  const { data: attachments, isLoading, error } = useGetCourseAttachments(
+    courseId
+  );
   const [chapId, setChapterId] = useState(null);
 
   useEffect(() => {
-    if (course.chapters) {
+    if (course) {
       const currentIndex = course.chapters.findIndex(
         (chapter) => chapter.id === chapterId
       );
@@ -102,6 +104,8 @@ const ChapterIdPage = ({ currentUser }) => {
   if (!chapterData) {
     return <div>pLoading...</div>;
   }
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   const purchase = currentUser?.courses.find((course) => course.id === courseId);
 

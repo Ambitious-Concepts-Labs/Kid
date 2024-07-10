@@ -10,7 +10,9 @@ import { FaFileDownload } from "react-icons/fa";
 const ChapterId = ({ courseId, chapterId, course, currentUser }) => {
   const [chapter, setChapter] = useState(chapterId);
   const [muxData, setMuxData] = useState(null);
-  const attachments = useGetCourseAttachments(courseId);
+  const { data: attachments, isLoading, error } = useGetCourseAttachments(
+      courseId
+    );
   const [nextChapter, setNextChapter] = useState(null);
   const [userProgress, setUserProgress] = useState(0);
   const [purchase, setPurchase] = useState(false);
@@ -41,10 +43,11 @@ const ChapterId = ({ courseId, chapterId, course, currentUser }) => {
     }
   }, [currentUser, courseId]);
 
-
   if (!chapter || !course) {
     return <div>Chapter or course not found.</div>;
   }
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   const isLocked = !chapter.isFree && !purchase;
   const completeOnEnd = !!purchase && !userProgress?.isCompleted;
@@ -67,7 +70,7 @@ const ChapterId = ({ courseId, chapterId, course, currentUser }) => {
             chapterId={chapterId}
             title={chapter.title}
             courseId={courseId}
-            course={course}
+            courseByID={course}
             nextChapterId={nextChapter?.id}
             playbackId={muxData?.playbackId}
             isLocked={isLocked}
@@ -85,7 +88,11 @@ const ChapterId = ({ courseId, chapterId, course, currentUser }) => {
                 isCompleted={!!userProgress?.isCompleted}
               />
             ) : (
-              <CourseEnrollButton currentUser={currentUser} courseId={courseId} price={course.price} />
+              <CourseEnrollButton
+                currentUser={currentUser}
+                courseId={courseId}
+                price={course.price}
+              />
             )}
           </div>
           <div className="separator" />

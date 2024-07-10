@@ -7,7 +7,7 @@ import { db } from "../../lib/firebase";
 import useGetAllTransactions from "../../hooks/useGetAllTransactions";
 
 const UnifiedInvoiceTable = ({ currentUser }) => {
-  const transactions = useGetAllTransactions();
+  const { transactions, isLoading, error } = useGetAllTransactions();
   const [invoiceType, setInvoiceType] = useState("all");
   const [invoices, setInvoices] = useState([]);
   const [filteredInvoices, setFilteredInvoices] = useState([]);
@@ -97,7 +97,8 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = searchedItems.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log(transactions);
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout>
       <div className="container mx-auto py-6">

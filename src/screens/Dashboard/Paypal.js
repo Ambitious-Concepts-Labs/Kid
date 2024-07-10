@@ -4,7 +4,7 @@ import React, { useRef, useEffect } from "react";
 // import Axios from "axios";
 import "./Paypal.css";
 // End
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const Paypal = (props) => {

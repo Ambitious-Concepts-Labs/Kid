@@ -9,7 +9,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 const PendingCourses = (props) => {
   const { currentUser } = props;
-  const users = useGetAllUsers();
+  const { users, userError, usersAreLoading } = useGetAllUsers();
   const [searchedItems, setSearchedItems] = useState([]);
   const [pendingCourses, setPendingCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,6 +47,8 @@ const PendingCourses = (props) => {
     fetchPendingCourses();
   }, [currentUser, users]);
 
+  if (usersAreLoading) return <div>Loading...</div>;
+  if (userError) return <div>Error: {userError.message}</div>;
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">

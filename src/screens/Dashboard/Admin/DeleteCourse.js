@@ -1,55 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { db } from "../../../lib/firebase";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import Layout from "../../../components/Dashboard/Layout";
+import useGetAllCourses from "../../../hooks/useGetAllCourses";
 
 const DeleteCourse = (props) => {
   const { currentUser } = props
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { courses, error, isLoading } = useGetAllCourses();
+  const [updatedCourses, setUpdatedCourses] = useState(courses);
   const [deleting, setDeleting] = useState(false);
-
-  const fetchCourses = async () => {
-    const coursesCollection = collection(db, "courses");
-    const coursesSnapshot = await getDocs(coursesCollection);
-    const coursesList = coursesSnapshot.docs.map((doc) => ({
-      coureId: doc.id,
-      ...doc.data(),
-    }));
-      console.log(coursesList)
-    setCourses(coursesList);
-    setLoading(false);
-  };
 
   const handleDelete = async (courseId) => {
     setDeleting(true);
     try {
       await deleteDoc(doc(db, "courses", courseId));
-      setCourses(courses.filter((course) => course.id !== courseId));
+      setUpdatedCourses(courses.filter((course) => course.id !== courseId));
     } catch (error) {
       console.error("Error deleting course: ", error);
     }
     setDeleting(false);
   };
 
-  useEffect(() => {
-    fetchCourses();
-  }, []);
-
-  if (!currentUser?.isAdmin) {
-    return <div className="text-center">Access Denied</div>;
-  }
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
-  }
-
+  if (!currentUser?.isAdmin) return <div className="text-center">Access Denied</div>;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout>
       <div className="container mx-auto p-4 overflow-scroll">
@@ -75,7 +49,7 @@ const DeleteCourse = (props) => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {courses.map((course) => (
+                  {updatedCourses.map((course) => (
                     <tr key={course.id}>
                       <td className="px-4 py-2">{course.coureId}</td>
                       <td className="px-4 py-2">{course.courseName}</td>
@@ -95,7 +69,7 @@ const DeleteCourse = (props) => {
                   ))}
                 </tbody>
               </table>
-              {!courses.length && (
+              {!updatedCourses.length && (
                 <div className="text-center mt-4">No courses found.</div>
               )}
             </div>

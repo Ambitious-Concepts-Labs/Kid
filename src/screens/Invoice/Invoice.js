@@ -16,8 +16,7 @@ const InvoiceTransaction = (props) => {
   const [cancelEdit, setCancelEdit] = useState(false);
   const [editedInvoice, setEditedInvoice] = useState({});
   const [loading, setLoading] = useState(true);
-  const transactions = useGetAllTransactions();
-
+  const { transactions, isLoading, error } = useGetAllTransactions();
   useEffect(() => {
     const getTransaction = async () => {
       transactions.map((transaction) => {
@@ -44,6 +43,8 @@ const InvoiceTransaction = (props) => {
     }
   }, [isTransactionLoaded, currentUser, id, history]);
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   if (transaction && currentUser) {
     return (
       <Layout>

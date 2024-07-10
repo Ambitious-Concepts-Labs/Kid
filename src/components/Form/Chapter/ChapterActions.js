@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { ConfirmModal } from "../../Modal/Confirm";
 import Button from "./Button";
 import { db } from "../../../lib/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
+import useGetCourseById from "../../../hooks/useGetCouseById";
 
 // Placeholder for the Trash icon
 const Trash = ({ className }) => (
@@ -24,14 +25,12 @@ const Trash = ({ className }) => (
 
 const ChapterActions = ({ disabled, courseId, chapterId, isPublished }) => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const { data: course } = useGetCourseById(courseId);
   const onClick = async () => {
     try {
       setIsLoading(true);
       const courseRef = doc(db, "courses", courseId);
-      const courseDoc = await getDoc(courseRef);
-      const courseData = courseDoc.data();
-      const chapters = courseData.chapters || [];
+      const chapters = course.chapters || [];
       const chapterIndex = chapters.findIndex(
         (chapter) => chapter.id === chapterId
       );
@@ -60,9 +59,7 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }) => {
     try {
       setIsLoading(true);
       const courseRef = doc(db, "courses", courseId);
-      const courseDoc = await getDoc(courseRef);
-      const courseData = courseDoc.data();
-      const chapters = courseData.chapters || [];
+      const chapters = course.chapters || [];
       const chapterIndex = chapters.findIndex(
         (chapter) => chapter.id === chapterId
       );

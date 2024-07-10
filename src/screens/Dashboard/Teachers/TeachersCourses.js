@@ -10,7 +10,7 @@ const TeachersCourses = ({ currentUser }) => {
   const [userCourses, setUserCourses] = React.useState([]);
   const [completedCourses, setCompletedCourses] = React.useState([]);
   const [coursesInProgress, setCoursesInProgress] = React.useState([]);
-  const courses = useGetAllCourses();
+  const { courses, error, isLoading } = useGetAllCourses();
 
   React.useEffect(() => {
     if (currentUser) {
@@ -30,9 +30,9 @@ const TeachersCourses = ({ currentUser }) => {
     }
   }, [currentUser, courses]);
 
-  if (!currentUser) {
-    return <Layout>Loading this page.</Layout>;
-  }
+  if (!currentUser) return <Layout>Loading this page.</Layout>;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <Layout>

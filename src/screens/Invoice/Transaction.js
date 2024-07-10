@@ -11,7 +11,7 @@ const Transaction = (props) => {
   const history = useNavigate();
   const { currentUser } = props;
   const [transaction, setTransaction] = useState([]);
-  const transactions = useGetAllTransactions();
+  const { transactions, isLoading, error } = useGetAllTransactions();
   const [isTransactionLoaded, setIsTransactionLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -27,6 +27,8 @@ const Transaction = (props) => {
     getTransaction();
   }, [currentUser]);
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   if (!currentUser || !transaction) return <h1>Loading...</h1>;
   if (!currentUser.isAdmin) history("/dashboard");
   if (!loading && isTransactionLoaded && transaction) {

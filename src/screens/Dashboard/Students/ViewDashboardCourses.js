@@ -11,7 +11,7 @@ const Dashboard = ({ currentUser }) => {
   const [completedCourses, setCompletedCourses] = React.useState([]);
   const [coursesInProgress, setCoursesInProgress] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
-  const courses = useGetAllCourses();
+  const { courses, error, isLoading } = useGetAllCourses();
 
   React.useEffect(() => {
     if (currentUser && courses) {
@@ -33,9 +33,9 @@ const Dashboard = ({ currentUser }) => {
     }
   }, [currentUser, courses]);
 
-  if (!currentUser) {
-    return <Layout>Loading this page.</Layout>;
-  }
+  if (!currentUser) return <Layout>Loading this page.</Layout>;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <Layout>

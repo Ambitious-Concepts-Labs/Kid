@@ -11,7 +11,7 @@ const ViewStudents = (props) => {
   const { currentUser } = props;
   const { id } = useParams();
   const navigate = useNavigate();
-  const courses = useGetAllCourses();
+  const { courses, error, isLoading } = useGetAllCourses();
   const [searchedItems, setSearchedItems] = useState([]);
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -68,6 +68,9 @@ const ViewStudents = (props) => {
     );
   }
 
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">

@@ -5,6 +5,7 @@ import { assignStudentToCourse, selectCourse } from "../../../utils/courseFuncti
 import { db } from "../../../lib/firebase";
 import Layout from "../../../components/Dashboard/Layout";
 import { useNavigate } from "react-router-dom";
+import useGetAllCourses from "../../../hooks/useGetAllCourses";
 
 const AssignStudentCourse = (props) => {
   const { currentUser } = props;
@@ -12,7 +13,7 @@ const AssignStudentCourse = (props) => {
   const [students, setStudents] = useState([]);
   const [areStudentsLoaded, setAreStudentsLoaded] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState({});
-  const [courses, setCourses] = useState([]);
+  const { courses, error, isLoading } = useGetAllCourses();
   const [areCoursesLoaded, setAreCoursesLoaded] = useState(false);
   const [showStudentResults, setShowStudentResults] = useState(false);
   const [showCourseResults, setShowCourseResults] = useState(false);
@@ -98,20 +99,6 @@ const AssignStudentCourse = (props) => {
   useEffect(() => {
     if (loading) {
       const getData = async () => {
-        if (!areCoursesLoaded) {
-          const getAllCourses = async () => {
-            const coursesData = [];
-            const querySnapshot = await getDocs(collection(db, "courses"));
-            querySnapshot.forEach((doc) => {
-              const course = { ...doc.data(), id: doc.id };
-              coursesData.push(course);
-            });
-            setCourses(coursesData);
-            setAreCoursesLoaded(true);
-          };
-          getAllCourses();
-        }
-
         if (!areStudentsLoaded) {
           const getStudents = async () => {
             const studentsData = [];
@@ -147,7 +134,8 @@ const AssignStudentCourse = (props) => {
 
   if (!currentUser) return <h1>Loading...</h1>;
   if (!currentUser.isAdmin) history("/dashboard");
-
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout>
       <div id="assign-course" className="w-1/2 mx-auto">

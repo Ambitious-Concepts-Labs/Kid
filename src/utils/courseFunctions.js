@@ -306,7 +306,6 @@ const assignCourse = async (props) => {
     currentUser,
     isUserFound,
     assignedCourse,
-    setAreUsersLoaded,
     setAreCoursesLoaded,
     setLoading,
     setIsUserFound,
@@ -337,8 +336,6 @@ const assignCourse = async (props) => {
       }
 
       setLoading(true);
-      setAreUsersLoaded(false);
-      setAreCoursesLoaded(false);
       setIsUserFound(false);
       setIsCourseFound(false);
     } else {
@@ -351,9 +348,7 @@ const assignStudentToCourse = async ({
   currentUser,
   course,
   student,
-  setLoading,
   setIsAssigningStudent,
-  setAreCoursesLoaded,
   setAssignedCourse,
 }) => {
   const confirm = window.confirm(
@@ -361,7 +356,6 @@ const assignStudentToCourse = async ({
   );
 
   if (confirm) {
-    setLoading(true);
 
     try {
       // Update student's assigned courses
@@ -376,9 +370,7 @@ const assignStudentToCourse = async ({
         students: updatedStudents,
       });
 
-      setLoading(false);
       setIsAssigningStudent(false);
-      setAreCoursesLoaded(false);
       setAssignedCourse({});
       window.alert(
         `Successfully assigned ${student.username} to ${course.course_name}.`
@@ -388,11 +380,9 @@ const assignStudentToCourse = async ({
       window.alert(
         "Failed to assign student to course. Please try again later."
       );
-      setLoading(false);
       setIsAssigningStudent(false);
     }
   } else {
-    setLoading(false);
     setIsAssigningStudent(false);
   }
 };
