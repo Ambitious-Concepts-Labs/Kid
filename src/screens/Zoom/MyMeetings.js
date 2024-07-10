@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, lazy, Suspense } from "react";
 import { getDocs, query } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import EditFlyout from "./EditFlyout";
 import { meetingsRef } from "../../lib/firebase";
 import Layout from "../../components/Dashboard/Layout";
+
+const EditFlyout = lazy(() => import("./EditFlyout"));
+const MeetingTable = lazy(() => import("../../components/Tables/MeetingTable"));
 
 export default function MyMeetings({ currentUser }) {
   const [meetings, setMeetings] = useState([]);
@@ -145,43 +147,12 @@ export default function MyMeetings({ currentUser }) {
     >
       <div className="p-4 flex-1 h-full overflow-auto text-start">
         <div className="flex flex-col h-full justify-center items-center">
-          <div className="w-full max-w-4xl">
-            <div className="bg-white shadow-md rounded my-6">
-              <table className="min-w-max w-full table-auto">
-                <thead>
-                  <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                    {meetingColumns.map((col) => (
-                      <th key={col.field} className="py-3 px-6 text-left">
-                        {col.name}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="text-gray-600 text-sm font-light">
-                  {meetings.map((meeting) => (
-                    <tr
-                      key={meeting.docId}
-                      className="border-b border-gray-200 hover:bg-gray-100"
-                    >
-                      {meetingColumns.map((col) => (
-                        <td
-                          key={`${meeting.docId}-${col.field}`}
-                          className="py-3 px-6 text-left whitespace-nowrap"
-                        >
-                          {col.render
-                            ? col.render(meeting)
-                            : meeting[col.field]}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          {showEditFlyout && (
-            <EditFlyout closeFlyout={closeEditFlyout} meeting={editMeeting} />
-          )}
+          <Suspense fallback={<div>Loading...</div>}>
+            <MeetingTable meetingColumns={meetingColumns} meetings={meetings} />
+            {showEditFlyout && (
+              <EditFlyout closeFlyout={closeEditFlyout} meeting={editMeeting} />
+            )}
+          </Suspense>
         </div>
       </div>
     </Layout>
