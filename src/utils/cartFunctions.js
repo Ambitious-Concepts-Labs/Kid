@@ -1,6 +1,6 @@
-import { db, mutateFireStoreDoc } from "../lib/firebase";
+import { db, mutateFireStoreDoc, updateFireStoreDoc } from "../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp } from "firebase/firestore";
 
 const addToCart = async (props) => {
   const {
@@ -34,7 +34,7 @@ const addToCart = async (props) => {
       updatedCart.total_price = items.reduce((acc, item) => {
         return total_price + parseInt(item.price);
       }, 0);
-      await setDoc(doc(db, "transactions", uuidv4()), {
+      await updateFireStoreDoc(doc(db, "transactions", uuidv4()), {
         ...updatedCart,
         createdAt: serverTimestamp(),
         id: uuidv4(),

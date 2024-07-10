@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getDocs, query, where } from "firebase/firestore";
 import { useNavigate, useParams } from "react-router-dom";
-import { db, meetingsRef } from "../../lib/firebase";
+import { db, meetingsRef, updateFireStoreDoc } from "../../lib/firebase";
 import Layout from "../../components/Dashboard/Layout";
 import { answerCall } from "../../utils/zoomFunctions";
 import {
   collection,
   doc,
-  setDoc,
   getDoc,
   onSnapshot,
   addDoc,
@@ -209,7 +208,7 @@ export default function JoinMeeting(props) {
         type: offerDescription.type,
       };
 
-      await setDoc(callDoc, { offer });
+      await updateFireStoreDoc(callDoc, { offer });
 
       onSnapshot(callDoc, (snapshot) => {
         const data = snapshot.data();

@@ -1,12 +1,11 @@
 import {
   collection,
   doc,
-  setDoc,
   getDoc,
   onSnapshot,
   addDoc,
 } from "firebase/firestore";
-import { db } from "../lib/firebase";
+import { db, updateFireStoreDoc } from "../lib/firebase";
 
 const createCall = async (pc, callInputRef, hangupButtonRef, setCallId) => {
   try {
@@ -31,7 +30,7 @@ const createCall = async (pc, callInputRef, hangupButtonRef, setCallId) => {
       type: offerDescription.type,
     };
 
-    await setDoc(callDoc, { offer });
+    await updateFireStoreDoc(callDoc, { offer });
 
     onSnapshot(callDoc, (snapshot) => {
       const data = snapshot.data();
@@ -97,7 +96,7 @@ const answerCall = async (pc, id) => {
       sdp: answerDescription.sdp,
     };
 
-    await setDoc(callDoc, { answer });
+    await updateFireStoreDoc(callDoc, { answer });
 
     onSnapshot(offerCandidates, (snapshot) => {
       snapshot.docChanges().forEach((change) => {

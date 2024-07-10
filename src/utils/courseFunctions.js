@@ -1,6 +1,6 @@
-import { db, mutateFireStoreDoc } from "../lib/firebase";
+import { db, mutateFireStoreDoc, updateFireStoreDoc } from "../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp } from "firebase/firestore";
 
 const createCourse = async (props) => {
   const { currentUser, newCourse, history, user } = props;
@@ -24,7 +24,7 @@ const createCourse = async (props) => {
   if (ifComplete(newCourse)) {
     const uid = uuidv4();
     try {
-      await setDoc(doc(db, "courses", uid), {
+      await updateFireStoreDoc(doc(db, "courses", uid), {
         ...newCourse,
         createdAt: serverTimestamp(),
         id: uuidv4(),
@@ -33,12 +33,11 @@ const createCourse = async (props) => {
       console.log({error});
     }
     try {
-      await setDoc(
+      await updateFireStoreDoc(
         doc(db, "users", currentUser.id),
         {
           courses: [...currentUser.courses, uid],
-        },
-        { merge: true }
+        }
       );
     } catch (error) {
       console.log({error});
@@ -125,10 +124,9 @@ const requestCourse = async (props) => {
       if (!exisiting) {
         pendingCourses.push(course);
         try {
-          await setDoc(
-            doc(db, "users", "5oZ5ta0mgbZSEqCNXftJ"),
-            { pendingCourses: [...course] },
-            { merge: true }
+          await updateFireStoreDoc(
+            doc(db, "users", currentUser.uid),
+            { pendingCourses: [...course] }
           );
         } catch (error) {
           console.log(error);
@@ -252,13 +250,12 @@ const approve = async (props) => {
         updatedPendingCourses.push(course);
       }
     });
-    await setDoc(
+    await updateFireStoreDoc(
       doc(db, "users", currentUser.uid),
       {
         forPaymentCourses: updatedCourses,
         pendingCourses: updatedPendingCourses,
-      },
-      { merge: true }
+      }
     );
     setCheckUser(false);
     history("/dashboard/admin/courses/pending");
@@ -279,10 +276,9 @@ const deny = async (props) => {
         updatedPendingCourses.push(course);
       }
     });
-    await setDoc(
+    await updateFireStoreDoc(
       doc(db, "users", currentUser.uid),
-      { deniedCourses: updatedCourses, pendingCourses: updatedPendingCourses },
-      { merge: true }
+      { deniedCourses: updatedCourses, pendingCourses: updatedPendingCourses }
     );
     setCheckUser(false);
     history("/admin/courses/pending");
