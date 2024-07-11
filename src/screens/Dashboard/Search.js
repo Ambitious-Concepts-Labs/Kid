@@ -1,10 +1,11 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import Layout from "../../components/Dashboard/Layout";
 import SearchInput from "../../components/SearchInput";
-import CoursesList from "../../components/Courses/CoursesList";
-import Categories from "../../components/Courses/Categories";
 import useGetAllCourses from "../../hooks/useGetAllCourses";
 import { mockSearchCourses } from "../../constants/mockData";
+
+const Categories = lazy(() => import("../../components/Courses/Categories"));
+const CoursesList = lazy(() => import("../../components/Courses/CoursesList"));
 
 export default function Search() {
   const { courses, error, isLoading } = useGetAllCourses();
@@ -32,9 +33,17 @@ export default function Search() {
         <SearchInput onSearch={handleSearch} />
       </div>
       <div className="p-6 space-y-4">
-        <Categories items={categories} />
-        {(courses.length > 0 && process.env.NODE_ENV === "development") && <CoursesList items={filteredCourses} />}
-        <CoursesList items={mockSearchCourses} />
+        <Suspense fallback={<div>Loading categories...</div>}>
+          <Categories items={categories} />
+        </Suspense>
+        {courses.length > 0 && process.env.NODE_ENV === "development" && (
+          <Suspense fallback={<div>Loading courses...</div>}>
+            <CoursesList items={filteredCourses} />
+          </Suspense>
+        )}
+        <Suspense fallback={<div>Loading mock courses...</div>}>
+          <CoursesList items={mockSearchCourses} />
+        </Suspense>
       </div>
     </Layout>
   );

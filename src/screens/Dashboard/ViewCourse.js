@@ -1,9 +1,12 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import Layout from '../../components/Dashboard/Layout'
-import CourseLayout from '../../components/Courses/CourseLayout'
-import ChapterId from '../../components/Chapters/ChapterId'
+import React, { lazy, Suspense } from "react";
+import { useParams } from "react-router-dom";
+import Layout from "../../components/Dashboard/Layout";
 import useGetCourseById from "../../hooks/useGetCouseById";
+
+const ChapterId = lazy(() => import("../../components/Chapters/ChapterId"));
+const CourseLayout = lazy(() =>
+  import("../../components/Courses/CourseLayout")
+);
 
 export default function ViewCourse(props) {
   const { currentUser } = props;
@@ -19,9 +22,16 @@ export default function ViewCourse(props) {
   if (error) return <div>Error loading course: {error.message}</div>;
   return (
     <Layout>
-      <CourseLayout courseId={id} currentUser={currentUser} course={course} setChapterId={setChapterId}>
-        <ChapterId course={course} courseId={id} chapterId={chapterId} />
-      </CourseLayout>
+      <Suspense fallback={<div>Loading course layout...</div>}>
+        <CourseLayout
+          courseId={id}
+          currentUser={currentUser}
+          course={course}
+          setChapterId={setChapterId}
+        >
+          <ChapterId course={course} courseId={id} chapterId={chapterId} />
+        </CourseLayout>
+      </Suspense>
     </Layout>
   );
 }
