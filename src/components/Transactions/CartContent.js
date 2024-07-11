@@ -4,7 +4,7 @@ import {
   editCart,
   handleInput,
   handleRemove,
-} from "../../utils/cartFunction";
+} from "../../utils/cartFunctions";
 
 const CartContent = ({
   currentUser,

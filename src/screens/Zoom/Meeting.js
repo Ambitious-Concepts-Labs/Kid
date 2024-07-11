@@ -109,7 +109,7 @@ export default function Meeting() {
         <Components.Paragraph className="font-bold mt-5">
           BreadCrumbs (6)
         </Components.Paragraph>
-        <Suspense fallback={<Components.Spinner />}>
+        <Suspense fallback={<div>Loading...</div>}>
           <AllMeetingTable meetingColumns={meetingColumns} meetings={meetings} />
         </Suspense>
       </div>

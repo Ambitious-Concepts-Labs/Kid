@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { cancelTransaction } from "../../utils/invoiceFunctions";
 
-const Paypal = lazy(() => import("./Paypal"));
+const Paypal = lazy(() => import("../Paypal"));
 
 const TransactionDetails = ({
   transaction,
