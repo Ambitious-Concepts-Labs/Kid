@@ -28,6 +28,7 @@ const CourseSetup = ({
   isForPayment,
   isOwned,
   requestCourse,
+  setLoading,
   ...props
 }) => {
   return (
@@ -93,7 +94,85 @@ const CourseSetup = ({
               </div>
               <br />
               <div className="flex justify-around w-100">
-                {/* ... (keep the buttons and logic for different user types and course states) */}
+                {!currentUser.isStudent ? (
+                  (currentUser.isAdmin ||
+                    currentUser._id === course.instructor._id) && (
+                    <>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => {
+                          setEdit(true);
+                        }}
+                      >
+                        Update
+                      </button>
+
+                      <button
+                        className="btn btn-info"
+                        onClick={() => {
+                          history(`/dashboard/course/${id}/students`);
+                        }}
+                      >
+                        Students
+                      </button>
+
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                          deleteCourse({ ...props, course, history });
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )
+                ) : isPending(course) ? (
+                  <button className="btn btn-warning" disabled>
+                    Pending
+                  </button>
+                ) : isInTransactions ? (
+                  isCourseDenied ? (
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        requestCourse({
+                          ...props,
+                          course: course[0],
+                          setLoading,
+                          history,
+                        });
+                      }}
+                    >
+                      Request
+                    </button>
+                  ) : isForPayment ? (
+                    <button className="btn btn-secondary" disabled>
+                      For Payment
+                    </button>
+                  ) : isOwned(course) ? (
+                    <button className="btn btn-success" disabled>
+                      Owned
+                    </button>
+                  ) : (
+                    <button className="btn btn-warning" disabled>
+                      Pending
+                    </button>
+                  )
+                ) : (
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      requestCourse({
+                        ...props,
+                        course,
+                        setLoading,
+                        history,
+                      });
+                    }}
+                  >
+                    Request
+                  </button>
+                )}
               </div>
             </div>
           </div>

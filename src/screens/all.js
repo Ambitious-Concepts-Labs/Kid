@@ -50,7 +50,6 @@ import Cart from "./Dashboard/Students/Cart.js";
 
 // Invoice Screens
 import Invoice from "./Invoice/Invoice.js";
-import Invoice2 from "./Invoice/Invoice copy.js";
 import NewInvoice from "./Invoice/NewInvoice.js";
 import NewInvoice2 from "./Invoice/NewInvoice copy 2.js";
 import Transaction from "./Invoice/Transaction.js";
@@ -126,6 +125,5 @@ export {
   AssignStudentCourse,
   Terms,
   Privacy,
-  Invoice2,
   WebRTCDemo
 };

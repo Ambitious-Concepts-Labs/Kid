@@ -5,7 +5,6 @@ import {
   deleteCourse,
   requestCourse,
 } from "../../utils/courseFunctions";
-import "./Course.css";
 import useUserData from "../../hooks/useUserData";
 import Layout from "../../components/Dashboard/Layout";
 import Banner from "../../components/Banner";
@@ -134,6 +133,7 @@ const UpdateCourse = (props) => {
                 id={id}
                 categories={categories}
                 currentUser={currentUser}
+                setLoading={setLoading}
                 setEdit={setEdit}
                 history={history}
                 deleteCourse={deleteCourse}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MuxPlayer from "@mux/mux-player-react";
+// import MuxPlayer from "@mux/mux-player-react";
 import { mutateFireStoreDoc } from "../lib/firebase";
 import useGetCourseById from "../hooks/useGetCouseById";
 

@@ -151,7 +151,6 @@ function App() {
           <Route exact path="/dashboard/transaction/:id" element={<Screens.Transaction {...states} user={user} />} />
           <Route exact path="/dashboard/transactions" element={<Screens.Transactions {...states} user={user} />} />
           <Route exact path="/dashboard/transaction/:id/invoice" element={<Screens.Invoice {...states} user={user} />} />
-          <Route exact path="/dashboard/transaction/:id/invoice2" element={<Screens.Invoice2 {...states} user={user} />} />
           {/* Invoice Routes */}
 
           {/* Dashboard Admin Routes */}
