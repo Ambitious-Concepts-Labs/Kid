@@ -1,6 +1,7 @@
 import React from "react";
-import imgPlaceholder from "./image-placeholder.png";
 import { updateFireStoreDoc } from "../../lib/firebase";
+
+const imgPlaceholder = "https://d10grw5om5v513.cloudfront.net/assets/images/image-placeholder.png";
 
 const EditCourse = (props) => {
 	const {

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import * as Components from "../all";
-import image from "../../assets/adminImage.png";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../lib/firebase";
 import Select from "react-select";
 import useUserData from "../../hooks/useUserData";
+
+const image = "https://d10grw5om5v513.cloudfront.net/assets/images/adminImage.png";
 
 export default function AdminNavbar({ page }) {
   const navigate = useNavigate();

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import EditInvoice from "./EditInvoice";
 import { sendInvoice } from "../../utils/invoiceFunctions";
-import imgPlaceholder from "./image-placeholder.png";
 // import Axios from "axios";
 import "./Invoice.css";
 import Layout from "../../components/Dashboard/Layout";
 import useGetAllTransactions from "../../hooks/useGetAllTransactions";
+
+const imgPlaceholder = "https://d10grw5om5v513.cloudfront.net/assets/images/image-placeholder.png";
 
 const InvoiceTransaction = (props) => {
   const { id } = useParams();

@@ -1,5 +1,6 @@
 import React from "react";
-import bg from "../assets/left-arrow.png";
+
+const bg = "https://d10grw5om5v513.cloudfront.net/assets/images/left-arrow.png";
 
 export default function ArrowLeft({ className, ...props }) {
 	return (

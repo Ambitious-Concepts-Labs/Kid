@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as Components from "../../../components/all";
-import logo from "../../../assets/logo1.png";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
@@ -8,6 +7,8 @@ import {
   logInWithEmailAndPassword,
   signInWithGoogle,
 } from "../../../lib/firebase";
+
+const logo = "https://d10grw5om5v513.cloudfront.net/assets/images/logo1.png";
 
 export default function LoginForm() {
   const navigate = useNavigate();

@@ -1,19 +1,14 @@
 import React from "react";
 import * as Components from "../../components/all";
-// about
-import worksBg from "../../assets/works-bg.png";
-// about
-import careBg from "../../assets/care-bg.png";
-// preschool
-import preschoolBg from "../../assets/preschool-bg.png";
-// mode
-import modeBg from "../../assets/mode-bg.png";
-// schedule
-import scheduleBg from "../../assets/schedule-bg.png";
-import scheduleBg1 from "../../assets/schedule-bg1.png";
-// commitment
-import commitmentBg from "../../assets/commitment-bg.png";
 import StaticLayout from "../../components/StaticLayout";
+
+const worksBg = "https://d10grw5om5v513.cloudfront.net/assets/images/works-bg.png";
+const careBg = "https://d10grw5om5v513.cloudfront.net/assets/images/care-bg.png";
+const preschoolBg = "https://d10grw5om5v513.cloudfront.net/assets/images/preschool-bg.png";
+const modeBg = "https://d10grw5om5v513.cloudfront.net/assets/images/mode-bg.png";
+const scheduleBg = "https://d10grw5om5v513.cloudfront.net/assets/images/schedule-bg.png";
+const scheduleBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/schedule-bg1.png";
+const commitmentBg = "https://d10grw5om5v513.cloudfront.net/assets/images/commitment-bg.png";
 
 export default function WorksScreen() {
   return (

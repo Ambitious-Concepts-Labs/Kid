@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../../lib/firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import * as Components from "../../components/all";
-import userImg from "../../assets/user.png";
 // chart
 import {
 	Chart as ChartJS,
@@ -33,6 +32,8 @@ ChartJS.register(
 	Filler,
 	Legend
 );
+
+const userImg = "https://d10grw5om5v513.cloudfront.net/assets/images/user.png";
 
 export default function Profile(props) {
 	const [name, setName] = useState("");

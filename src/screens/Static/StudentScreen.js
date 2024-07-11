@@ -1,24 +1,17 @@
 import React from "react";
 import * as Components from "../../components/all";
-// student
-import studentBg from "../../assets/student-bg.png";
-// chat
-import chatBg from "../../assets/chat-bg.png";
-// contact
-import contactBg from "../../assets/contact-bg.png";
-// city
-import cityBg from "../../assets/city-bg.png";
-import cityBg1 from "../../assets/city-bg1.png";
-// Arts
-import artsBg from "../../assets/arts-bg.png";
-// Living
-import livingBg from "../../assets/living-bg.png";
-// sport
-import sportBg from "../../assets/sport-bg.png";
-import sportBg1 from "../../assets/sport-bg1.png";
-// safety
-import safetyBg from "../../assets/safety-bg.png";
 import StaticLayout from "../../components/StaticLayout";
+
+const studentBg = "https://d10grw5om5v513.cloudfront.net/assets/images/student-bg.png";
+const chatBg = "https://d10grw5om5v513.cloudfront.net/assets/images/chat-bg.png";
+const contactBg = "https://d10grw5om5v513.cloudfront.net/assets/images/contact-bg.png";
+const cityBg = "https://d10grw5om5v513.cloudfront.net/assets/images/city-bg.png";
+const cityBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/city-bg1.png";
+const artsBg = "https://d10grw5om5v513.cloudfront.net/assets/images/arts-bg.png";
+const livingBg = "https://d10grw5om5v513.cloudfront.net/assets/images/living-bg.png";
+const sportBg = "https://d10grw5om5v513.cloudfront.net/assets/images/sport-bg.png";
+const sportBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/sport-bg1.png";
+const safetyBg = "https://d10grw5om5v513.cloudfront.net/assets/images/safety-bg.png";
 
 export default function StudentScreen() {
   return (

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import imgPlaceholder from "./image-placeholder.png";
 import {
   confirmEdit,
   editName,
   editQuantity,
   editRate,
 } from "../../utils/invoiceFunctions";
+
+const imgPlaceholder = "https://d10grw5om5v513.cloudfront.net/assets/images/image-placeholder.png";
 
 const EditInvoice = (props) => {
   const { setEdit, setCancelEdit, editedInvoice, setEditedInvoice } = props;

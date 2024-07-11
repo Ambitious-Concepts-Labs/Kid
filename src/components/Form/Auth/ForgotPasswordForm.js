@@ -1,7 +1,8 @@
 
 import React from "react";
 import * as Components from "../../../components/all";
-import logo from "../../../assets/logo1.png";
+
+const logo = "https://d10grw5om5v513.cloudfront.net/assets/images/logo1.png";
 
 function ForgotPasswordForm() {
   const [email, setEmail] = React.useState("");

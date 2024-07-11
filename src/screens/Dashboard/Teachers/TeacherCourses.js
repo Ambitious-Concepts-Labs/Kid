@@ -1,7 +1,6 @@
 import React, { useState, lazy, Suspense } from "react";
 // import { useHistory } from "react-router-dom";
 import { searchCourse } from "../../../utils/courseFunctions";
-import imgPlaceholder from "../image-placeholder.png";
 import "./TeacherCourses.css";
 import Layout from "../../../components/Dashboard/Layout";
 import useGetAllCourses from "../../../hooks/useGetAllCourses";

@@ -1,23 +1,20 @@
 import React from "react";
 import * as Components from "../../components/all";
-// academics
-import academicsBg from "../../assets/academics-bg.png";
-// colleges
-import collegesBg from "../../assets/colleges-bg.png";
-// info
-import ugMajor from "../../assets/major.png";
-import graduate from "../../assets/graduate.png";
-import certificates from "../../assets/certification.png";
-// fast forward
-import forwardBg from "../../assets/forward-bg.png";
-import forwardBg1 from "../../assets/forward-bg1.png";
-// academic news
-import newsLeft from "../../assets/news-left.png";
-import format from "../../assets/format.png";
-import success from "../../assets/success.png";
-import global from "../../assets/global.png";
+
 import { Slide } from "pure-react-carousel";
 import StaticLayout from "../../components/StaticLayout";
+
+const academicsBg = "https://d10grw5om5v513.cloudfront.net/assets/images/academics-bg.png";
+const collegesBg = "https://d10grw5om5v513.cloudfront.net/assets/images/colleges-bg.png";
+const ugMajor = "https://d10grw5om5v513.cloudfront.net/assets/images/major.png";
+const graduate = "https://d10grw5om5v513.cloudfront.net/assets/images/graduate.png";
+const certificates = "https://d10grw5om5v513.cloudfront.net/assets/images/certification.png";
+const forwardBg = "https://d10grw5om5v513.cloudfront.net/assets/images/forward-bg.png";
+const forwardBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/forward-bg1.png";
+const newsLeft = "https://d10grw5om5v513.cloudfront.net/assets/images/news-left.png";
+const format = "https://d10grw5om5v513.cloudfront.net/assets/images/format.png";
+const success = "https://d10grw5om5v513.cloudfront.net/assets/images/success.png";
+const global = "https://d10grw5om5v513.cloudfront.net/assets/images/global.png";
 
 export default function AcademicsScreen() {
   return (

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import * as Components from "../../../components/all";
-import logo from "../../../assets/logo1.png";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, sendPasswordReset } from "../../../lib/firebase";
+
+const logo = "https://d10grw5om5v513.cloudfront.net/assets/images/logo1.png";
 
 function ResetPasswordForm() {
   const [email, setEmail] = useState("");

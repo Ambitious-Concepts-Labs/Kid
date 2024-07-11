@@ -1,18 +1,17 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Components from "../all";
 import "./Navbar.css";
-// nabvar
-import logoWhite from "../../assets/logo1.png";
-import logoBlack from "../../assets/logo2.png";
-import menuBlack from "../../assets/menu.png";
-import menuOrange from "../../assets/menu1.png";
-import close from "../../assets/menu-close.png";
-import right from "../../assets/navbar-right.png";
-// sidebar
-import fb from "../../assets/fb.png";
-import insta from "../../assets/insta.png";
-import li from "../../assets/li.png";
-import { useNavigate } from "react-router-dom";
+
+const insta = "https://d10grw5om5v513.cloudfront.net/assets/images/insta.png";
+const fb = "https://d10grw5om5v513.cloudfront.net/assets/images/fb.png";
+const li = "https://d10grw5om5v513.cloudfront.net/assets/images/li.png";
+const logoBlack = "https://d10grw5om5v513.cloudfront.net/assets/images/logo2.png";
+const logoWhite = "https://d10grw5om5v513.cloudfront.net/assets/images/logo1.png";
+const menuBlack = "https://d10grw5om5v513.cloudfront.net/assets/images/menu.png";
+const menuOrange = "https://d10grw5om5v513.cloudfront.net/assets/images/menu1.png";
+const close = "https://d10grw5om5v513.cloudfront.net/assets/images/menu-close.png";
+const right = "https://d10grw5om5v513.cloudfront.net/assets/images/navbar-right.png";
 
 export default function Navbar({ white }) {
 	const navigate = useNavigate();

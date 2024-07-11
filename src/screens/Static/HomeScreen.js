@@ -1,44 +1,38 @@
 import React from "react";
 import * as Components from "../../components/all";
-// home
-import bg from "../../assets/home-bg.png";
-import bar from "../../assets/home-bar.png";
-import left from "../../assets/home-left.png";
-import scroll from "../../assets/home-scroll.png";
-// move
-import moveLeft from "../../assets/move-left.png";
-import moveRight from "../../assets/move-right.png";
-import moveBg from "../../assets/home-move.png";
-import quotation from "../../assets/quotation.png";
-import arrRight from "../../assets/right-arrow-simple.png";
-import circle from "../../assets/white-circle.png";
-// news
-import newsLeft from "../../assets/news-left.png";
-import book from "../../assets/book.png";
-import swim from "../../assets/swim.png";
-import golf from "../../assets/golf.png";
-import newsRight from "../../assets/news-btn-right.png";
-// enroll
-import enrollLeft from "../../assets/enroll-left.png";
-import enrollRight from "../../assets/enroll-right.png";
-import interested from "../../assets/interested.png";
-import consulting from "../../assets/consulting.png";
-import register from "../../assets/register.png";
-import enrollBg from "../../assets/enroll-bg.png";
-// spotlight
-import spotRight from "../../assets/spot-right.png";
-import spotBg from "../../assets/spot-bg.png";
-import spotBg1 from "../../assets/spot-bg1.png";
-// events
-import summer from "../../assets/summer-class.png";
-import math from "../../assets/math-book.png";
-import golf1 from "../../assets/golf1.png";
-import eventRight from "../../assets/event-btn-right.png";
-// dates
-import datesBg from "../../assets/dates-bg.png";
-import datesRight from "../../assets/dates-right.png";
 import { Slide } from "pure-react-carousel";
 import StaticLayout from "../../components/StaticLayout";
+
+const bg = "https://d10grw5om5v513.cloudfront.net/assets/images/home-bg.png";
+const bar = "https://d10grw5om5v513.cloudfront.net/assets/images/home-bar.png";
+const left = "https://d10grw5om5v513.cloudfront.net/assets/images/home-left.png";
+const scroll = "https://d10grw5om5v513.cloudfront.net/assets/images/home-scroll.png";
+const moveLeft = "https://d10grw5om5v513.cloudfront.net/assets/images/move-left.png";
+const moveRight = "https://d10grw5om5v513.cloudfront.net/assets/images/move-right.png";
+const moveBg = "https://d10grw5om5v513.cloudfront.net/assets/images/home-move.png";
+const quotation = "https://d10grw5om5v513.cloudfront.net/assets/images/quotation.png";
+const arrRight = "https://d10grw5om5v513.cloudfront.net/assets/images/right-arrow-simple.png";
+const circle = "https://d10grw5om5v513.cloudfront.net/assets/images/white-circle.png";
+const newsLeft = "https://d10grw5om5v513.cloudfront.net/assets/images/news-left.png";
+const book = "https://d10grw5om5v513.cloudfront.net/assets/images/book.png";
+const swim = "https://d10grw5om5v513.cloudfront.net/assets/images/swim.png";
+const golf = "https://d10grw5om5v513.cloudfront.net/assets/images/golf.png";
+const newsRight = "https://d10grw5om5v513.cloudfront.net/assets/images/news-btn-right.png";
+const enrollLeft = "https://d10grw5om5v513.cloudfront.net/assets/images/enroll-left.png";
+const enrollRight = "https://d10grw5om5v513.cloudfront.net/assets/images/enroll-right.png";
+const interested = "https://d10grw5om5v513.cloudfront.net/assets/images/interested.png";
+const consulting = "https://d10grw5om5v513.cloudfront.net/assets/images/consulting.png";
+const register = "https://d10grw5om5v513.cloudfront.net/assets/images/register.png";
+const enrollBg = "https://d10grw5om5v513.cloudfront.net/assets/images/enroll-bg.png";
+const spotRight = "https://d10grw5om5v513.cloudfront.net/assets/images/spot-right.png";
+const spotBg = "https://d10grw5om5v513.cloudfront.net/assets/images/spot-bg.png";
+const spotBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/spot-bg1.png";
+const summer = "https://d10grw5om5v513.cloudfront.net/assets/images/summer-class.png";
+const math = "https://d10grw5om5v513.cloudfront.net/assets/images/math-book.png";
+const golf1 = "https://d10grw5om5v513.cloudfront.net/assets/images/golf1.png";
+const eventRight = "https://d10grw5om5v513.cloudfront.net/assets/images/event-btn-right.png";
+const datesBg = "https://d10grw5om5v513.cloudfront.net/assets/images/dates-bg.png";
+const datesRight = "https://d10grw5om5v513.cloudfront.net/assets/images/dates-right.png";
 
 export default function HomeScreen(props) {
 	console.log(props)

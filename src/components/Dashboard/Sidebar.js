@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import logo from "../../assets/logo1.png";
 import { useNavigate } from "react-router-dom";
 import useUserData from "../../hooks/useUserData";
 import Dashboard from "../Icons/Dashboard";
@@ -12,6 +11,8 @@ import { FaLayerGroup } from "react-icons/fa";
 import { IoIosCreate } from "react-icons/io";
 import { MdAssignmentAdd } from "react-icons/md";
 import { RiPassPendingFill } from "react-icons/ri";
+
+const logo = "https://d10grw5om5v513.cloudfront.net/assets/images/logo1.png";
 
 export default function Sidebar({ page, setPage }) {
   const navigate = useNavigate();

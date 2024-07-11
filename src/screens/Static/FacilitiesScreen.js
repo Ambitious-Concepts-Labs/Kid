@@ -1,20 +1,16 @@
 import React from "react";
 import * as Components from "../../components/all";
-// facilities
-import facilitiesBg from "../../assets/facilities-bg.png";
-// range
-import rangeBg from "../../assets/range-bg.png";
-// fantastic
-import fantasticBg from "../../assets/fantastic-bg.png";
-// teaching
-import teachingBg from "../../assets/teaching-bg.png";
-import teachingBg1 from "../../assets/teaching-bg1.png";
-// may also like
-import support from "../../assets/support.png";
-import campuses from "../../assets/campuses.png";
-import union from "../../assets/union.png";
 import { Slide } from "pure-react-carousel";
 import StaticLayout from "../../components/StaticLayout";
+
+const facilitiesBg = "https://d10grw5om5v513.cloudfront.net/assets/images/facilities-bg.png";
+const rangeBg = "https://d10grw5om5v513.cloudfront.net/assets/images/range-bg.png";
+const fantasticBg = "https://d10grw5om5v513.cloudfront.net/assets/images/fantastic-bg.png";
+const teachingBg = "https://d10grw5om5v513.cloudfront.net/assets/images/teaching-bg.png";
+const teachingBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/teaching-bg1.png";
+const support = "https://d10grw5om5v513.cloudfront.net/assets/images/support.png";
+const campuses = "https://d10grw5om5v513.cloudfront.net/assets/images/campuses.png";
+const union = "https://d10grw5om5v513.cloudfront.net/assets/images/union.png";
 
 export default function FacilitiesScreen() {
   return (

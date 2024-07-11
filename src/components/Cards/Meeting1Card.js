@@ -1,5 +1,6 @@
 import React from "react";
-import meeting1 from "../../assets/meeting1.png";
+
+const meeting1 = "https://d10grw5om5v513.cloudfront.net/assets/images/meeting1.png";
 
 export default function Meeting1Card({ navigate }) {
   return (

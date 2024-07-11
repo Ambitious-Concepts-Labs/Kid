@@ -1,10 +1,11 @@
 import React from "react";
 import * as Components from "../../components/all";
-import img1 from "../../assets/person1.png";
-import img2 from "../../assets/person2.png";
-import img3 from "../../assets/person3.png";
-import img4 from "../../assets/person4.png";
 import Layout from "../../components/Dashboard/Layout";
+
+const img1 = "https://d10grw5om5v513.cloudfront.net/assets/images/person1.png";
+const img2 = "https://d10grw5om5v513.cloudfront.net/assets/images/person2.png";
+const img3 = "https://d10grw5om5v513.cloudfront.net/assets/images/person3.png";
+const img4 = "https://d10grw5om5v513.cloudfront.net/assets/images/person4.png";
 
 export default function AdminZoom() {
 	return (

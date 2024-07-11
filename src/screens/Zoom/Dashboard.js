@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import dashboard1 from "../../assets/dashboard1.png";
-import dashboard2 from "../../assets/dashboard2.png";
-import dashboard3 from "../../assets/dashboard3.png";
 // import Header from "./Header";
 import * as Components from "../../components/all";
 import Layout from "../../components/Dashboard/Layout";
+
+const dashboard1 = "https://d10grw5om5v513.cloudfront.net/assets/images/dashboard1.png";
+const dashboard2 = "https://d10grw5om5v513.cloudfront.net/assets/images/dashboard2.png";
+const dashboard3 = "https://d10grw5om5v513.cloudfront.net/assets/images/dashboard3.png";
 
 function Dashboard() {
   const navigate = useNavigate();

@@ -1,16 +1,15 @@
 import React from "react";
 import * as Components from "./all";
-// touch
-import touchBg from "../assets/touch-bg.png";
-import touchOvrly from "../assets/touch-bg-overlay.png";
-import touchBg1 from "../assets/touch-bg1.png";
-// footer
-import footerBg from "../assets/footer-bg.png";
-import logo from "../assets/logo1.png";
-import fb from "../assets/fb.png";
-import insta from "../assets/insta.png";
-import li from "../assets/li.png";
 import { Link } from "react-router-dom";
+
+const touchBg = "https://d10grw5om5v513.cloudfront.net/assets/images/touch-bg.png";
+const touchOvrly = "https://d10grw5om5v513.cloudfront.net/assets/images/touch-bg-overlay.png";
+const touchBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/touch-bg1.png";
+const footerBg = "https://d10grw5om5v513.cloudfront.net/assets/images/footer-bg.png";
+const logo = "https://d10grw5om5v513.cloudfront.net/assets/images/logo1.png";
+const fb = "https://d10grw5om5v513.cloudfront.net/assets/images/fb.png";
+const insta = "https://d10grw5om5v513.cloudfront.net/assets/images/insta.png";
+const li = "https://d10grw5om5v513.cloudfront.net/assets/images/li.png";
 
 export default function Footer({ hideNewsletter }) {
   return (

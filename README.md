@@ -92,6 +92,7 @@ List the technologies, frameworks, and libraries that you used in your project.
 - [Firebase](https://firebase.google.com/)
 - [Chart.js](https://www.chartjs.org/)
 - [OpenAI](https://openai.com/chatgpt)
+- [React Query](https://tanstack.com/query/latest/docs/framework/react/overview)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
