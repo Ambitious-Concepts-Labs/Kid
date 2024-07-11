@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import { assignStudentToCourse, selectCourse } from "../../../utils/courseFunctions";
 import Layout from "../../../components/Dashboard/Layout";
 import { useNavigate } from "react-router-dom";
 import useGetAllCourses from "../../../hooks/useGetAllCourses";
 import useGetAllUsers from "../../../hooks/useGetAllUsers";
+
+const StudentSearch = lazy(() => import("../../../components/Courses/StudentSearch"));
+const CourseSearch = lazy(() => import("../../../components/Courses/CourseSearch"));
+const CourseDetails = lazy(() => import("../../../components/Courses/CourseDetails"));
 
 const imgPlaceholder = "https://d10grw5om5v513.cloudfront.net/assets/images/image-placeholder.png";
 
@@ -139,153 +143,50 @@ const AssignStudentCourse = (props) => {
   return (
     <Layout>
       <div id="assign-course" className="w-1/2 mx-auto">
-        <div className="form-group mb-4">
-          <label
-            htmlFor="assigned-student"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Student
-          </label>
-          <input
-            type="text"
-            className="form-control block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            id="assigned-student"
-            onClick={(e) => {
-              setShowStudentResults(true);
-              setFocused(e.target.id);
-              if (!e.target.value.length) {
-                setFilteredStudents(students);
-              }
-            }}
-            onChange={(e) => {
-              handleAssignedStudent(e);
-            }}
+        <Suspense fallback={<div>Loading student search...</div>}>
+          <StudentSearch
+            showStudentResults={showStudentResults}
+            setShowStudentResults={setShowStudentResults}
+            setFocused={setFocused}
+            handleAssignedStudent={handleAssignedStudent}
+            filteredStudents={filteredStudents}
+            handleSelectedStudent={handleSelectedStudent}
+            students={students}
           />
-          {showStudentResults && (
-            <div id="results-container" className="mt-2 space-y-2">
-              {filteredStudents.slice(0, 10).map((student) => (
-                <button
-                  key={student.id}
-                  type="button"
-                  className="form-control block w-full text-left border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  onClick={() => {
-                    handleSelectedStudent(student);
-                  }}
-                >
-                  {student.username}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        </Suspense>
 
-        <div
-          className={`form-group mb-4 ${isStudentFound ? "block" : "hidden"}`}
-        >
-          <label
-            htmlFor="assigned-course-name"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Course
-          </label>
-          {!isCourseFound ? (
-            <input
-              type="text"
-              className="form-control block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              id="assigned-course-name"
-              onClick={(e) => {
-                setShowCourseResults(true);
-                setFocused(e.target.id);
-              }}
-              onChange={(e) => {
-                handleCourseName(e);
-              }}
+        {isStudentFound && (
+          <Suspense fallback={<div>Loading course search...</div>}>
+            <CourseSearch
+              isCourseFound={isCourseFound}
+              showCourseResults={showCourseResults}
+              setShowCourseResults={setShowCourseResults}
+              setFocused={setFocused}
+              handleCourseName={handleCourseName}
+              courses={courses}
+              filteredCourses={filteredCourses}
+              handleSelectedCourse={handleSelectedCourse}
             />
-          ) : (
-            <input
-              type="text"
-              className="form-control block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              id="assigned-course-name"
-              disabled
+          </Suspense>
+        )}
+
+        {isCourseFound && (
+          <Suspense fallback={<div>Loading course details...</div>}>
+            <CourseDetails
+              isAssignedCourseLoading={isAssignedCourseLoading}
+              assignedCourse={assignedCourse}
+              imgPlaceholder={imgPlaceholder}
+              currentUser={currentUser}
+              selectedStudent={selectedStudent}
+              setLoading={setLoading}
+              setIsAssigningStudent={setIsAssigningStudent}
+              isAssigningStudent={isAssigningStudent}
+              setAreCoursesLoaded={setAreCoursesLoaded}
+              setAssignedCourse={setAssignedCourse}
+              assignStudentToCourse={assignStudentToCourse}
             />
-          )}
-
-          {showCourseResults && (
-            <div id="results-container" className="mt-2 space-y-2">
-              {courses.map((course) => (
-                <button
-                  key={course.id}
-                  type="button"
-                  className="form-control block w-full text-left border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  onClick={() => {
-                    handleSelectedCourse(course);
-                  }}
-                >
-                  Name: {course.courseName}
-                </button>
-              ))}
-              {filteredCourses.slice(0, 10).map((course) => (
-                <button
-                  key={course.id}
-                  type="button"
-                  className="form-control block w-full text-left border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  onClick={() => {
-                    handleSelectedCourse(course);
-                  }}
-                >
-                  {course.course_name}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {isCourseFound &&
-          (!isAssignedCourseLoading ? (
-            <div className="flex justify-center mt-4 w-full">
-              <div className="card p-4 bg-white shadow-md rounded-lg w-full">
-                <div className="about-product text-center mt-2">
-                  <img
-                    src={imgPlaceholder}
-                    width="100"
-                    alt="Course"
-                    className="mx-auto"
-                  />
-                  <div className="mt-2">
-                    <h4 className="text-lg font-semibold">
-                      Course Name: {assignedCourse.course_name}
-                    </h4>
-                  </div>
-                </div>
-                <div className="flex justify-center mt-4">
-                  <button
-                    type="button"
-                    className="btn btn-primary w-36 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    onClick={() => {
-                      assignStudentToCourse({
-                        currentUser,
-                        course: assignedCourse,
-                        student: selectedStudent,
-                        setLoading,
-                        setIsAssigningStudent,
-                        isAssigningStudent,
-                        setAreCoursesLoaded,
-                        setAssignedCourse,
-                      });
-                    }}
-                  >
-                    Assign Student
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="flex justify-center mt-4">
-              <div className="spinner-border text-indigo-600" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          ))}
+          </Suspense>
+        )}
       </div>
     </Layout>
   );

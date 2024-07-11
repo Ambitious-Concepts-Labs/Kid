@@ -1,10 +1,11 @@
-import React from "react";
-import CoursesList from "../../../components/Courses/CoursesList";
-import InfoCard from "../../../components/Dashboard/InfoCard";
+import React, { Suspense, lazy } from "react";
 import { CiClock2 } from "react-icons/ci";
 import { FaCheckCircle } from "react-icons/fa";
 import Layout from "../../../components/Dashboard/Layout";
 import useGetAllCourses from "../../../hooks/useGetAllCourses";
+
+const CoursesList = lazy(() => import("../../../components/Courses/CoursesList"));
+const InfoCard = lazy(() => import("../../../components/Dashboard/InfoCard"));
 
 const Dashboard = ({ currentUser }) => {
   const [userCourses, setUserCourses] = React.useState([]);
@@ -41,6 +42,7 @@ const Dashboard = ({ currentUser }) => {
     <Layout>
       <div className="p-6 space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Suspense fallback={<div>Loading info cards...</div>}>
           <InfoCard
             icon={CiClock2}
             label={"In Progress"}
@@ -50,16 +52,13 @@ const Dashboard = ({ currentUser }) => {
             icon={FaCheckCircle}
             label={"Completed"}
             numberOfItems={completedCourses.length}
-            variant="success"
-          />
+              variant="success"
+            />
+            </Suspense>
         </div>
-        {
-          loading ? (
-            <h2>Loading...</h2>
-          ) : (
-            <CoursesList items={userCourses} />
-          )
-        }
+        <Suspense fallback={<div>Loading courses...</div>}>
+          <CoursesList items={userCourses} />
+        </Suspense>
       </div>
     </Layout>
   );

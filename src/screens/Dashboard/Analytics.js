@@ -1,10 +1,11 @@
 // import { getAnalytics } from "@/actions/getAnalytics";
 // import { auth } from "@clerk/nextjs";
 // import { redirect } from "next/navigation";
-import React from "react";
-import DataCard from "../../components/DataCard";
-import Chart from "../../components/Chart";
+import React, { Suspense, lazy } from "react";
 import Layout from "../../components/Dashboard/Layout";
+
+const DataCard = lazy(() => import("../../components/DataCard"));
+const Chart = lazy(() => import("../../components/Chart"));
 
 const Analytics = () => {
 //   const { userId } = auth();
@@ -33,10 +34,14 @@ const Analytics = () => {
     <Layout>
         <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <Suspense fallback={<div>Loading data cards...</div>}>
             <DataCard label="Total Revenue" value={totalRevenue} shouldFormat />
             <DataCard label="Total Sales" value={totalSales} />
+          </Suspense>
         </div>
-        <Chart data={data} />
+        <Suspense fallback={<div>Loading chart...</div>}>
+          <Chart data={data} />
+        </Suspense>
         </div>
     </Layout>
   );

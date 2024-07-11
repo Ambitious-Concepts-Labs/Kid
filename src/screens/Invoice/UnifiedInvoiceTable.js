@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import Layout from "../../components/Dashboard/Layout";
-import SearchBar from "../../components/SearchBar";
 import useGetAllTransactions from "../../hooks/useGetAllTransactions";
 import useGetAllUsers from "../../hooks/useGetAllUsers";
+
+const SearchBar = lazy(() => import("../../components/SearchBar"));
+const InvoiceTypeButtons = lazy(() => import("../../components/Transactions/InvoiceTypeButtons"));
+const InvoiceTable = lazy(() => import("../../components/Tables/InvoiceTable"));
+const Pagination = lazy(() => import("../../components/Pagination"));
 
 const UnifiedInvoiceTable = ({ currentUser }) => {
   const { transactions, isLoading, error } = useGetAllTransactions();
@@ -22,7 +25,7 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
     try {
       transactions.forEach(async (transaction) => {
         users.forEach((user) => {
-          const username = user.username
+          const username = user.username;
           if (user.id === transaction.user) {
             transaction.username = username ? username : "Anonymous";
             setAllTransactions((prev) => [...prev, transaction]);
@@ -36,16 +39,14 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
   };
 
   useEffect(() => {
-    setAllTransactions(transactions)
+    setAllTransactions(transactions);
     if (transactions.length > 0) {
       getTransactions();
       let filtered = [];
       if (invoiceType === "all") {
         filtered = transactions;
       } else {
-        filtered = transactions.filter(
-          (item) => item.status === invoiceType
-        );
+        filtered = transactions.filter((item) => item.status === invoiceType);
       }
       setInvoices(filtered);
       setFilteredInvoices(filtered);
@@ -54,7 +55,7 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
     }
   }, [currentUser, transactions, invoiceType, loading]);
 
-  if (!currentUser) return <h1>Loading...</h1>
+  if (!currentUser) return <h1>Loading...</h1>;
 
   const handleSort = (key) => {
     const sortedInvoices = [...filteredInvoices].sort((a, b) => {
@@ -97,40 +98,12 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
   return (
     <Layout>
       <div className="container mx-auto py-6">
-        <div className="flex justify-center mb-4">
-          <button
-            className={`btn ${
-              invoiceType === "all" ? "btn-primary" : "btn-secondary"
-            }`}
-            onClick={() => setInvoiceType("all")}
-          >
-            All
-          </button>
-          <button
-            className={`btn ${
-              invoiceType === "for payment" ? "btn-primary" : "btn-secondary"
-            }`}
-            onClick={() => setInvoiceType("for payment")}
-          >
-            For Payment
-          </button>
-          <button
-            className={`btn ${
-              invoiceType === "pending" ? "btn-primary" : "btn-secondary"
-            }`}
-            onClick={() => setInvoiceType("pending")}
-          >
-            Pending
-          </button>
-          <button
-            className={`btn ${
-              invoiceType === "completed" ? "btn-primary" : "btn-secondary"
-            }`}
-            onClick={() => setInvoiceType("completed")}
-          >
-            Completed
-          </button>
-        </div>
+        <Suspense fallback={<div>Loading invoice type buttons...</div>}>
+          <InvoiceTypeButtons
+            invoiceType={invoiceType}
+            setInvoiceType={setInvoiceType}
+          />
+        </Suspense>
         <div className="bg-white shadow-md rounded-lg p-6">
           <div className="border-b pb-4 mb-4">
             <h2 className="text-2xl font-semibold text-gray-800">
@@ -141,114 +114,33 @@ const UnifiedInvoiceTable = ({ currentUser }) => {
                   " Invoices"}
             </h2>
           </div>
-          <SearchBar
-            setSearched={setSearched}
-            setSearchedItems={setSearchedItems}
-            search={handleSearch}
-            items={filteredInvoices}
-            placeholder="Search username"
-          />
-          <div className="overflow-x-auto">
-            <table className="min-w-full leading-normal">
-              <thead>
-                <tr>
-                  <th
-                    className="cursor-pointer px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                    onClick={() => handleSort("username")}
-                  >
-                    Username
-                  </th>
-                  <th
-                    className="cursor-pointer px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                    onClick={() => handleSort("date")}
-                  >
-                    Date Availed
-                  </th>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Items
-                  </th>
-                  <th
-                    className="cursor-pointer px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                    onClick={() => handleSort("amount")}
-                  >
-                    Amount
-                  </th>
-                  <th
-                    className="cursor-pointer px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                    onClick={() => handleSort("status")}
-                  >
-                    Status
-                  </th>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
-                </tr>
-              </thead>
-              {currentItems.map((transaction) => (
-                <tbody key={transaction._id}>
-                  <tr>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">
-                        {transaction.username}
-                      </p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">
-                        {new Date(transaction.createdAt).toDateString()}
-                      </p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">
-                        {transaction.cart.total_quantity}
-                      </p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">
-                        ${transaction.cart.total_price}
-                      </p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">
-                        {transaction.status.toUpperCase()}
-                      </p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <Link
-                        className="text-indigo-600 hover:text-indigo-900"
-                        to={`/dashboard/transaction/${transaction._id}`}
-                      >
-                        View
-                      </Link>
-                    </td>
-                  </tr>
-                </tbody>
-              ))}
-            </table>
-            {searched && !searchedItems.length && (
-              <div className="text-center py-4">
-                <h2 className="text-lg text-gray-600">
-                  No transactions found with searched user
-                </h2>
-              </div>
-            )}
-          </div>
+          <Suspense fallback={<div>Loading search bar...</div>}>
+            <SearchBar
+              setSearched={setSearched}
+              setSearchedItems={setSearchedItems}
+              search={handleSearch}
+              items={filteredInvoices}
+              placeholder="Search username"
+            />
+          </Suspense>
+          <Suspense fallback={<div>Loading invoice table...</div>}>
+            <InvoiceTable
+              currentItems={currentItems}
+              handleSort={handleSort}
+              searched={searched}
+              searchedItems={searchedItems}
+            />
+          </Suspense>
           {searchedItems.length > itemsPerPage && (
-            <div className="flex justify-center mt-4">
-              {indexOfFirstItem > 0 && (
-                <button
-                  className="btn btn-primary mr-2 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={() => setCurrentPage(currentPage - 1)}
-                >
-                  Prev
-                </button>
-              )}
-              {indexOfLastItem < searchedItems.length && (
-                <button
-                  className="btn btn-primary py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={() => setCurrentPage(currentPage + 1)}
-                >
-                  Next
-                </button>
-              )}
-            </div>
+            <Suspense fallback={<div>Loading pagination...</div>}>
+              <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                indexOfFirstItem={indexOfFirstItem}
+                indexOfLastItem={indexOfLastItem}
+                searchedItems={searchedItems}
+              />
+            </Suspense>
           )}
         </div>
       </div>
