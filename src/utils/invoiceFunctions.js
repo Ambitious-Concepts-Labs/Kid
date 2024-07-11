@@ -1,7 +1,7 @@
 // import Axios from "axios";
-import { db } from "../lib/firebase";
+import { updateFireStoreDoc } from "../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { serverTimestamp } from "firebase/firestore";
 
 const editName = (props) => {
   const { event, editedInvoice, setEditedInvoice, item, transaction } = props;
@@ -199,10 +199,8 @@ const confirmEdit = async (props) => {
         foundTransaction.cart = editedInvoice.cart;
         foundTransaction.manualDateAdded = editedInvoice.manualDateAdded;
 
-        await setDoc(
-          doc(db, "transactions", editedInvoice._id),
-          { ...editedInvoice },
-          { merge: true }
+        await updateFireStoreDoc("transactions", editedInvoice._id,
+          { ...editedInvoice }
         );
         setEdit(false);
         setIsTransactionLoaded(false);
@@ -270,22 +268,16 @@ const sendInvoice = async (props) => {
         };
         const transactionId = uuidv4();
         updatedTransactions.push(transactionId);
-        await setDoc(
-          doc(db, "transactions", transactionId),
-          { ...newTransaction },
-          { merge: true }
+        await updateFireStoreDoc("transactions", transactionId,
+          { ...newTransaction }
         );
         if (selectedStudent) {
-          await setDoc(
-            doc(db, "users", selectedStudent.id),
-            { transactions: updatedTransactions },
-            { merge: true }
+          await updateFireStoreDoc("users", selectedStudent.id,
+            { transactions: updatedTransactions }
           );
         } else {
-          await setDoc(
-            doc(db, "users", currentUser.id),
-            { transactions: updatedTransactions },
-            { merge: true }
+          await updateFireStoreDoc("users", currentUser.id,
+            { transactions: updatedTransactions }
           );
         }
         history("/dashboard/admin/invoices/all");
@@ -298,10 +290,8 @@ const sendInvoice = async (props) => {
 
     if (confirm) {
       currentInvoice.status = status ? status : "pendnig";
-      await setDoc(
-        doc(db, "transactions", transactionId),
-        { ...currentInvoice },
-        { merge: true }
+      await updateFireStoreDoc("transactions", transactionId,
+        { ...currentInvoice }
       );
       history("/dashboard/admin/invoices/all");
     }

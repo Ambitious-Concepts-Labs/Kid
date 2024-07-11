@@ -1,0 +1,24 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!master' 
+  
+jobs:
+  lighthouse-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - run: mkdir /tmp/artifacts
+    - name: Run Lighthouse
+      uses: foo-software/lighthouse-check-action@master
+      with:
+        outputDirectory: /tmp/artifacts
+        urls: 'https://www.kidvercity.com,https://www.kidvercity.com/about-us'
+    - name: Upload artifacts
+      uses: actions/upload-artifact@master
+      with:
+        name: Lighthouse reports
+        path: /tmp/artifacts

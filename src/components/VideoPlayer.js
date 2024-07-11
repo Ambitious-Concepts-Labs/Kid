@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import MuxPlayer from "@mux/mux-player-react";
-import { db } from "../lib/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+// import MuxPlayer from "@mux/mux-player-react";
+import { mutateFireStoreDoc } from "../lib/firebase";
+import useGetCourseById from "../hooks/useGetCouseById";
 
 const VideoPlayer = ({
   chapter,
@@ -12,25 +12,22 @@ const VideoPlayer = ({
   playbackId,
   isLocked,
   completeOnEnd,
-  course
+  courseByID
 }) => {
   const [isReady, setIsReady] = useState(false);
-
+  const { data: course, isLoading, error } = useGetCourseById(courseId);
   const onEnd = async () => {
     try {
       if (completeOnEnd) {
-        const courseRef = doc(db, "courses", courseId);
-        const courseDoc = await getDoc(courseRef);
-        const courseData = courseDoc.data();
-        const chapters = courseData.chapters || [];
+        const chapters = course.chapters || [];
         const chapterIndex = chapters.findIndex(
           (chapter) => chapter.id === chapterId
         );
-
         if (chapterIndex !== -1) {
           chapters[chapterIndex].video.progress = {isCompleted: true};
 
-          await updateDoc(courseRef, { chapters });
+          await mutateFireStoreDoc("courses", courseId, { chapters });
+
         }
 
         if (!nextChapterId) {
@@ -51,7 +48,7 @@ const VideoPlayer = ({
     }
   };
 
-  console.log("playbackId", course, chapterId, chapter);
+  console.log("playbackId", courseByID, chapterId, chapter);
 
   return (
     <div className="relative aspect-video">

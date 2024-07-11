@@ -1,6 +1,6 @@
-import { db } from "../lib/firebase";
+import { mutateFireStoreDoc, updateFireStoreDoc } from "../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { serverTimestamp } from "firebase/firestore";
 
 const createCourse = async (props) => {
   const { currentUser, newCourse, history, user } = props;
@@ -24,7 +24,7 @@ const createCourse = async (props) => {
   if (ifComplete(newCourse)) {
     const uid = uuidv4();
     try {
-      await setDoc(doc(db, "courses", uid), {
+      await updateFireStoreDoc("courses", uid, {
         ...newCourse,
         createdAt: serverTimestamp(),
         id: uuidv4(),
@@ -33,12 +33,10 @@ const createCourse = async (props) => {
       console.log({error});
     }
     try {
-      await setDoc(
-        doc(db, "users", currentUser.id),
+      await updateFireStoreDoc("users", currentUser.id,
         {
           courses: [...currentUser.courses, uid],
-        },
-        { merge: true }
+        }
       );
     } catch (error) {
       console.log({error});
@@ -125,10 +123,8 @@ const requestCourse = async (props) => {
       if (!exisiting) {
         pendingCourses.push(course);
         try {
-          await setDoc(
-            doc(db, "users", "5oZ5ta0mgbZSEqCNXftJ"),
-            { pendingCourses: [...course] },
-            { merge: true }
+          await updateFireStoreDoc("users", currentUser.uid,
+            { pendingCourses: [...course] }
           );
         } catch (error) {
           console.log(error);
@@ -252,13 +248,11 @@ const approve = async (props) => {
         updatedPendingCourses.push(course);
       }
     });
-    await setDoc(
-      doc(db, "users", currentUser.uid),
+    await updateFireStoreDoc("users", currentUser.uid,
       {
         forPaymentCourses: updatedCourses,
         pendingCourses: updatedPendingCourses,
-      },
-      { merge: true }
+      }
     );
     setCheckUser(false);
     history("/dashboard/admin/courses/pending");
@@ -279,10 +273,8 @@ const deny = async (props) => {
         updatedPendingCourses.push(course);
       }
     });
-    await setDoc(
-      doc(db, "users", currentUser.uid),
-      { deniedCourses: updatedCourses, pendingCourses: updatedPendingCourses },
-      { merge: true }
+    await updateFireStoreDoc("users", currentUser.uid,
+      { deniedCourses: updatedCourses, pendingCourses: updatedPendingCourses }
     );
     setCheckUser(false);
     history("/admin/courses/pending");
@@ -306,7 +298,6 @@ const assignCourse = async (props) => {
     currentUser,
     isUserFound,
     assignedCourse,
-    setAreUsersLoaded,
     setAreCoursesLoaded,
     setLoading,
     setIsUserFound,
@@ -327,18 +318,15 @@ const assignCourse = async (props) => {
       });
       if (!exisiting) {
         updatedCourses.push(assignedCourse);
-        await updateDoc(
-          doc(db, "users", currentUser.uid),
-          { courses: updatedCourses }
-        );
-        await updateDoc(doc(db, "coures", assignedCourse.id), {
+        await mutateFireStoreDoc("users", currentUser.uid, {
+          courses: updatedCourses,
+        });
+        await mutateFireStoreDoc("courses", assignedCourse.id, {
           instructor: currentUser.uid,
         });
       }
 
       setLoading(true);
-      setAreUsersLoaded(false);
-      setAreCoursesLoaded(false);
       setIsUserFound(false);
       setIsCourseFound(false);
     } else {
@@ -351,9 +339,7 @@ const assignStudentToCourse = async ({
   currentUser,
   course,
   student,
-  setLoading,
   setIsAssigningStudent,
-  setAreCoursesLoaded,
   setAssignedCourse,
 }) => {
   const confirm = window.confirm(
@@ -361,24 +347,21 @@ const assignStudentToCourse = async ({
   );
 
   if (confirm) {
-    setLoading(true);
 
     try {
       // Update student's assigned courses
       const updatedCourses = [...student.courses, course.id];
-      await updateDoc(doc(db, "students", student.id), {
+      await mutateFireStoreDoc("users", student.id, {
         courses: updatedCourses,
       });
 
       // Update course to include student
       const updatedStudents = [...course.students, student.id];
-      await updateDoc(doc(db, "courses", course.id), {
+      await mutateFireStoreDoc("courses", course.id, {
         students: updatedStudents,
       });
 
-      setLoading(false);
       setIsAssigningStudent(false);
-      setAreCoursesLoaded(false);
       setAssignedCourse({});
       window.alert(
         `Successfully assigned ${student.username} to ${course.course_name}.`
@@ -388,11 +371,9 @@ const assignStudentToCourse = async ({
       window.alert(
         "Failed to assign student to course. Please try again later."
       );
-      setLoading(false);
       setIsAssigningStudent(false);
     }
   } else {
-    setLoading(false);
     setIsAssigningStudent(false);
   }
 };

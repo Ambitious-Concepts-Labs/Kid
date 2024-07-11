@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useLocation } from "react-router-dom";
-import Banner from "../../components/Banner";
-import CourseLayout from "../../components/Courses/CourseLayout";
 import Layout from "../../components/Dashboard/Layout";
-import VideoPlayer from "../../components/VideoPlayer";
-import useGetCouseById from "../../hooks/useGetCouseById";
+import useGetCourseById from "../../hooks/useGetCouseById";
 import useGetCourseAttachments from "../../hooks/useGetCourseAttachments";
-import CourseProgressButton from "../../components/Chapters/CourseProgressButton";
+
+const Banner = lazy(() => import("../../components/Banner"));
+const CourseLayout = lazy(() => import("../../components/Courses/CourseLayout"));
+const VideoPlayer = lazy(() => import("../../components/VideoPlayer"));
+const CourseProgressButton = lazy(() => import("../../components/Chapters/CourseProgressButton"));
+const AttachmentList = lazy(() => import('../../components/Chapters/AttachmentList'));
+
 // Mock functions and data to simulate authentication and database fetching
 const mockUserId = "user123";
 const mockChapter = {
@@ -56,7 +59,6 @@ const getChapter = async ({ userId, chapterId, courseId }) => {
 //   </div>
 // );
 
-
 const CourseEnrollButton = ({ price }) => (
   <button className="enroll-button">Enroll for ${price}</button>
 );
@@ -81,12 +83,14 @@ const ChapterIdPage = ({ currentUser }) => {
     userProgress: null,
   });
   const [nextChapter, setNextChapter] = useState(null);
-  const { course } = useGetCouseById(courseId);
-  const attachments = useGetCourseAttachments(courseId);
+  const { data: course } = useGetCourseById(courseId);
+  const { data: attachments, isLoading, error } = useGetCourseAttachments(
+    courseId
+  );
   const [chapId, setChapterId] = useState(null);
 
   useEffect(() => {
-    if (course.chapters) {
+    if (course) {
       const currentIndex = course.chapters.findIndex(
         (chapter) => chapter.id === chapterId
       );
@@ -97,93 +101,104 @@ const ChapterIdPage = ({ currentUser }) => {
     }
   }, [course, chapterId, chapterData]);
 
-  console.log({course, chapterData, nextChapter})
+  console.log({ course, chapterData, nextChapter });
 
   if (!chapterData) {
     return <div>pLoading...</div>;
   }
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
-  const purchase = currentUser?.courses.find((course) => course.id === courseId);
+  const purchase = currentUser?.courses.find(
+    (course) => course.id === courseId
+  );
 
   const isLocked = !chapterData.isFree && !purchase;
   const completeOnEnd = !!purchase && !chapterData.userProgress?.isCompleted;
 
   return (
     <Layout>
-      <CourseLayout
-        courseId={courseId}
-        currentUser={currentUser}
-        course={course}
-        setChapterId={setChapterId}
-      >
-        <div>
-          {chapterData.userProgress?.isCompleted && (
-            <Banner
-              variant="success"
-              label="You already complete this chapter"
-            />
-          )}
-          {isLocked && (
-            <Banner
-              variant="warning"
-              label="You need to purchase this course to watch this chapter"
-            />
-          )}
-          <div className="flex flex-col max-w-4xl mx-auto pb-20">
-            <div className="p-4">
-              <VideoPlayer
-                chapter={chapterData}
-                chapterId={chapterId}
-                title={chapterData.title}
-                courseId={courseId}
-                course={course}
-                nextChapterId={nextChapter?.id}
-                playbackId={null}
-                isLocked={isLocked}
-                completeOnEnd={completeOnEnd}
-              />
-            </div>
-            <div>
-              <div className="p-4 flex flex-col md:flex-row items-center justify-between">
-                <h2 className="text-2xl font-semibold mb-2">
-                  {chapterData.title}
-                </h2>
-                {purchase ? (
-                  <CourseProgressButton
-                    isCompleted={!!chapterData.userProgress?.isCompleted}
+      <Suspense fallback={<div>Loading course layout...</div>}>
+        <CourseLayout
+          courseId={courseId}
+          currentUser={currentUser}
+          course={course}
+          setChapterId={setChapterId}
+        >
+          <div>
+            {chapterData.userProgress?.isCompleted && (
+              <Suspense fallback={<div>Loading banner...</div>}>
+                <Banner
+                  variant="success"
+                  label="You already complete this chapter"
+                />
+              </Suspense>
+            )}
+            {isLocked && (
+              <Suspense fallback={<div>Loading banner...</div>}>
+                <Banner
+                  variant="warning"
+                  label="You need to purchase this course to watch this chapter"
+                />
+              </Suspense>
+            )}
+            <div className="flex flex-col max-w-4xl mx-auto pb-20">
+              <div className="p-4">
+                <Suspense fallback={<div>Loading video player...</div>}>
+                  <VideoPlayer
+                    chapter={chapterData}
+                    chapterId={chapterId}
+                    title={chapterData.title}
+                    courseId={courseId}
+                    course={course}
                     nextChapterId={nextChapter?.id}
+                    playbackId={null}
+                    isLocked={isLocked}
+                    completeOnEnd={completeOnEnd}
                   />
-                ) : (
-                  <CourseEnrollButton price={course.price} />
+                </Suspense>
+              </div>
+              <div>
+                <div className="p-4 flex flex-col md:flex-row items-center justify-between">
+                  <h2 className="text-2xl font-semibold mb-2">
+                    {chapterData.title}
+                  </h2>
+                  {purchase ? (
+                    <Suspense fallback={<div>Loading progress button...</div>}>
+                      <CourseProgressButton
+                        isCompleted={!!chapterData.userProgress?.isCompleted}
+                        nextChapterId={nextChapter?.id}
+                      />
+                    </Suspense>
+                  ) : (
+                    <Suspense fallback={<div>Loading enroll button...</div>}>
+                      <CourseEnrollButton price={course.price} />
+                    </Suspense>
+                  )}
+                </div>
+                <Suspense fallback={<div>Loading separator...</div>}>
+                  <Separator />
+                </Suspense>
+                <div>
+                  <Suspense fallback={<div>Loading preview...</div>}>
+                    <Preview value={chapterData.description} />
+                  </Suspense>
+                </div>
+                {!!attachments.length && (
+                  <>
+                    <Suspense fallback={<div>Loading separator...</div>}>
+                      <Separator />
+                    </Suspense>
+                    <Suspense fallback={<div>Loading attachments...</div>}>
+                      <AttachmentList attachments={attachments} />
+                    </Suspense>
+                  </>
                 )}
               </div>
-              <Separator />
-              <div>
-                <Preview value={chapterData.description} />
-              </div>
-              {!!attachments.length && (
-                <>
-                  <Separator />
-                  <div className="p-4">
-                    {attachments.map((attachment) => (
-                      <a
-                        href={attachment.url}
-                        key={attachment.id}
-                        target="_blank"
-                        className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
-                        rel="noreferrer"
-                      >
-                        {/* <File /> */}
-                        <p className="line-clamp-1">{attachment.name}</p>
-                      </a>
-                    ))}
-                  </div>
-                </>
-              )}
             </div>
           </div>
-        </div>
-      </CourseLayout>
+        </CourseLayout>
+      </Suspense>
     </Layout>
   );
 };

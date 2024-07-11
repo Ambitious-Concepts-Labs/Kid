@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../../components/Dashboard/Layout";
-import StepForm from "../../../components/Form/MultStep/StepForm";
+
+const StepForm = lazy(() =>
+  import("../../../components/Form/MultStep/StepForm")
+);
 
 const NewCourse = (props) => {
   const history = useNavigate();
@@ -20,7 +23,9 @@ const NewCourse = (props) => {
     <Layout>
       <div id="course" style={{ margin: "auto" }}>
         <h1>Create a New Course</h1>
-        <StepForm state={state} />
+        <Suspense fallback={<div>Loading form...</div>}>
+          <StepForm state={state} />
+        </Suspense>
       </div>
     </Layout>
   );

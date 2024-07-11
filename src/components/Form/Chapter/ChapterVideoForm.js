@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Button from "./Button";
-import MuxPlayer from "@mux/mux-player-react";
+// import MuxPlayer from "@mux/mux-player-react";
 import CloudinaryUploadWidget from "../../Image/CloudinaryUploadWidget";
-import MuxUploader from "@mux/mux-uploader-react";
+// import MuxUploader from "@mux/mux-uploader-react";
 import axios from "axios";
 
 

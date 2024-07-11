@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import * as Components from "../all";
-import image from "../../assets/adminImage.png";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../lib/firebase";
 import Select from "react-select";
 import useUserData from "../../hooks/useUserData";
 
+const image = "https://d10grw5om5v513.cloudfront.net/assets/images/adminImage.png";
+
 export default function AdminNavbar({ page }) {
   const navigate = useNavigate();
-  const { currentUser, loading, error } = useUserData();
+  const { currentUser, user, loading } = useUserData();
   const [avatar, setAvatar] = useState("");
   const [name, setName] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
@@ -41,7 +42,6 @@ export default function AdminNavbar({ page }) {
   }, [page]);
 
   useEffect(() => {
-    if (loading) return;
     // if (!currentUser) return navigate("/");
     if (selectedOption.value === "Admin Mode")
       return navigate("/dashboard/courses/browse");
@@ -52,7 +52,7 @@ export default function AdminNavbar({ page }) {
       logout();
       navigate("/login");
     }
-  }, [currentUser, loading, selectedOption]);
+  }, [currentUser, selectedOption]);
 
   return (
     <div

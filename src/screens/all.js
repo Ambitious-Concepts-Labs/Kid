@@ -19,8 +19,6 @@ import SignUpScreen from "./Auth/SignUpScreen";
 // Auth Screens
 
 
-import AdminDashboard from "./Admin/AdminDashboard";
-import AdminProfile from "./Profile/AdminProfile";
 import AdminAssesment from "./Admin/AdminAssesment";
 import AdminSuggestions from "./Admin/AdminSuggestions";
 import AdminZoom from "./Admin/AdminZoom";
@@ -35,22 +33,23 @@ import VideoConference from "./Zoom/VideoConference";
 import MyMeetings from "./Zoom/MyMeetings";
 import JoinMeeting from "./Zoom/JoinMeeting";
 import Meeting from "./Zoom/Meeting";
-import Dashboard from "./Zoom/Dashboard";
+import ZoomDashboard from "./Zoom/Dashboard";
 import WebRTCDemo from "./Zoom/WebRTCDemo2.js";
 // Zoom Screens
 
 import UpdateCourse from "./Dashboard/UpdateCourse";
 
+import Dashboard from "./Dashboard/index.js";
+import NewCourse from "./Dashboard/Admin/NewCourse.js";
 import TeacherCourses from "./Dashboard/Teachers/TeacherCourses";
 import TeachersCourses from "./Dashboard/Teachers/TeachersCourses.js";
 import ViewStudents from "./Dashboard/Teachers/ViewStudents.js";
-import NewCourse from "./Dashboard/Admin/NewCourse.js";
 import Products from "./Dashboard/Products";
+import Profile from "./Dashboard/Profile.js";
 import Cart from "./Dashboard/Students/Cart.js";
 
 // Invoice Screens
 import Invoice from "./Invoice/Invoice.js";
-import Invoice2 from "./Invoice/Invoice copy.js";
 import NewInvoice from "./Invoice/NewInvoice.js";
 import NewInvoice2 from "./Invoice/NewInvoice copy 2.js";
 import Transaction from "./Invoice/Transaction.js";
@@ -84,8 +83,8 @@ export {
   LoginScreen,
   ResetPasswordScreen,
   SignUpScreen,
-  AdminDashboard,
-  AdminProfile,
+  Dashboard,
+  Profile,
   AdminAssesment,
   AdminSuggestions,
   AdminZoom,
@@ -98,7 +97,7 @@ export {
   MyMeetings,
   JoinMeeting,
   Meeting,
-  Dashboard,
+  ZoomDashboard,
   TeacherCourses,
   TeachersCourses,
   Transaction,
@@ -126,6 +125,5 @@ export {
   AssignStudentCourse,
   Terms,
   Privacy,
-  Invoice2,
   WebRTCDemo
 };

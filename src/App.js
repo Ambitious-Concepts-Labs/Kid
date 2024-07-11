@@ -121,10 +121,10 @@ function App() {
 
           {/* Dashboard General Routes */}
           {/* <Route path="/dashboard" element={<PrivateRoute type="login" element={<Screens.AdminDashboard {...states} user={user} />} user={user} currentUser={currentUser} />} /> */}
-          <Route exact path="/dashboard" element={<Screens.AdminDashboard {...states} user={user} />} />
+          <Route exact path="/dashboard" element={<Screens.Dashboard {...states} user={user} />} />
           <Route exact path="/dashboard/assesment" element={<Screens.AdminAssesment />} />
           <Route exact path="/dashboard/products" element={<Screens.Products {...states} user={user} />}/>
-          <Route exact path="/dashboard/profile" element={<Screens.AdminProfile user={user} />} />
+          <Route exact path="/dashboard/profile" element={<Screens.Profile user={user} />} />
           <Route exact path="/dashboard/purchase" element={<Screens.AdminPurchase />} />
           <Route exact path="/dashboard/rewards" element={<Screens.AdminRewards />} />
           <Route exact path="/dashboard/suggestions" element={<Screens.AdminSuggestions />} />
@@ -151,7 +151,6 @@ function App() {
           <Route exact path="/dashboard/transaction/:id" element={<Screens.Transaction {...states} user={user} />} />
           <Route exact path="/dashboard/transactions" element={<Screens.Transactions {...states} user={user} />} />
           <Route exact path="/dashboard/transaction/:id/invoice" element={<Screens.Invoice {...states} user={user} />} />
-          <Route exact path="/dashboard/transaction/:id/invoice2" element={<Screens.Invoice2 {...states} user={user} />} />
           {/* Invoice Routes */}
 
           {/* Dashboard Admin Routes */}
@@ -185,7 +184,7 @@ function App() {
 					<Route path="/dashboard/zoom/meetings" element={<Screens.Meeting  {...states} user={user} />} />
 					<Route path="/dashboard/zoom/mymeetings" element={<Screens.MyMeetings  {...states} user={user} />} />
           {/* Duplicates */}
-			    <Route path="/dashboard/zoom" element={<Screens.Dashboard  {...states} user={user}/>} />
+			    <Route path="/dashboard/zoom" element={<Screens.ZoomDashboard  {...states} user={user}/>} />
         </Routes>
       </BrowserRouter>
     </div>

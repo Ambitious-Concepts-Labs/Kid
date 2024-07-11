@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import * as Components from "../../components/all";
-import charImage from "../../assets/character.png";
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -30,6 +29,8 @@ ChartJS.register(
 	Filler,
 	Legend
 );
+
+const charImage = "https://d10grw5om5v513.cloudfront.net/assets/images/character.png";
 
 export default function AdminAssesment() {
 	const [openQuiz, setOpenQuiz] = useState(false)
@@ -155,7 +156,7 @@ export default function AdminAssesment() {
 							</div>
 
 							{/* characters svg */}
-							<img src={charImage} alt="charim" className="ml-auto mr-16" />
+							<img loading="lazy" src={charImage} alt="charim" className="ml-auto mr-16" />
 
 							{/* circle svg */}
 							<svg

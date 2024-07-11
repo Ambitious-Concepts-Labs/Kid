@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import CreateMeetingButtons from "../../components/Form/Zoom/CreateMeetingButtons";
-import MeetingDateField from "../../components/Form/Zoom/MeetingDateField";
-import MeetingNameField from "../../components/Form/Zoom/MeetingNameFIeld";
-import MeetingUserField from "../../components/Form/Zoom/MeetingUserField";
 import Layout from "../../components/Dashboard/Layout";
 import { meetingsRef } from "../../lib/firebase";
 import useGetAllUsers from "../../hooks/useGetAllUsers";
 import { createCall } from "../../utils/zoomFunctions";
+
+const CreateMeetingButtons = lazy(() => import('../../components/Form/Zoom/CreateMeetingButtons'));
+const MeetingDateField = lazy(() => import('../../components/Form/Zoom/MeetingDateField'));
+const MeetingNameField = lazy(() => import('../../components/Form/Zoom/MeetingNameFIeld'));
+const MeetingUserField = lazy(() => import('../../components/Form/Zoom/MeetingUserField'));
 
 export default function OneOnOneMeeting(props) {
   const {
@@ -111,46 +112,48 @@ export default function OneOnOneMeeting(props) {
       <div className="p-4 flex-1 h-full overflow-auto text-start">
         <div className="flex flex-col h-full justify-center items-center">
           <div className="w-full max-w-lg">
-            <MeetingNameField
-              label="Meeting name"
-              isInvalid={showErrors.meetingName.show}
-              error={showErrors.meetingName.message}
-              placeholder="Meeting name"
-              value={meetingName}
-              setMeetingName={setMeetingName}
-            />
-            <MeetingUserField
-              label="Invite User"
-              isInvalid={showErrors.meetingUser.show}
-              error={showErrors.meetingUser.message}
-              options={users}
-              onChange={onUserChange}
-              selectedOptions={selectedUser}
-              singleSelection={{ asPlainText: true }}
-              isClearable={false}
-              placeholder="Select a User"
-            />
-            <MeetingDateField
-              selected={startDate}
-              setStartDate={setStartDate}
-            />
-            <p>Answer the call from a different browser window or device</p>
-            <input
-              ref={callInputRef}
-              className="border border-gray-300 p-2 rounded w-full mt-2"
-            />
-            <div className="my-4">
-              <CreateMeetingButtons
-                callButtonRef={callButtonRef}
-                webcamButtonRef={webcamButtonRef}
-                callInputRef={callInputRef}
-                hangupButtonRef={hangupButtonRef}
-                setCallId={setCallId}
-                pc={pc}
-                createCall={createCall}
-                createMeeting={createMeeting}
+            <Suspense fallback={<div>Loading...</div>}>
+              <MeetingNameField
+                label="Meeting name"
+                isInvalid={showErrors.meetingName.show}
+                error={showErrors.meetingName.message}
+                placeholder="Meeting name"
+                value={meetingName}
+                setMeetingName={setMeetingName}
               />
-            </div>
+              <MeetingUserField
+                label="Invite User"
+                isInvalid={showErrors.meetingUser.show}
+                error={showErrors.meetingUser.message}
+                options={users}
+                onChange={onUserChange}
+                selectedOptions={selectedUser}
+                singleSelection={{ asPlainText: true }}
+                isClearable={false}
+                placeholder="Select a User"
+              />
+              <MeetingDateField
+                selected={startDate}
+                setStartDate={setStartDate}
+              />
+              <p>Answer the call from a different browser window or device</p>
+              <input
+                ref={callInputRef}
+                className="border border-gray-300 p-2 rounded w-full mt-2"
+              />
+              <div className="my-4">
+                <CreateMeetingButtons
+                  callButtonRef={callButtonRef}
+                  webcamButtonRef={webcamButtonRef}
+                  callInputRef={callInputRef}
+                  hangupButtonRef={hangupButtonRef}
+                  setCallId={setCallId}
+                  pc={pc}
+                  createCall={createCall}
+                  createMeeting={createMeeting}
+                />
+              </div>
+            </Suspense>
           </div>
         </div>
       </div>

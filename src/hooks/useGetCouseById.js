@@ -1,38 +1,25 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
-const useGetCouseById = (id) => {
-  const [course, setCourse] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [isCourseLoaded, setIsCourseLoaded] = useState(false);
-
-  const getCourse = async () => {
-    try {
-      const docRef = await getDoc(doc(db, "courses", id));
-      if (!docRef.exists()) {
-        console.log("No such document!");
-      } else {
-        setCourse(docRef.data());
-      }
-    } catch (error) {
-      console.error("Error fetching course: ", error);
-    }
-  };
-
-  useEffect(() => {
-    let unmounted = false;
-    if (!unmounted && loading && !isCourseLoaded) {
-      getCourse();
-      setIsCourseLoaded(true);
-      setLoading(false);
-    }
-    return () => {
-      unmounted = true;
-    };
-  }, [loading, isCourseLoaded, id]);
-
-  return { course, loading, setLoading };
+const fetchCourseById = async (id) => {
+  const docRef = await getDoc(doc(db, "courses", id));
+  if (!docRef.exists()) {
+    throw new Error("No such document!");
+  }
+  console.log(docRef.data());
+  return { id: docRef.id, ...docRef.data() };
 };
 
-export default useGetCouseById;
+const useGetCourseById = (id) => {
+  return useQuery({
+    queryKey: ["course", id],
+    queryFn: () => fetchCourseById(id),
+    enabled: !!id, // Ensure the query runs only if an ID is provided
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
+  });
+};
+
+export default useGetCourseById;

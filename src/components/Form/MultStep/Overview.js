@@ -5,13 +5,15 @@ import { mockCourses } from "../../../constants/mockData";
 import useGetAllCourses from "../../../hooks/useGetAllCourses";
 
 export default function Overview({ nextStep, handleChange, values }) {
- const courses = useGetAllCourses();
+  const { courses, error, isLoading } = useGetAllCourses();
 
   const continueStep = (e) => {
     e.preventDefault();
     nextStep();
   };
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <>
       <div>Overview</div>

@@ -1,30 +1,24 @@
 import React from "react";
 import * as Components from "../../components/all";
-// about
-import aboutBg from "../../assets/about-bg.png";
-import aboutRight from "../../assets/about-right.png";
-import aboutLeft from "../../assets/about-left.png";
-// higher
-import higherBg from "../../assets/about-bg1.png";
-import overlay from "../../assets/footer-bg.png";
-import higherRight from "../../assets/higher-right.png";
-// glance
-import glanceBg from "../../assets/glance-bg.png";
-// meet
-import meetBg from "../../assets/meet-bg.png";
-// offer
-import offerBg from "../../assets/offer-bg.png";
-// culture
-import cultureBg from "../../assets/culture-bg.png";
-import cultureBg1 from "../../assets/culture-bg1.png";
-// people
-import sarah from "../../assets/people-sarah.png";
-import brickson from "../../assets/people-brickson.png";
-import marnie from "../../assets/people-marnie.png";
-// funded
-import fundedBg from "../../assets/funded-bg.png";
+
 import { Slide } from "pure-react-carousel";
 import StaticLayout from "../../components/StaticLayout";
+
+const aboutBg = "https://d10grw5om5v513.cloudfront.net/assets/images/about-bg.png";
+const aboutRight = "https://d10grw5om5v513.cloudfront.net/assets/images/about-right.png";
+const aboutLeft = "https://d10grw5om5v513.cloudfront.net/assets/images/about-left.png";
+const higherBg = "https://d10grw5om5v513.cloudfront.net/assets/images/about-bg1.png";
+const overlay = "https://d10grw5om5v513.cloudfront.net/assets/images/footer-bg.png";
+const higherRight = "https://d10grw5om5v513.cloudfront.net/assets/images/higher-right.png";
+const glanceBg = "https://d10grw5om5v513.cloudfront.net/assets/images/glance-bg.png";
+const meetBg = "https://d10grw5om5v513.cloudfront.net/assets/images/meet-bg.png";
+const offerBg = "https://d10grw5om5v513.cloudfront.net/assets/images/offer-bg.png";
+const cultureBg = "https://d10grw5om5v513.cloudfront.net/assets/images/culture-bg.png";
+const cultureBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/culture-bg1.png";
+const sarah = "https://d10grw5om5v513.cloudfront.net/assets/images/people-sarah.png";
+const brickson = "https://d10grw5om5v513.cloudfront.net/assets/images/people-brickson.png";
+const marnie = "https://d10grw5om5v513.cloudfront.net/assets/images/people-marnie.png";
+const fundedBg = "https://d10grw5om5v513.cloudfront.net/assets/images/funded-bg.png";
 
 export default function AboutScreen() {
   return (

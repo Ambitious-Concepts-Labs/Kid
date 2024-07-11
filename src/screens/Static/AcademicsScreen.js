@@ -1,23 +1,20 @@
 import React from "react";
 import * as Components from "../../components/all";
-// academics
-import academicsBg from "../../assets/academics-bg.png";
-// colleges
-import collegesBg from "../../assets/colleges-bg.png";
-// info
-import ugMajor from "../../assets/major.png";
-import graduate from "../../assets/graduate.png";
-import certificates from "../../assets/certification.png";
-// fast forward
-import forwardBg from "../../assets/forward-bg.png";
-import forwardBg1 from "../../assets/forward-bg1.png";
-// academic news
-import newsLeft from "../../assets/news-left.png";
-import format from "../../assets/format.png";
-import success from "../../assets/success.png";
-import global from "../../assets/global.png";
+
 import { Slide } from "pure-react-carousel";
 import StaticLayout from "../../components/StaticLayout";
+
+const academicsBg = "https://d10grw5om5v513.cloudfront.net/assets/images/academics-bg.png";
+const collegesBg = "https://d10grw5om5v513.cloudfront.net/assets/images/colleges-bg.png";
+const ugMajor = "https://d10grw5om5v513.cloudfront.net/assets/images/major.png";
+const graduate = "https://d10grw5om5v513.cloudfront.net/assets/images/graduate.png";
+const certificates = "https://d10grw5om5v513.cloudfront.net/assets/images/certification.png";
+const forwardBg = "https://d10grw5om5v513.cloudfront.net/assets/images/forward-bg.png";
+const forwardBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/forward-bg1.png";
+const newsLeft = "https://d10grw5om5v513.cloudfront.net/assets/images/news-left.png";
+const format = "https://d10grw5om5v513.cloudfront.net/assets/images/format.png";
+const success = "https://d10grw5om5v513.cloudfront.net/assets/images/success.png";
+const global = "https://d10grw5om5v513.cloudfront.net/assets/images/global.png";
 
 export default function AcademicsScreen() {
   return (
@@ -278,7 +275,7 @@ export default function AcademicsScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={ugMajor} alt="book_img" className="w-full" />
+                <img loading="lazy" src={ugMajor} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     Undergraduate Majors and Programs{" "}
@@ -306,7 +303,7 @@ export default function AcademicsScreen() {
 							bg-[#C33B4C] 
 						"
               >
-                <img src={graduate} alt="book_img" className="w-full" />
+                <img loading="lazy" src={graduate} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-white font-bold font-[riffic] capitalize">
                     Graduate and Doctoral Education
@@ -333,7 +330,7 @@ export default function AcademicsScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={certificates} alt="book_img" className="w-full" />
+                <img loading="lazy" src={certificates} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     Certificates and Continuing Education{" "}
@@ -362,7 +359,7 @@ export default function AcademicsScreen() {
 							bg-[#C33B4C] 
 						"
               >
-                <img src={graduate} alt="book_img" className="w-full" />
+                <img loading="lazy" src={graduate} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-white font-bold font-[riffic] capitalize">
                     Graduate and Doctoral Education
@@ -389,7 +386,7 @@ export default function AcademicsScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={certificates} alt="book_img" className="w-full" />
+                <img loading="lazy" src={certificates} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     Certificates and Continuing Education{" "}
@@ -581,7 +578,7 @@ export default function AcademicsScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={format} alt="book_img" className="w-full" />
+                <img loading="lazy" src={format} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     Learning Formats{" "}
@@ -611,7 +608,7 @@ export default function AcademicsScreen() {
 							bg-[#C33B4C] 
 						"
               >
-                <img src={success} alt="book_img" className="w-full" />
+                <img loading="lazy" src={success} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-white font-bold font-[riffic] capitalize">
                     Student Success{" "}
@@ -640,7 +637,7 @@ export default function AcademicsScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={global} alt="book_img" className="w-full" />
+                <img loading="lazy" src={global} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     Global Learning Opportunities{" "}
@@ -668,7 +665,7 @@ export default function AcademicsScreen() {
 							bg-[#C33B4C] 
 						"
               >
-                <img src={success} alt="book_img" className="w-full" />
+                <img loading="lazy" src={success} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-white font-bold font-[riffic] capitalize">
                     Student Success{" "}
@@ -697,7 +694,7 @@ export default function AcademicsScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={global} alt="book_img" className="w-full" />
+                <img loading="lazy" src={global} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     Global Learning Opportunities{" "}

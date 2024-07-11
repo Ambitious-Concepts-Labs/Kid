@@ -1,26 +1,21 @@
 import React from "react";
 import * as Components from "../../components/all";
-// admission
-import admissionBg from "../../assets/admission-bg.png";
-// affordable
-import affordableBg from "../../assets/affordable-bg.png";
-import affordableBg1 from "../../assets/affordable-bg1.png";
-// facts
-import factsBg from "../../assets/facts-bg.png";
-// may also like
-import apply from "../../assets/apply.png";
-import estimate from "../../assets/estimate.png";
-import types from "../../assets/types.png";
-// undergraduate
-import ugBg from "../../assets/undergraduate-bg.png";
-import ugBg1 from "../../assets/undergraduate-bg1.png";
-// graduate
-import gBg from "../../assets/graduate-bg.png";
-import gBg1 from "../../assets/graduate-bg1.png";
-// international
-import internationalBg from "../../assets/international-bg.png";
+
 import { Slide } from "pure-react-carousel";
 import StaticLayout from "../../components/StaticLayout";
+
+const admissionBg = "https://d10grw5om5v513.cloudfront.net/assets/images/admission-bg.png";
+const affordableBg = "https://d10grw5om5v513.cloudfront.net/assets/images/affordable-bg.png";
+const affordableBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/affordable-bg1.png";
+const factsBg = "https://d10grw5om5v513.cloudfront.net/assets/images/facts-bg.png";
+const apply = "https://d10grw5om5v513.cloudfront.net/assets/images/apply.png";
+const estimate = "https://d10grw5om5v513.cloudfront.net/assets/images/estimate.png";
+const types = "https://d10grw5om5v513.cloudfront.net/assets/images/types.png";
+const ugBg = "https://d10grw5om5v513.cloudfront.net/assets/images/undergraduate-bg.png";
+const ugBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/undergraduate-bg1.png";
+const gBg = "https://d10grw5om5v513.cloudfront.net/assets/images/graduate-bg.png";
+const gBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/graduate-bg1.png";
+const internationalBg = "https://d10grw5om5v513.cloudfront.net/assets/images/international-bg.png";
 
 export default function AdmissionScreen() {
   return (
@@ -402,7 +397,7 @@ export default function AdmissionScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={apply} alt="book_img" className="w-full" />
+                <img loading="lazy" src={apply} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     aPPLY FOR AID{" "}
@@ -429,7 +424,7 @@ export default function AdmissionScreen() {
 							bg-[#C33B4C] 
 						"
               >
-                <img src={estimate} alt="book_img" className="w-full" />
+                <img loading="lazy" src={estimate} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-white font-bold font-[riffic] capitalize">
                     ESTIMATE YOUR COSTS{" "}
@@ -455,7 +450,7 @@ export default function AdmissionScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={types} alt="book_img" className="w-full" />
+                <img loading="lazy" src={types} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     TYPES OF AID{" "}
@@ -482,7 +477,7 @@ export default function AdmissionScreen() {
 							bg-[#C33B4C] 
 						"
               >
-                <img src={estimate} alt="book_img" className="w-full" />
+                <img loading="lazy" src={estimate} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-white font-bold font-[riffic] capitalize">
                     ESTIMATE YOUR COSTS{" "}
@@ -508,7 +503,7 @@ export default function AdmissionScreen() {
 								bg-[#F5F5F5] 
 								"
               >
-                <img src={types} alt="book_img" className="w-full" />
+                <img loading="lazy" src={types} alt="book_img" className="w-full" />
                 <div className="details text-left py-5 px-4">
                   <Components.BigParagraph className="text-left text-[#C33B4C] font-bold font-[riffic] capitalize">
                     TYPES OF AID{" "}

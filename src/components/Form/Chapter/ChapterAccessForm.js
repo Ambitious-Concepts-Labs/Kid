@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Checkbox } from "../../Checkbox";
 import Button from "./Button";
-import { db } from "../../../lib/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { mutateFireStoreDoc } from "../../../lib/firebase";
 import { cn } from "../../../utils/helperfunctions";
+import useGetCourseById from "../../../hooks/useGetCouseById";
 
 const ChapterAccessForm = ({ initialData, courseId, chapterId }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isFree, setIsFree] = useState(initialData.isFree || false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { data: course, isLoading, error } = useGetCourseById(courseId);
 
   const toggleEdit = () => setIsEditing(!isEditing);
 
@@ -16,10 +17,7 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }) => {
     event.preventDefault();
     setIsSubmitting(true);
     try {
-        const courseRef = doc(db, "courses", courseId);
-        const courseDoc = await getDoc(courseRef);
-        const courseData = courseDoc.data();
-        const chapters = courseData.chapters || [];
+        const chapters = course.chapters || [];
         const chapterIndex = chapters.findIndex(
           (chapter) => chapter.id === chapterId
         );
@@ -27,7 +25,7 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }) => {
         if (chapterIndex !== -1) {
           chapters[chapterIndex].isFree = isFree;
 
-          await updateDoc(courseRef, { chapters });
+          await mutateFireStoreDoc("courses", courseId, { chapters });
         }
       alert("Chapter updated");
       toggleEdit();

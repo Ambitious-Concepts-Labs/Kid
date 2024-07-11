@@ -5,19 +5,20 @@
   "dependencies": {
     "@cloudinary/react": "^1.13.0",
     "@cloudinary/url-gen": "^1.19.0",
-    "@elastic/eui": "^82.1.0",
+    "@fullhuman/postcss-purgecss": "^6.0.0",
     "@hello-pangea/dnd": "^16.6.0",
-    "@mux/mux-player-react": "^2.7.0",
-    "@mux/mux-uploader-react": "^1.0.0-beta.18",
     "@paypal/react-paypal-js": "^8.5.0",
+    "@tanstack/react-query": "^5.50.1",
+    "@tanstack/react-query-devtools": "^5.50.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@zegocloud/zego-uikit-prebuilt": "^1.8.4",
     "ai-quiz": "^1.0.13",
     "chart.js": "^4.4.0",
-    "firebase": "^9.22.2",
+    "firebase": "^9.23.0",
+    "lighthouse": "^12.1.0",
     "papaparse": "^5.4.1",
+    "postcss-cli": "^11.0.0",
     "pure-react-carousel": "^1.30.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
@@ -25,6 +26,7 @@
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
     "react-icons": "^5.2.1",
+    "react-lazyload": "^3.2.1",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
@@ -34,9 +36,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npm run purgecss",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "purgecss": "purgecss --css build/static/css/*.css --content build/index.html build/static/js/*.js --output build/static/css"
   },
   "eslintConfig": {
     "extends": [
@@ -57,6 +61,7 @@
     ]
   },
   "devDependencies": {
+    "source-map-explorer": "^2.5.3",
     "tailwindcss": "^3.2.6"
   }
 }

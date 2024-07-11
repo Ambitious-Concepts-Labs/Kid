@@ -1,6 +1,5 @@
 import React from "react";
 import * as Components from "../../components/all";
-import userImg from "../../assets/person.png";
 // chart
 import {
 	Chart as ChartJS,
@@ -30,6 +29,8 @@ ChartJS.register(
 	Filler,
 	Legend
 );
+
+const userImg = "https://d10grw5om5v513.cloudfront.net/assets/images/person.png";
 
 export default function AdminSuggestions() {
 	// doughnut chart

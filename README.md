@@ -8,7 +8,7 @@
 
 <div align="center">
   <a href="https://github.com/your_username/repo_name">
-    <img src="https://i.imgur.com/RF2Zlgb.png" alt="Logo" width="80" height="80">
+    <img loading="lazy" src="https://i.imgur.com/RF2Zlgb.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">KidverCity</h3>
@@ -92,6 +92,7 @@ List the technologies, frameworks, and libraries that you used in your project.
 - [Firebase](https://firebase.google.com/)
 - [Chart.js](https://www.chartjs.org/)
 - [OpenAI](https://openai.com/chatgpt)
+- [React Query](https://tanstack.com/query/latest/docs/framework/react/overview)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

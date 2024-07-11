@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { searchStudent } from "../../../utils/courseFunctions";
-import SearchBar from "../../../components/SearchBar";
+import React, { useState, useEffect, lazy, Suspense } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../../../components/Dashboard/Layout";
-import { db } from "../../../lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
 import useGetAllCourses from "../../../hooks/useGetAllCourses";
+import useGetAllUsers from "../../../hooks/useGetAllUsers";
+
+const Students = lazy(() => import("../../../components/Courses/Students"));
 
 const ViewStudents = (props) => {
   const { currentUser } = props;
   const { id } = useParams();
   const navigate = useNavigate();
-  const courses = useGetAllCourses();
+  const { courses, error, isLoading } = useGetAllCourses();
+  const { users } = useGetAllUsers();
   const [searchedItems, setSearchedItems] = useState([]);
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,12 +25,11 @@ const ViewStudents = (props) => {
   const getStudents = async (currentCourse) => {
     const students = [];
     for (const studentId of currentCourse.students) {
-      const studentRef = doc(db, "users", studentId);
-      const studentDoc = await getDoc(studentRef);
-      if (studentDoc.exists()) {
-        console.log(studentDoc.data());
-        students.push({ id: studentDoc.id, ...studentDoc.data() });
-      }
+      users.forEach((user) => {
+        if (user.id === studentId) {
+          students.push(user);
+        }
+      });
     }
     return students;
   };
@@ -68,93 +67,24 @@ const ViewStudents = (props) => {
     );
   }
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
         <div className="row">
           <div className="col-xs-10 w-full">
-            <div className="panel panel-primary">
-              <div className="panel-heading bg-blue-500 text-white p-4 rounded-t">
-                <h4 className="panel-title text-lg">Enrolled Students</h4>
-                <h2 className="panel-title text-2xl mt-2">
-                  Course: {course.courseName}
-                </h2>
-                <Link to={`/dashboard/admin/course/${id}`}> Edit course</Link>
-              </div>
-              <div className="p-4">
-                <SearchBar
-                  setSearchedItems={setSearchedItems}
-                  search={searchStudent}
-                  items={course.students}
-                  setItemsSlice={setStudentsSlice}
-                  placeholder={"Search student username"}
-                />
-              </div>
-              <ul className="list-group">
-                <li className="list-group-item p-4">
-                  <table className="table table-hover w-full">
-                    {searchedItems.length > 0 && (
-                      <thead>
-                        <tr>
-                          <th className="border px-4 py-2">ID</th>
-                          <th className="border px-4 py-2">Username</th>
-                          <th className="border px-4 py-2">
-                            <button style={{ visibility: "hidden" }}>
-                              xxxx
-                            </button>
-                          </th>
-                        </tr>
-                      </thead>
-                    )}
-                    {searchedItems
-                      .slice(studentsSlice[0], studentsSlice[1])
-                      .map((student) => (
-                        <tbody key={student.id} className="border-t">
-                          <tr>
-                            <td className="border px-4 py-2">{student.id}</td>
-                            <td className="border px-4 py-2">
-                              {student.username}
-                            </td>
-                            <td className="border px-4 py-2">
-                              <Link
-                                className="btn btn-primary bg-blue-500 text-white py-1 px-3 rounded"
-                                to={`/dashboard/course/${id}/students/${student.username}`}
-                              >
-                                View
-                              </Link>
-                            </td>
-                          </tr>
-                        </tbody>
-                      ))}
-                  </table>
-                  {!searchedItems.length && (
-                    <h2 className="text-center w-full py-4">
-                      No student found
-                    </h2>
-                  )}
-                </li>
-              </ul>
-              {searchedItems.length > 10 && (
-                <div className="flex justify-center mt-4">
-                  {studentsSlice[0] > 0 && (
-                    <button
-                      className="btn btn-primary bg-blue-500 text-white py-1 px-3 rounded mx-2"
-                      onClick={() => setCurrentPage(currentPage - 1)}
-                    >
-                      Prev
-                    </button>
-                  )}
-                  {studentsSlice[1] < searchedItems.length && (
-                    <button
-                      className="btn btn-primary bg-blue-500 text-white py-1 px-3 rounded mx-2"
-                      onClick={() => setCurrentPage(currentPage + 1)}
-                    >
-                      Next
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Students
+                course={course}
+                id={id}
+                searchedItems={searchedItems}
+                studentsSlice={studentsSlice}
+                setStudentsSlice={setStudentsSlice}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+              />
+            </Suspense>
           </div>
         </div>
       </div>

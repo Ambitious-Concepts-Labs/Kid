@@ -1,7 +1,7 @@
 import React from "react";
-import imgPlaceholder from "./image-placeholder.png";
-import { db } from "../../lib/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { updateFireStoreDoc } from "../../lib/firebase";
+
+const imgPlaceholder = "https://d10grw5om5v513.cloudfront.net/assets/images/image-placeholder.png";
 
 const EditCourse = (props) => {
 	const {
@@ -22,8 +22,7 @@ const EditCourse = (props) => {
 		setUpdatedCourse(async () => {
 			if (key !== "instructor") {
 				course[key] = e.target.value;
-				await setDoc(doc(db, "users", user.uid), 
-					{ course: [...course] }, { merge: true })
+				await updateFireStoreDoc("users", user.uid, { course: [...course] });
 				if (e.target.value.length) {
 					return {
 						...updatedCourse,
@@ -72,7 +71,7 @@ const EditCourse = (props) => {
 								/>
 							</div>
 							<div className="banner-img">
-								<img src={imgPlaceholder} alt="img-placeholder" />
+								<img loading="lazy" src={imgPlaceholder} alt="img-placeholder" />
 							</div>
 							<div className="author">
 								<div>

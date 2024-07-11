@@ -1,10 +1,10 @@
 import React from "react";
 import * as Components from "../all";
-// touch
-import touchBg from "../../assets/touch-bg.png";
-import touchOvrly from "../../assets/touch-bg-overlay.png";
-import touchBg1 from "../../assets/touch-bg1.png";
 import { IoMdClose } from "react-icons/io";
+
+const touchBg = "https://d10grw5om5v513.cloudfront.net/assets/images/touch-bg.png";
+const touchOvrly = "https://d10grw5om5v513.cloudfront.net/assets/images/touch-bg-overlay.png";
+const touchBg1 = "https://d10grw5om5v513.cloudfront.net/assets/images/touch-bg1.png";
 
 const Newsletter = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;

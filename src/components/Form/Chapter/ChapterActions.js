@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ConfirmModal } from "../../Modal/Confirm";
 import Button from "./Button";
-import { db } from "../../../lib/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { mutateFireStoreDoc } from "../../../lib/firebase";
+import useGetCourseById from "../../../hooks/useGetCouseById";
 
 // Placeholder for the Trash icon
 const Trash = ({ className }) => (
@@ -24,14 +24,11 @@ const Trash = ({ className }) => (
 
 const ChapterActions = ({ disabled, courseId, chapterId, isPublished }) => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const { data: course } = useGetCourseById(courseId);
   const onClick = async () => {
     try {
       setIsLoading(true);
-      const courseRef = doc(db, "courses", courseId);
-      const courseDoc = await getDoc(courseRef);
-      const courseData = courseDoc.data();
-      const chapters = courseData.chapters || [];
+      const chapters = course.chapters || [];
       const chapterIndex = chapters.findIndex(
         (chapter) => chapter.id === chapterId
       );
@@ -39,7 +36,7 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }) => {
       if (chapterIndex !== -1) {
         chapters[chapterIndex].isPublished = !isPublished;
 
-        await updateDoc(courseRef, { chapters });
+        await mutateFireStoreDoc("courses", courseId, { chapters });
       }
       if (isPublished) {
         alert("Chapter Unpublished");
@@ -59,10 +56,7 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }) => {
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      const courseRef = doc(db, "courses", courseId);
-      const courseDoc = await getDoc(courseRef);
-      const courseData = courseDoc.data();
-      const chapters = courseData.chapters || [];
+      const chapters = course.chapters || [];
       const chapterIndex = chapters.findIndex(
         (chapter) => chapter.id === chapterId
       );
@@ -74,7 +68,9 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }) => {
         };
         const newChapters = removeItemByIndex(chapterIndex)
 
-        await updateDoc(courseRef, { newChapters });
+        await mutateFireStoreDoc("courses", courseId, {
+          chapters: newChapters,
+        });
       }
       alert("Chapter deleted successfully");
       window.location.reload();
